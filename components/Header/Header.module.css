@@ -1,0 +1,71 @@
+.header {
+    border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+    backdrop-filter: blur(8px);
+    background: rgba(15, 23, 42, 0.5);
+}
+
+.container {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 1rem 2rem 2rem;
+}
+
+.logoSection {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo {
+    width: 4rem;
+    height: 4rem;
+    background: linear-gradient(135deg, #a855f7, #06b6d4);
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 15px -3px rgba(168, 85, 247, 0.5);
+}
+
+.logoIcon {
+    width: 2.5rem;
+    height: 2.5rem;
+    color: white;
+}
+
+.title {
+    font-size: 1.875rem;
+    font-weight: bold;
+    background: linear-gradient(to right, #c084fc, #22d3ee);
+    background-clip: text;
+    color: transparent;
+}
+
+.subtitle {
+    color: #c084fc;
+    font-size: 0.875rem;
+}
+
+.stats {
+    display: none;
+    align-items: center;
+    gap: 1.5rem;
+    color: #d8b4fe;
+}
+
+.statItem {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.statIcon {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+@media (min-width: 768px) {
+    .stats {
+        display: flex;
+    }
+}

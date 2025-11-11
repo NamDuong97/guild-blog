@@ -1,0 +1,47 @@
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 3rem;
+}
+
+.statCard {
+    background: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(8px);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    transition: all 0.3s;
+}
+
+.statCard:hover {
+    border-color: rgba(168, 85, 247, 0.5);
+    box-shadow: 0 10px 15px -3px rgba(168, 85, 247, 0.2);
+}
+
+.statIcon {
+    width: 2rem;
+    height: 2rem;
+    color: #c084fc;
+    margin-bottom: 0.75rem;
+}
+
+.statValue {
+    font-size: 1.875rem;
+    font-weight: bold;
+    background: linear-gradient(to right, #c084fc, #22d3ee);
+    background-clip: text;
+    color: transparent;
+}
+
+.statLabel {
+    color: #d8b4fe;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+@media (min-width: 768px) {
+    .statsGrid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

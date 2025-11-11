@@ -1,0 +1,39 @@
+.filterContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.filterButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.filterButton.active {
+    background: linear-gradient(to right, #a855f7, #06b6d4);
+    color: white;
+    box-shadow: 0 10px 15px -3px rgba(168, 85, 247, 0.5);
+    transform: scale(1.05);
+}
+
+.filterButton.inactive {
+    background: rgba(30, 41, 59, 0.5);
+    color: #d8b4fe;
+    backdrop-filter: blur(8px);
+}
+
+.filterButton.inactive:hover {
+    background: rgba(30, 41, 59, 0.8);
+}
+
+.filterIcon {
+    width: 1.25rem;
+    height: 1.25rem;
+}
