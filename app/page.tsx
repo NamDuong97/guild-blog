@@ -4,7 +4,9 @@ import Header from '@/components/Header/Header';
 import CategoryFilter from '@/components/CategoryFilter/CategoryFilter';
 import MemoryCard from '@/components/MemoryCard/MemoryCard';
 import StatsSection from '@/components/StatsSection/StatsSection';
-import { memories, categories, stats } from '@/data/mockData';
+import MemberList from '@/components/MemberList/MemberList';
+import LuckyWheel from '@/components/LuckyWheel/LuckyWheel';
+import { memories, categories, stats, members } from '@/data/mockData';
 import { Heart } from 'lucide-react';
 
 export default function GuildBlog() {
@@ -13,6 +15,30 @@ export default function GuildBlog() {
   const filteredMemories = selectedCategory === 'all'
     ? memories
     : memories.filter(m => m.category === selectedCategory);
+
+  const renderCategoryContent = () => {
+    switch (selectedCategory) {
+      case 'member':
+        return <MemberList members={members} />;
+      case 'event':
+        return <LuckyWheel />;
+      default:
+        return (
+          <>
+            <div className="grid md:grid-cols-2 gap-6">
+              {filteredMemories.map((memory, index) => (
+                <MemoryCard
+                  key={memory.id}
+                  memory={memory}
+                  index={index}
+                />
+              ))}
+            </div>
+            <StatsSection stats={stats} />
+          </>
+        );
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
@@ -24,24 +50,14 @@ export default function GuildBlog() {
 
       <Header />
 
-      <main className="relative max-w-6xl mx-auto px-4 py-8">
+      <main className="relative max-w-7xl mx-auto px-4 py-8">
         <CategoryFilter
           categories={categories}
           selectedCategory={selectedCategory}
           onCategoryChange={setSelectedCategory}
         />
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {filteredMemories.map((memory, index) => (
-            <MemoryCard
-              key={memory.id}
-              memory={memory}
-              index={index}
-            />
-          ))}
-        </div>
-
-        <StatsSection stats={stats} />
+        {renderCategoryContent()}
       </main>
 
       <footer className="relative mt-16 border-t border-purple-500/20 backdrop-blur-sm bg-slate-900/50">

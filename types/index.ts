@@ -22,3 +22,34 @@ export interface StatItem {
     value: string;
     icon: any;
 }
+
+export interface Member {
+    id: number;
+    name: string;
+    ingameName: string;
+    role: 'guild-master' | 'vice-master' | 'hall-master' | 'village-master' | 'manager' | 'elder' | 'elite' | 'member';
+    avatar: string;
+    level: number;
+    joinDate: string;
+    lastActive: string;
+}
+
+export const memberRoles = {
+    'guild-master': { label: 'Bang Chủ', color: '#f59e0b', badge: '👑' },
+    'vice-master': { label: 'Bang Phó', color: '#ef4444', badge: '⭐' },
+    'hall-master': { label: 'Đường Chủ', color: '#8b5cf6', badge: '🏛️' },
+    'village-master': { label: 'Hương Chủ', color: '#06b6d4', badge: '🏡' },
+    'manager': { label: 'Quản Gia', color: '#10b981', badge: '📊' },
+    'elder': { label: 'Trưởng Lão', color: '#f97316', badge: '🧙' },
+    'elite': { label: 'Tinh Anh', color: '#ec4899', badge: '⚔️' },
+    'member': { label: 'Bang Chúng', color: '#6b7280', badge: '👤' }
+} as const;
+
+export interface Prize {
+    id: number;
+    name: string;
+    type: 'gold' | 'item' | 'vip' | 'special';
+    icon: any;
+    color: string;
+    probability: number;
+}

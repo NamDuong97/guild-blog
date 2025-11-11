@@ -1,5 +1,5 @@
-import { Memory, Category, StatItem } from '@/types';
-import { BookOpen, Swords, Shield, Trophy, Users, Heart, MessageSquare, Share2, Calendar, Gamepad2 } from 'lucide-react';
+import { Memory, Category, StatItem, Member, Prize } from '@/types';
+import { BookOpen, Swords, Trophy, Users, Heart, MessageSquare, Share2, Calendar, Gamepad2, Gift, RotateCcw, Sparkles, Coins, Sword, Shield, Star, Crown } from 'lucide-react';
 
 export const memories: Memory[] = [
     {
@@ -65,4 +65,154 @@ export const stats: StatItem[] = [
     { label: 'Boss hạ gục', value: '42', icon: Swords },
     { label: 'Chiến thắng PvP', value: '89', icon: Shield },
     { label: 'Thành viên', value: '50+', icon: Users }
+];
+
+export const members: Member[] = [
+    {
+        id: 1,
+        name: 'Nguyễn Văn A',
+        ingameName: 'PhoenixKing',
+        role: 'guild-master',
+        avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
+        level: 95,
+        joinDate: '2023-01-15',
+        lastActive: '2024-03-20'
+    },
+    {
+        id: 2,
+        name: 'Trần Thị B',
+        ingameName: 'MoonShadow',
+        role: 'vice-master',
+        avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
+        level: 92,
+        joinDate: '2023-02-20',
+        lastActive: '2024-03-20'
+    },
+    {
+        id: 3,
+        name: 'Lê Văn C',
+        ingameName: 'DragonSlayer',
+        role: 'hall-master',
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+        level: 90,
+        joinDate: '2023-03-10',
+        lastActive: '2024-03-19'
+    },
+    {
+        id: 4,
+        name: 'Phạm Thị D',
+        ingameName: 'IceMage',
+        role: 'village-master',
+        avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
+        level: 88,
+        joinDate: '2023-04-05',
+        lastActive: '2024-03-20'
+    },
+    {
+        id: 5,
+        name: 'Hoàng Văn E',
+        ingameName: 'ShadowAssassin',
+        role: 'manager',
+        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face',
+        level: 87,
+        joinDate: '2023-05-12',
+        lastActive: '2024-03-18'
+    },
+    {
+        id: 6,
+        name: 'Vũ Thị F',
+        ingameName: 'HealingAngel',
+        role: 'elder',
+        avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face',
+        level: 89,
+        joinDate: '2023-06-08',
+        lastActive: '2024-03-20'
+    },
+    {
+        id: 7,
+        name: 'Đặng Văn G',
+        ingameName: 'ThunderWarrior',
+        role: 'elite',
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+        level: 85,
+        joinDate: '2023-07-25',
+        lastActive: '2024-03-19'
+    },
+    {
+        id: 8,
+        name: 'Bùi Thị H',
+        ingameName: 'ForestRanger',
+        role: 'member',
+        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face',
+        level: 82,
+        joinDate: '2023-08-30',
+        lastActive: '2024-03-17'
+    }
+];
+
+export const prizes: Prize[] = [
+    {
+        id: 1,
+        name: '1000 Vàng',
+        type: 'gold',
+        icon: Coins,
+        color: '#fbbf24',
+        probability: 30
+    },
+    {
+        id: 2,
+        name: 'Vũ Khí Hiếm',
+        type: 'item',
+        icon: Sword,
+        color: '#06b6d4',
+        probability: 15
+    },
+    {
+        id: 3,
+        name: '7 Ngày VIP',
+        type: 'vip',
+        icon: Crown,
+        color: '#ec4899',
+        probability: 10
+    },
+    {
+        id: 4,
+        name: '5000 Vàng',
+        type: 'gold',
+        icon: Trophy,
+        color: '#f59e0b',
+        probability: 5
+    },
+    {
+        id: 5,
+        name: 'Áo Giáp Thần',
+        type: 'item',
+        icon: Shield,
+        color: '#8b5cf6',
+        probability: 15
+    },
+    {
+        id: 6,
+        name: '30 Ngày VIP',
+        type: 'vip',
+        icon: Star,
+        color: '#10b981',
+        probability: 3
+    },
+    {
+        id: 7,
+        name: '100 Vàng',
+        type: 'gold',
+        icon: Coins,
+        color: '#d97706',
+        probability: 20
+    },
+    {
+        id: 8,
+        name: 'Quà Đặc Biệt',
+        type: 'special',
+        icon: Sparkles,
+        color: '#dc2626',
+        probability: 2
+    }
 ];
