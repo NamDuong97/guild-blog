@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: 'standalone', // Tùy chọn cho production
+  images: {
+    domains: ['images.unsplash.com'], // Cho phép image từ Unsplash
+  },
 };
 
 export default nextConfig;
