@@ -147,12 +147,12 @@ const Header: React.FC = () => {
 
                     <div className={styles.titleSection}>
                         <h1 className={styles.title}>
-                            <span className={styles.titleMain}>Atiste</span>
+                            <span className={styles.titleMain}>Atisté</span>
                             <span className={styles.titleSub}>Guild</span>
                         </h1>
                         <div className={styles.guildBadge}>
                             <Crown className={styles.badgeIcon} />
-                            <span>Atiste Guild</span>
+                            <span>Atisté Guild</span>
                         </div>
                         <p className={styles.subtitle}>Where Legends Are Forged in Fire</p>
                     </div>
