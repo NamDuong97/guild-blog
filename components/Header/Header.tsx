@@ -147,14 +147,14 @@ const Header: React.FC = () => {
 
                     <div className={styles.titleSection}>
                         <h1 className={styles.title}>
-                            <span className={styles.titleMain}>Atisté</span>
-                            <span className={styles.titleSub}>Guild</span>
+                            <span className={styles.titleMain}>Artisté</span>
+                            <span className={styles.titleSub}>mãi mận</span>
                         </h1>
                         <div className={styles.guildBadge}>
                             <Crown className={styles.badgeIcon} />
-                            <span>Atisté Guild</span>
+                            <span>Bang Artisté</span>
                         </div>
-                        <p className={styles.subtitle}>Where Legends Are Forged in Fire</p>
+                        <p className={styles.subtitle}>Bang cần tiếng cười, Bang cần anh em</p>
                     </div>
                 </div>
 
@@ -194,7 +194,7 @@ const Header: React.FC = () => {
 
                     {/* Guild Motto */}
                     <div className={styles.motto}>
-                        <div className={styles.mottoText}>"From Ashes We Rise"</div>
+                        <div className={styles.mottoText}>"Kéo xe bò đi năn nỉ é"</div>
                         <div className={styles.mottoDivider}></div>
                     </div>
                 </div>

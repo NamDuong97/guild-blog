@@ -2,12 +2,14 @@
     position: relative;
     background:
        /* Background image */
-        url('/image/header3.jpg') center/cover no-repeat,
+       linear-gradient(135deg,
+                rgba(255, 151, 250, 0.8) 5%,
+                rgba(126, 101, 218, 0.95) 40%,
+                rgba(83, 100, 255, 0.95) 70%,
+                rgba(19, 91, 173, 0.95) 80%);
+
+        /* url('/image/header3.jpg') center/cover no-repeat; */
         /* Gradient overlay */
-        linear-gradient(135deg,
-                rgba(27, 41, 73, 0.95) 0%,
-                rgba(77, 118, 231, 0.8) 50%,
-                rgba(15, 23, 42, 0.95) 100%);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(109, 189, 221, 0.3);
     overflow: hidden;
@@ -275,7 +277,7 @@
     gap: 1.5rem;
     margin-bottom: 2rem;
     justify-content: flex-end; /* Thêm dòng này */
-    margin-left: 0; /* Đẩy sang phải */
+    margin-left: -18px; /* Đẩy sang phải */
     max-width: 80%; /* Giới hạn độ rộng */
 }
 
@@ -354,7 +356,7 @@
 .titleMain {
     font-size: 2.5rem;
     font-weight: 800;
-    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #ffddb7 100%);
     background-clip: text;
     color: transparent;
     text-shadow: 0 4px 8px rgba(251, 191, 36, 0.3);
@@ -363,7 +365,7 @@
 .titleSub {
     font-size: 1.875rem;
     font-weight: 600;
-    color: #c084fc;
+    color: #fdfbff;
 }
 
 .guildBadge {
@@ -386,10 +388,10 @@
 }
 
 .subtitle {
-    color: #d8b4fe;
+    color: #ffc863;
     font-size: 1rem;
     font-weight: 500;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 2px 4px rgb(0, 0, 0);
 }
 
 .infoSection {
