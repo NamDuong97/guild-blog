@@ -119,7 +119,7 @@ const Header: React.FC = () => {
                                 )}
                             </button>
 
-                            <Music className={`${styles.musicIcon} ${isPlaying ? styles.pulse : ''}`} />
+                            <Music className={`${styles.musicIcon} ${isPlaying ? styles.pulse : ''}`} onClick={playNextTrack} />
                         </div>
 
                         {/* Login Button */}
