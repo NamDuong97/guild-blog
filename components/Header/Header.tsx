@@ -138,7 +138,8 @@ const Header: React.FC = () => {
                     <div className={styles.logoContainer}>
                         <div className={styles.logoGlow}></div>
                         <div className={styles.logo}>
-                            <Gamepad2 className={styles.logoIcon} />
+                            {/* <Gamepad2 className={styles.logoIcon} /> */}
+                            <img src="/image/logo.jpg" alt="logo" className={styles.logoIcon}/>
                             <div className={styles.logoSparkle}>
                                 <Sparkles className={styles.sparkleIcon} />
                             </div>
