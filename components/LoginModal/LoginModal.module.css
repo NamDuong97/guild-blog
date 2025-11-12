@@ -1,0 +1,336 @@
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.modalContent {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    padding: 2rem;
+    border-radius: 1.5rem;
+    border: 2px solid rgba(168, 85, 247, 0.5);
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    animation: scaleIn 0.3s ease;
+    position: relative;
+}
+
+.closeButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.closeButton:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.iconWrapper {
+    width: 5rem;
+    height: 5rem;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    box-shadow: 0 8px 25px rgba(168, 85, 247, 0.4);
+}
+
+.headerIcon {
+    width: 2.5rem;
+    height: 2.5rem;
+    color: white;
+}
+
+.title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: white;
+    margin: 0 0 0.5rem 0;
+}
+
+.subtitle {
+    color: #9ca3af;
+    margin: 0;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.label {
+    color: white;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.inputWrapper {
+    position: relative;
+}
+
+.inputIcon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #9ca3af;
+}
+
+.input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem 0.75rem 3rem;
+    color: white;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+}
+
+.input::placeholder {
+    color: #9ca3af;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #a855f7;
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+}
+
+.togglePassword {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+.togglePassword:hover {
+    color: white;
+}
+
+.eyeIcon {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.remember {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    color: #d1d5db;
+    font-size: 0.875rem;
+}
+
+.checkbox {
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+}
+
+.forgotPassword {
+    background: none;
+    border: none;
+    color: #c084fc;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.forgotPassword:hover {
+    color: #a855f7;
+}
+
+.submitButton {
+    width: 100%;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    border: none;
+    padding: 0.875rem;
+    border-radius: 0.75rem;
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(168, 85, 247, 0.3);
+}
+
+.submitButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(168, 85, 247, 0.5);
+}
+
+.divider {
+    position: relative;
+    text-align: center;
+}
+
+.dividerLine {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+}
+
+.dividerLine::before {
+    content: '';
+    flex: 1;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dividerText {
+    position: relative;
+    padding: 0 1rem;
+    background: #1e293b;
+    color: #9ca3af;
+    font-size: 0.875rem;
+}
+
+.socialButtons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.facebookButton,
+.googleButton {
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.facebookButton {
+    background: #1877f2;
+    color: white;
+}
+
+.facebookButton:hover {
+    background: #1664d9;
+    transform: translateY(-2px);
+}
+
+.googleButton {
+    background: white;
+    color: #1f2937;
+}
+
+.googleButton:hover {
+    background: #f3f4f6;
+    transform: translateY(-2px);
+}
+
+.register {
+    text-align: center;
+    font-size: 0.875rem;
+}
+
+.registerText {
+    color: #9ca3af;
+}
+
+.registerLink {
+    background: none;
+    border: none;
+    color: #c084fc;
+    font-weight: 700;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.registerLink:hover {
+    color: #a855f7;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .modalContent {
+        padding: 1.5rem;
+    }
+
+    .socialButtons {
+        grid-template-columns: 1fr;
+    }
+}

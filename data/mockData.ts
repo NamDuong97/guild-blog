@@ -54,8 +54,6 @@ export const memories: Memory[] = [
 
 export const categories: Category[] = [
     { id: 'all', name: 'Tất cả', icon: BookOpen },
-    { id: 'raid', name: 'Raid/Boss', icon: Swords },
-    { id: 'pvp', name: 'PvP/War', icon: Shield },
     { id: 'event', name: 'Sự kiện', icon: Trophy },
     { id: 'member', name: 'Thành viên', icon: Users }
 ];

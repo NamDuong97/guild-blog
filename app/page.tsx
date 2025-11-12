@@ -66,7 +66,7 @@ export default function GuildBlog() {
             Made with <Heart className="w-4 h-4 inline text-red-400 fill-current" /> by Atiste Guild
           </p>
           <p className="text-purple-400 text-sm mt-2">
-            © 2024 - Nơi lưu giữ những kỷ niệm đáng nhớ
+            © 2025 - Nơi lưu giữ những kỷ niệm đáng nhớ
           </p>
         </div>
       </footer>

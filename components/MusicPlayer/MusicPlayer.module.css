@@ -1,0 +1,107 @@
+.musicPlayer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border-radius: 2rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.playButton {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+}
+
+.playButton:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(168, 85, 247, 0.6);
+}
+
+.volumeButton {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.volumeButton:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.icon {
+    width: 1rem;
+    height: 1rem;
+    color: white;
+}
+
+.iconPlay {
+    width: 1rem;
+    height: 1rem;
+    color: white;
+    margin-left: 0.125rem;
+}
+
+.musicIcon {
+    width: 1rem;
+    height: 1rem;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.musicIcon.pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* Animations */
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .musicPlayer {
+        padding: 0.375rem 0.75rem;
+    }
+
+    .playButton,
+    .volumeButton {
+        width: 1.75rem;
+        height: 1.75rem;
+    }
+
+    .icon,
+    .iconPlay,
+    .musicIcon {
+        width: 0.875rem;
+        height: 0.875rem;
+    }
+}

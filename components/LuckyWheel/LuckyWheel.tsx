@@ -1,7 +1,7 @@
 "use client";
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { Prize } from '@/types';
-import { Gift, RotateCcw, Sparkles, Trophy, Coins, Sword, Shield, Star, Crown } from 'lucide-react';
+import { Gift, RotateCcw, Sparkles } from 'lucide-react';
 import styles from './LuckyWheel.module.css';
 import { prizes } from '@/data/mockData';
 
@@ -12,6 +12,34 @@ const LuckyWheel: React.FC = () => {
     const [showResultModal, setShowResultModal] = useState(false);
     const wheelRef = useRef<HTMLDivElement>(null);
 
+    const wheelConfig = useMemo(() => {
+        const totalPrizes = prizes.length;
+        const segmentAngle = 360 / totalPrizes;
+        const pointerOffset = segmentAngle / 2;
+
+        return {
+            totalPrizes,
+            segmentAngle,
+            pointerOffset
+        };
+    }, [prizes.length]);
+
+
+    useEffect(() => {
+        const totalPrizes = prizes.length;
+        const segmentAngle = 360 / totalPrizes;
+        const pointerOffset = segmentAngle / 2;
+
+        // 👇 Ví dụ muốn vòng quay khởi động ở múi thứ 0
+        const initialSegment = 0;
+        const initialRotation = initialSegment * wheelConfig.segmentAngle + wheelConfig.pointerOffset;
+
+        if (wheelRef.current) {
+            wheelRef.current.style.transition = "none";
+            wheelRef.current.style.transform = `rotate(${initialRotation}deg)`;
+        }
+    }, [prizes.length]);
+
     const spinWheel = () => {
         if (isSpinning || spinsLeft <= 0) return;
 
@@ -19,7 +47,6 @@ const LuckyWheel: React.FC = () => {
         setResult(null);
         setShowResultModal(false);
 
-        // Calculate random prize based on probability
         const random = Math.random() * 100;
         let cumulativeProbability = 0;
         let selectedPrize = prizes[0];
@@ -27,17 +54,28 @@ const LuckyWheel: React.FC = () => {
         for (const prize of prizes) {
             cumulativeProbability += prize.probability;
             if (random <= cumulativeProbability) {
+                console.log("=========================")
                 selectedPrize = prize;
+                console.log("quà nhận được ", prize.name)
                 break;
             }
         }
 
-        // Spin animation
         const wheel = wheelRef.current;
         if (wheel) {
-            const currentRotation = parseInt(wheel.style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
-            const targetRotation = currentRotation + 1440 + (selectedPrize.id * 45);
+            const currentRotation = parseFloat(wheel.style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
+            wheel.style.transform = `rotate(${currentRotation}deg)`;
+            console.log("góc ban đầu", currentRotation)
 
+            const { segmentAngle, pointerOffset } = wheelConfig;
+            const prizeIndex = prizes.findIndex(p => p.id === selectedPrize.id);
+            console.log("số đo góc 1 phần tử", segmentAngle)
+            console.log("1 nửa số đo góc 1pt", pointerOffset)
+            console.log("stt của phần quà trúng", prizeIndex)
+
+            const targetRotation = currentRotation + 1440 + (360 - (prizeIndex + 1) * segmentAngle);
+            console.log("số đo góc cần quay", targetRotation)
+            console.log("=========================")
             wheel.style.transition = 'transform 4s cubic-bezier(0.2, 0.8, 0.3, 1)';
             wheel.style.transform = `rotate(${targetRotation}deg)`;
 
@@ -51,18 +89,13 @@ const LuckyWheel: React.FC = () => {
     };
 
     const receiveGifts = () => {
-        // Đóng modal khi nhấn "Nhận quà"
         setShowResultModal(false);
         setResult(null);
-
-        // Có thể thêm logic xử lý nhận quà ở đây
         console.log('Đã nhận quà:', result?.name);
-
-        // Hiển thị thông báo thành công (tuỳ chọn)
-        // alert(`Bạn đã nhận thành công: ${result?.name}`);
     };
 
     const resetWheel = () => {
+        setSpinsLeft(3);
         const wheel = wheelRef.current;
         if (wheel) {
             wheel.style.transition = 'none';
@@ -108,25 +141,40 @@ const LuckyWheel: React.FC = () => {
                     >
                         {prizes.map((prize, index) => {
                             const Icon = prize.icon;
-                            const rotation = index * 45;
+                            const rotation = index * wheelConfig.segmentAngle;
+                            const segmentStyle = {
+                                '--segment-color': prize.color,
+                                '--segment-angle': `${wheelConfig.segmentAngle}deg`,
+                                transform: `rotate(${rotation}deg)`,
+                            } as React.CSSProperties;
 
                             return (
                                 <div
                                     key={prize.id}
                                     className={styles.wheelSegment}
-                                    style={{
-                                        transform: `rotate(${rotation}deg)`,
-                                        background: `conic-gradient(from ${rotation}deg at 50% 50%, ${prize.color}22 0deg 45deg, transparent 45deg 360deg)`
-                                    }}
+                                    style={segmentStyle}
                                 >
                                     <div
                                         className={styles.segmentContent}
-                                        style={{ transform: `rotate(${rotation + 22.5}deg)` }}
+                                        style={{
+                                            '--segment-angle': `${wheelConfig.segmentAngle}deg`,
+                                        } as React.CSSProperties}
                                     >
                                         <Icon className={styles.prizeIcon} />
                                         <span className={styles.prizeName}>{prize.name}</span>
                                     </div>
                                 </div>
+                            );
+                        })}
+
+                        {prizes.map((_, index) => {
+                            const rotation = index * wheelConfig.segmentAngle;
+                            return (
+                                <div
+                                    key={`divider-${index}`}
+                                    className={styles.segmentDivider}
+                                    style={{ transform: `rotate(${rotation}deg)` }}
+                                ></div>
                             );
                         })}
 
@@ -149,7 +197,6 @@ const LuckyWheel: React.FC = () => {
                 </button>
             </div>
 
-            {/* Modal hiển thị kết quả */}
             {showResultModal && result && (
                 <div className={styles.resultModal}>
                     <div className={styles.resultContent}>
@@ -168,7 +215,6 @@ const LuckyWheel: React.FC = () => {
                             </button>
                         </div>
 
-                        {/* Nút đóng (X) ở góc phải */}
                         <button
                             className={styles.closeButton}
                             onClick={() => setShowResultModal(false)}
