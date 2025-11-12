@@ -2,7 +2,7 @@
     position: relative;
     background:
        /* Background image */
-        url('/image/bgheader.jpg') center/cover no-repeat,
+        url('/image/header3.jpg') center/cover no-repeat,
         /* Gradient overlay */
         linear-gradient(135deg,
                 rgba(27, 41, 73, 0.95) 0%,
@@ -274,6 +274,9 @@
     align-items: center;
     gap: 1.5rem;
     margin-bottom: 2rem;
+    justify-content: flex-end; /* Thêm dòng này */
+    margin-left: 0; /* Đẩy sang phải */
+    max-width: 80%; /* Giới hạn độ rộng */
 }
 
 .logoContainer {
@@ -299,6 +302,7 @@
     position: relative;
     width: 5rem;
     height: 5rem;
+    margin-left: 20px;
     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     border-radius: 0.75rem;
     display: flex;
