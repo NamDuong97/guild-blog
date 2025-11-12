@@ -6,6 +6,7 @@ import MemoryCard from '@/components/MemoryCard/MemoryCard';
 import StatsSection from '@/components/StatsSection/StatsSection';
 import MemberList from '@/components/MemberList/MemberList';
 import LuckyWheel from '@/components/LuckyWheel/LuckyWheel';
+import styles from './page.module.css';
 import { memories, categories, stats, members } from '@/data/mockData';
 import { Heart } from 'lucide-react';
 
@@ -50,7 +51,7 @@ export default function GuildBlog() {
 
       <Header />
 
-      <main className="relative max-w-7xl mx-auto px-4 py-8">
+      <main className={styles.main}>
         <CategoryFilter
           categories={categories}
           selectedCategory={selectedCategory}

@@ -1,0 +1,20 @@
+
+
+.main{
+    position: relative;
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  /* --tw-gradient-via: #ffffff;
+  --tw-gradient-via-stops: var(--tw-gradient-position),
+    lab(80 1.96 -33.4) var(--tw-gradient-from-position),
+    var(--tw-gradient-via) var(--tw-gradient-via-position),
+    lab(65 7.93 -57.33) var(--tw-gradient-to-position);
+    
+  background: linear-gradient(
+    to right,
+    lab(80 1.96 -33.4),
+    var(--tw-gradient-via),
+    lab(65 7.93 -57.33)
+  ); */
+}
