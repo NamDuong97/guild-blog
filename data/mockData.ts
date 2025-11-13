@@ -151,49 +151,49 @@ export const members: Member[] = [
 export const prizes: Prize[] = [
     {
         id: 1,
-        name: '1000 Vàng',
-        type: 'gold',
-        icon: Coins,
+        name: 'Tịnh Bình',
+        type: 'tẩy luyện',
+        icon: '/image/tinhbinh.png',
         color: '#fbbf24',
         probability: 30
     },
     {
         id: 2,
-        name: 'Vũ Khí Hiếm',
-        type: 'item',
-        icon: Sword,
+        name: 'Ân Khư',
+        type: 'exp',
+        icon: '/image/ankhu.png',
         color: '#06b6d4',
         probability: 15
     },
     {
         id: 3,
-        name: '7 Ngày VIP',
-        type: 'vip',
-        icon: Crown,
+        name: 'Bất Tận Mộc',
+        type: 'tẩy luyện',
+        icon: '/image/battanmoc.png',
         color: '#ec4899',
         probability: 10
     },
     {
         id: 4,
-        name: '5000 Vàng',
-        type: 'gold',
-        icon: Trophy,
+        name: 'Bích Liễu Lộ',
+        type: 'tẩy luyện',
+        icon: '/image/bichlieulo.png',
         color: '#f59e0b',
         probability: 5
     },
     {
         id: 5,
-        name: 'Áo Giáp Thần',
-        type: 'item',
-        icon: Shield,
+        name: 'Đoạt Hồn Phiên',
+        type: 'pk',
+        icon: '/image/doathonphien.png',
         color: '#8b5cf6',
         probability: 15
     },
     {
         id: 6,
-        name: '30 Ngày VIP',
+        name: 'Hộp Người Tuyết',
         type: 'vip',
-        icon: Star,
+        icon: '/image/hopnguoituyet.png',
         color: '#10b981',
         probability: 3
     },

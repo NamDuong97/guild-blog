@@ -15,7 +15,7 @@ const LuckyWheel: React.FC = () => {
     const [isShowHistoryWheel, setShowHistoryWheel] = useState(false);
     const spinHistoryRef = useRef<SpinHistory[]>([]);
     const wheelRef = useRef<HTMLDivElement>(null);
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwf2MBmeI8FR3lwfBol-wyv4zVqq63mxh8MQb30cJ34IBFHoLzHaP2dTwf8k7wkk7Y/exec';
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxHiBpLQkP8Hs8IdzVaysEqSKXZrZTIEucT9sKjR0W-KZ82RU3oQFwEAMaCiz1fd6TO/exec';
 
     const wheelConfig = useMemo(() => {
         const totalPrizes = prizes.length;
@@ -165,6 +165,7 @@ const LuckyWheel: React.FC = () => {
             }
         } else {
             data = await loadFromGoogleSheets()
+            console.log("Du lieu lay tu gg sheet la: ", data);
         }
         spinHistoryRef.current = data ? [...data] : [];
     }
@@ -175,7 +176,7 @@ const LuckyWheel: React.FC = () => {
             // Lưu khi component unmount
             saveHistoryToStorage();
         };
-    }, []);
+    }, [result]);
 
     console.log("render ne");
 

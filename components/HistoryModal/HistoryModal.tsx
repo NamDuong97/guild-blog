@@ -6,15 +6,19 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
     onClose,
     spinHistory
 }) => {
-    const formatDate = (date: Date | string) => {
-        const dateObj = typeof date === 'string' ? new Date(date) : date;
+
+   const formatDate = (date: any) => {
+        const d = new Date(date);
+        console.log('Formatted date:', date);
+        if (isNaN(d.getTime())) return "Không hợp lệ";
+
         return new Intl.DateTimeFormat('vi-VN', {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric',
             hour: '2-digit',
             minute: '2-digit'
-        }).format(dateObj);
+        }).format(d);
     };
 
     const getStatusText = (status: string) => {

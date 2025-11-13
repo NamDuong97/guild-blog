@@ -48,7 +48,7 @@ export const memberRoles = {
 export interface Prize {
     id: number;
     name: string;
-    type: 'gold' | 'item' | 'vip' | 'special';
+    type: 'tẩy luyện' | 'exp' | 'vip' | 'pk';
     icon: any;
     color: string;
     probability: number;
