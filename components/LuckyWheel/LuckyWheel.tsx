@@ -15,7 +15,7 @@ const LuckyWheel: React.FC = () => {
     const [isShowHistoryWheel, setShowHistoryWheel] = useState(false);
     const spinHistoryRef = useRef<SpinHistory[]>([]);
     const wheelRef = useRef<HTMLDivElement>(null);
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwzt_KDnZeG8elBF_4QAZ80R0Z4bdtPXKC0kOLPvw6Vkr9DEEQa-bTyWJvxCfpcFSyI/exec';
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwf2MBmeI8FR3lwfBol-wyv4zVqq63mxh8MQb30cJ34IBFHoLzHaP2dTwf8k7wkk7Y/exec';
 
     const wheelConfig = useMemo(() => {
         const totalPrizes = prizes.length;
@@ -101,7 +101,7 @@ const LuckyWheel: React.FC = () => {
     const saveHistoryToStorage = () => {
         try {
             console.log("doi tuong muon luu xuong local", spinHistoryRef.current);
-            let data = JSON.stringify(spinHistoryRef.current);
+            const data = JSON.stringify(spinHistoryRef.current);
             if (data) {
                 localStorage.setItem('spinHistoryRef', data)
             }
@@ -110,25 +110,21 @@ const LuckyWheel: React.FC = () => {
         }
     }
 
-    // Lưu lịch sử vào Google Sheets
-    const saveToGoogleSheets = async (history: SpinHistory[]) => {
+   const saveToGoogleSheets = async (history: SpinHistory) => {
         try {
             const response = await fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                method: "POST",
                 body: JSON.stringify(history)
             });
 
             const result = await response.json();
             if (result.success) {
-                console.log('✅ Saved to Google Sheets');
+                console.log("✅ Saved to Google Sheets");
             } else {
-                console.error('❌ Google Sheets error:', result.error);
+                console.error("❌ Google Sheets error:", result.error);
             }
         } catch (error) {
-            console.error('❌ Network error:', error);
+            console.error("❌ Network error:", error);
         }
     };
 
@@ -184,7 +180,7 @@ const LuckyWheel: React.FC = () => {
     console.log("render ne");
 
     const addHistoryWheel = async (prize: Prize) => {
-        let pr: SpinHistory = {
+        const pr: SpinHistory = {
             timestamp: new Date(),
             prizeName: prize?.name || 'Unknown Prize',
             prizeId: String(prize?.id || 'UNKNOWN'),
@@ -195,7 +191,7 @@ const LuckyWheel: React.FC = () => {
         };
         spinHistoryRef.current = [...spinHistoryRef.current, pr];
         saveHistoryToStorage();
-        await saveToGoogleSheets(spinHistoryRef.current)
+        await saveToGoogleSheets(pr);
     };
 
     const receiveGifts = () => {
@@ -224,26 +220,6 @@ const LuckyWheel: React.FC = () => {
         };
         return typeColors[type] || typeColors.gold;
     };
-
-    // Mock data để test
-    const mockHistoryData: SpinHistory[] = [
-        {
-            timestamp: new Date('2024-01-15T10:30:00'),
-            prizeName: 'Vũ Khí Hẻm',
-            prizeId: 'WK001',
-            quantity: 1,
-            status: 'received',
-            type: 'weapon'
-        },
-        {
-            timestamp: new Date('2024-01-15T11:15:00'),
-            prizeName: '7 Ngày ViP',
-            prizeId: 'VIP007',
-            quantity: 1,
-            status: 'pending',
-            type: 'vip'
-        },
-    ];
 
     return (
         <div className={styles.container}>

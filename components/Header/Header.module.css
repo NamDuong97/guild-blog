@@ -2,13 +2,13 @@
     position: relative;
     background:
        /* Background image */
-       linear-gradient(135deg,
+       /* linear-gradient(135deg,
                 rgba(255, 151, 250, 0.8) 5%,
                 rgba(126, 101, 218, 0.95) 40%,
                 rgba(83, 100, 255, 0.95) 70%,
-                rgba(19, 91, 173, 0.95) 80%);
+                rgba(19, 91, 173, 0.95) 80%); */
 
-        /* url('/image/header3.jpg') center/cover no-repeat; */
+        url('/image/header4.jpg') center/cover no-repeat;
         /* Gradient overlay */
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(109, 189, 221, 0.3);

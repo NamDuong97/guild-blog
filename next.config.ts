@@ -5,6 +5,8 @@ const nextConfig: NextConfig = {
   images: {
     domains: ['images.unsplash.com'], // Cho phép image từ Unsplash
   },
+  reactStrictMode: false,
 };
 
 export default nextConfig;
+
