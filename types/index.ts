@@ -53,3 +53,21 @@ export interface Prize {
     color: string;
     probability: number;
 }
+
+// Thêm vào file types/interfaces.ts cho sự kiện vòng quay
+export interface SpinHistory {
+    timestamp: Date;
+    prizeName: string;
+    prizeId: string;
+    userId: string;
+    quantity: number;
+    status: 'received' | 'pending' | 'failed';
+    type: string;
+}
+
+
+export interface HistoryModalProps {
+    isShowHistory: boolean;
+    onClose: () => void;
+    spinHistory: SpinHistory[];
+}

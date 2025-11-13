@@ -4,13 +4,18 @@ import { Prize } from '@/types';
 import { Gift, RotateCcw, Sparkles } from 'lucide-react';
 import styles from './LuckyWheel.module.css';
 import { prizes } from '@/data/mockData';
+import HistoryModal from '@/components/HistoryModal/HistoryModal'
+import { SpinHistory } from '@/types/index'
 
 const LuckyWheel: React.FC = () => {
     const [isSpinning, setIsSpinning] = useState(false);
     const [result, setResult] = useState<Prize | null>(null);
-    const [spinsLeft, setSpinsLeft] = useState(3);
+    const [spinsLeft, setSpinsLeft] = useState(1);
     const [showResultModal, setShowResultModal] = useState(false);
+    const [isShowHistoryWheel, setShowHistoryWheel] = useState(false);
+    const spinHistoryRef = useRef<SpinHistory[]>([]);
     const wheelRef = useRef<HTMLDivElement>(null);
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwzt_KDnZeG8elBF_4QAZ80R0Z4bdtPXKC0kOLPvw6Vkr9DEEQa-bTyWJvxCfpcFSyI/exec';
 
     const wheelConfig = useMemo(() => {
         const totalPrizes = prizes.length;
@@ -23,7 +28,6 @@ const LuckyWheel: React.FC = () => {
             pointerOffset
         };
     }, [prizes.length]);
-
 
     useEffect(() => {
         const totalPrizes = prizes.length;
@@ -87,10 +91,111 @@ const LuckyWheel: React.FC = () => {
                 setIsSpinning(false);
                 setResult(selectedPrize);
                 setShowResultModal(true);
+                addHistoryWheel(selectedPrize);
                 setSpinsLeft(prev => prev - 1);
                 wheel.classList.remove('spinning');
             }, 4000);
         }
+    };
+
+    const saveHistoryToStorage = () => {
+        try {
+            console.log("doi tuong muon luu xuong local", spinHistoryRef.current);
+            let data = JSON.stringify(spinHistoryRef.current);
+            if (data) {
+                localStorage.setItem('spinHistoryRef', data)
+            }
+        } catch (error) {
+            console.error('Error parsing localStorage data:', error);
+        }
+    }
+
+    // Lưu lịch sử vào Google Sheets
+    const saveToGoogleSheets = async (history: SpinHistory[]) => {
+        try {
+            const response = await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(history)
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                console.log('✅ Saved to Google Sheets');
+            } else {
+                console.error('❌ Google Sheets error:', result.error);
+            }
+        } catch (error) {
+            console.error('❌ Network error:', error);
+        }
+    };
+
+    // Load lịch sử từ Google Sheets
+    const loadFromGoogleSheets = async (): Promise<SpinHistory[]> => {
+        try {
+            const response = await fetch(GOOGLE_SCRIPT_URL);
+            const result = await response.json();
+            console.log("load du lieu tu gg sheet");
+            if (result.success) {
+                return result.data.map((item: any) => ({
+                    timestamp: new Date(item.timestamp),
+                    prizeName: item.prizename || item.prizeName,
+                    prizeId: item.prizeid || item.prizeId,
+                    userId: 'nam',
+                    quantity: Number(item.quantity) || 1,
+                    status: item.status || 'received',
+                    type: item.type || 'general'
+                } as SpinHistory));
+            }
+        } catch (error) {
+            console.error('❌ Load from Google Sheets error:', error);
+        }
+        return [];
+    };
+
+    const loadSpinHistory = async () => {
+        const storedData = localStorage.getItem('spinHistoryRef');
+        let data: SpinHistory[] = [];
+        if (storedData) {
+            console.log("du lieu duoi local la", storedData)
+            try {
+                data = JSON.parse(storedData) as SpinHistory[];
+                console.log("Du lieu lay tu local la: ", data);
+            } catch (error) {
+                console.error('Error parsing localStorage data:', error);
+                data = [];
+            }
+        } else {
+            data = await loadFromGoogleSheets()
+        }
+        spinHistoryRef.current = data ? [...data] : [];
+    }
+
+    useEffect(() => {
+        loadSpinHistory();
+        return () => {
+            // Lưu khi component unmount
+            saveHistoryToStorage();
+        };
+    }, []);
+
+    console.log("render ne");
+
+    const addHistoryWheel = async (prize: Prize) => {
+        let pr: SpinHistory = {
+            timestamp: new Date(),
+            prizeName: prize?.name || 'Unknown Prize',
+            prizeId: String(prize?.id || 'UNKNOWN'),
+            userId: 'nam',
+            quantity: 1,
+            status: 'received',
+            type: prize?.type || 'general'
+        };
+        spinHistoryRef.current = [...spinHistoryRef.current, pr];
+        saveHistoryToStorage();
+        await saveToGoogleSheets(spinHistoryRef.current)
     };
 
     const receiveGifts = () => {
@@ -100,7 +205,7 @@ const LuckyWheel: React.FC = () => {
     };
 
     const resetWheel = () => {
-        setSpinsLeft(3);
+        setSpinsLeft(1);
         const wheel = wheelRef.current;
         if (wheel) {
             wheel.style.transition = 'none';
@@ -120,6 +225,26 @@ const LuckyWheel: React.FC = () => {
         return typeColors[type] || typeColors.gold;
     };
 
+    // Mock data để test
+    const mockHistoryData: SpinHistory[] = [
+        {
+            timestamp: new Date('2024-01-15T10:30:00'),
+            prizeName: 'Vũ Khí Hẻm',
+            prizeId: 'WK001',
+            quantity: 1,
+            status: 'received',
+            type: 'weapon'
+        },
+        {
+            timestamp: new Date('2024-01-15T11:15:00'),
+            prizeName: '7 Ngày ViP',
+            prizeId: 'VIP007',
+            quantity: 1,
+            status: 'pending',
+            type: 'vip'
+        },
+    ];
+
     return (
         <div className={styles.container}>
             <div className={styles.header}>
@@ -135,11 +260,18 @@ const LuckyWheel: React.FC = () => {
                     <div className={styles.resetButton} onClick={resetWheel}>
                         Làm mới
                     </div>
+                    <div className={styles.resetButton} onClick={() => setShowHistoryWheel(true)}>
+                        Lịch sử
+                    </div>
                 </div>
             </div>
 
             <div className={styles.wheelContainer}>
                 <div className={styles.wheelWrapper}>
+                    <div className={styles.musicWaves}></div>
+                    <div className={styles.musicWaves}></div>
+                    <div className={styles.musicWaves}></div>
+                    <div className={styles.musicWaves}></div>
                     <div
                         ref={wheelRef}
                         className={`${styles.wheel} ${isSpinning ? styles.spinning : ''}`}
@@ -228,6 +360,14 @@ const LuckyWheel: React.FC = () => {
                         </button>
                     </div>
                 </div>
+            )}
+
+            {isShowHistoryWheel && (
+                <HistoryModal
+                    isShowHistory={isShowHistoryWheel}
+                    onClose={() => setShowHistoryWheel(false)}
+                    spinHistory={spinHistoryRef.current}
+                />
             )}
 
             <div className={styles.prizeList}>

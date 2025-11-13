@@ -71,7 +71,320 @@
     border-color: rgba(168, 85, 247, 0.5);
 }
 
+/*==============================================================*/
+
 .wheelContainer {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.wheelWrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 2rem;
+}
+
+/* Hiệu ứng sóng nhạc */
+.wheelWrapper::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%,
+            rgba(168, 85, 247, 0.8) 0%,
+            rgba(168, 85, 247, 0.4) 20%,
+            rgba(168, 85, 247, 0.2) 40%,
+            transparent 70%);
+    z-index: -1;
+    animation: twinkle 1.5s ease-in-out infinite alternate;
+}
+
+/* Hiệu ứng sóng nhạc - các vòng tròn lan tỏa */
+.musicWaves {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    animation: musicPulse 2s ease-out infinite;
+}
+
+.musicWaves:nth-child(1) {
+    animation-delay: 0s;
+    border-color: rgba(168, 85, 247, 0.6);
+}
+
+.musicWaves:nth-child(2) {
+    animation-delay: 0.5s;
+    border-color: rgba(236, 72, 153, 0.5);
+}
+
+.musicWaves:nth-child(3) {
+    animation-delay: 1s;
+    border-color: rgba(6, 182, 212, 0.4);
+}
+
+.musicWaves:nth-child(4) {
+    animation-delay: 1.5s;
+    border-color: rgba(139, 92, 246, 0.3);
+}
+
+.wheel {
+    position: relative;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    background: rgba(30, 41, 59, 0.9);
+    border: 3px solid rgba(233, 83, 183, 0.5);
+    box-shadow:
+        0 0 80px rgba(168, 85, 247, 0.4),
+        inset 0 0 60px rgba(168, 85, 247, 0.15);
+    transition: transform 4s cubic-bezier(0.2, 0.8, 0.3, 1);
+    overflow: hidden;
+    z-index: 1;
+    /* Hiệu ứng lúc to lúc nhỏ */
+    animation: wheelPulse 3s ease-in-out infinite;
+}
+
+/* Viền ngoài nhấp nháy như hào quang */
+.wheel::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: linear-gradient(45deg,
+            #a855f7, #ec4899, #06b6d4, #a855f7);
+    background-size: 400% 400%;
+    z-index: -1;
+    animation: pulseGlow 2s ease-in-out infinite,
+        rotateGradient 3s linear infinite;
+    filter: blur(8px);
+    opacity: 0.8;
+}
+
+/* Thêm hiệu ứng tia sáng tỏa ra */
+.wheel::after {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg at 50% 50%,
+            transparent 0%,
+            rgba(168, 85, 247, 0.3) 10%,
+            transparent 20%,
+            rgba(236, 72, 153, 0.3) 30%,
+            transparent 40%,
+            rgba(6, 182, 212, 0.3) 50%,
+            transparent 60%,
+            rgba(168, 85, 247, 0.3) 70%,
+            transparent 80%,
+            rgba(236, 72, 153, 0.3) 90%,
+            transparent 100%);
+    z-index: -2;
+    animation: rotateRays 8s linear infinite;
+    filter: blur(4px);
+}
+
+.wheelSegment {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    top: 0;
+    left: 50%;
+    transform-origin: 0% 100%;
+    background: conic-gradient(from 0deg at 0% 0%, var(--segment-color) 0deg 45deg, transparent 45deg);
+}
+
+.segmentContent {
+    position: absolute;
+    top: 20px;
+    left: 40px;
+    transform: rotate(17.5deg);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    transform-origin: 0% 0%;
+}
+
+/* Keyframes mới cho hiệu ứng sóng nhạc và pulsating */
+@keyframes musicPulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.3);
+        opacity: 0;
+    }
+}
+
+@keyframes wheelPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes pulseGlow {
+
+    0%,
+    100% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.02);
+    }
+}
+
+@keyframes rotateGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 400% 50%;
+    }
+}
+
+@keyframes rotateRays {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes twinkle {
+    0% {
+        opacity: 0.3;
+        filter: blur(8px);
+    }
+
+    100% {
+        opacity: 0.8;
+        filter: blur(12px);
+    }
+}
+
+/* Hiệu ứng khi wheel đang quay */
+.wheel.spinning {
+    border: 4px solid rgba(168, 85, 247, 0.4);
+    /* Màu nhẹ hơn */
+    box-shadow:
+        0 0 60px rgba(168, 85, 247, 0.3),
+        /* Giảm intensity */
+        inset 0 0 40px rgba(168, 85, 247, 0.1);
+    /* Nhẹ nhàng hơn */
+    animation: wheelSpinPulse 1s linear infinite
+        /* Chậm hơn */
+}
+
+.wheel.spinning::before {
+    animation-duration: 1s, 2s;
+    /* Chậm hơn */
+    opacity: 0.7;
+    /* Trong suốt hơn */
+    filter: blur(6px);
+    /* Mờ nhẹ hơn */
+    background: linear-gradient(45deg,
+            rgba(168, 85, 247, 0.6),
+            rgba(236, 72, 153, 0.4),
+            rgba(6, 182, 212, 0.5),
+            rgba(168, 85, 247, 0.6));
+    /* Màu pastel */
+}
+
+.wheel.spinning::after {
+    animation-duration: 3s;
+    /* Chậm hơn */
+    opacity: 0.4;
+    /* Mờ hơn */
+    background: conic-gradient(from 0deg at 50% 50%,
+            transparent 0%,
+            rgba(168, 85, 247, 0.2) 10%,
+            /* Màu nhạt */
+            transparent 20%,
+            rgba(236, 72, 153, 0.15) 30%,
+            /* Màu nhạt */
+            transparent 40%,
+            rgba(6, 182, 212, 0.2) 50%,
+            /* Màu nhạt */
+            transparent 60%,
+            rgba(168, 85, 247, 0.2) 70%,
+            /* Màu nhạt */
+            transparent 80%,
+            rgba(236, 72, 153, 0.15) 90%,
+            /* Màu nhạt */
+            transparent 100%);
+}
+
+/* Hiệu ứng pulsating nhẹ nhàng hơn */
+@keyframes wheelSpinPulse {
+
+    0%,
+    100% {
+        transform: scale(1) rotate(0deg);
+        border-color: rgba(168, 85, 247, 0.4);
+    }
+
+    25% {
+        transform: scale(1.02) rotate(45deg);
+        /* Xoay ít hơn */
+        border-color: rgba(168, 85, 247, 0.5);
+    }
+
+    50% {
+        transform: scale(1.03) rotate(90deg);
+        /* Scale nhỏ hơn */
+        border-color: rgba(168, 85, 247, 0.6);
+    }
+
+    75% {
+        transform: scale(1.02) rotate(135deg);
+        /* Xoay ít hơn */
+        border-color: rgba(168, 85, 247, 0.5);
+    }
+}
+
+/* Thêm hiệu ứng mờ dần nhẹ nhàng */
+.wheel.spinning {
+    transition: all 0.5s ease-in-out;
+}
+
+
+/* Tăng tốc độ sóng nhạc khi đang quay */
+.wheel.spinning~.musicWaves {
+    animation-duration: 0.8s;
+}
+
+/*==============================================================*/
+
+/* .wheelContainer {
     text-align: center;
     margin-bottom: 3rem;
 }
@@ -117,7 +430,7 @@
     align-items: center;
     gap: 4px;
     transform-origin: 0% 0%;
-}
+} */
 
 .prizeIcon {
     width: 1.5rem;
@@ -128,7 +441,7 @@
 
 .prizeName {
     display: block;
-    font-size: 0.7rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: white;
     line-height: 1.2;
