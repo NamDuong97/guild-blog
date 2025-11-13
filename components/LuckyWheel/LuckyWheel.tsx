@@ -63,6 +63,9 @@ const LuckyWheel: React.FC = () => {
 
         const wheel = wheelRef.current;
         if (wheel) {
+            // Khi bắt đầu quay
+            wheel.classList.add('spinning');
+
             const currentRotation = parseFloat(wheel.style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
             wheel.style.transform = `rotate(${currentRotation}deg)`;
             console.log("góc ban đầu", currentRotation)
@@ -80,10 +83,12 @@ const LuckyWheel: React.FC = () => {
             wheel.style.transform = `rotate(${targetRotation}deg)`;
 
             setTimeout(() => {
+                // Khi kết thúc quay
                 setIsSpinning(false);
                 setResult(selectedPrize);
                 setShowResultModal(true);
                 setSpinsLeft(prev => prev - 1);
+                wheel.classList.remove('spinning');
             }, 4000);
         }
     };
