@@ -1,15 +1,15 @@
 .header {
     position: relative;
     background:
-       /* Background image */
-       /* linear-gradient(135deg,
+        /* Background image */
+        /* linear-gradient(135deg,
                 rgba(255, 151, 250, 0.8) 5%,
                 rgba(126, 101, 218, 0.95) 40%,
                 rgba(83, 100, 255, 0.95) 70%,
                 rgba(19, 91, 173, 0.95) 80%); */
 
         url('/image/header4.jpg') center/cover no-repeat;
-        /* Gradient overlay */
+    /* Gradient overlay */
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(109, 189, 221, 0.3);
     overflow: hidden;
@@ -276,9 +276,12 @@
     align-items: center;
     gap: 1.5rem;
     margin-bottom: 2rem;
-    justify-content: flex-end; /* Thêm dòng này */
-    margin-left: -18px; /* Đẩy sang phải */
-    max-width: 80%; /* Giới hạn độ rộng */
+    justify-content: flex-end;
+    /* Thêm dòng này */
+    margin-left: -18px;
+    /* Đẩy sang phải */
+    max-width: 80%;
+    /* Giới hạn độ rộng */
 }
 
 .logoContainer {
@@ -890,53 +893,124 @@
         padding: 1.5rem 1rem;
     }
 
-    /* Cập nhật cho mainHeaderRow */
-    .mainHeaderRow {
-        flex-direction: column;
-        gap: 1.5rem;
+    /* Top Bar - canh trái*/
+    .topBar {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
         margin-bottom: 1.5rem;
-    }
-
-    .musicSection,
-    .actionsSection {
-        justify-content: center;
-        width: 100%;
-    }
-
-    .titleSection {
-        order: -1;
-        /* Đưa title lên đầu */
-    }
-
-    .musicPlayer {
-        justify-content: center;
-        padding: 0.5rem 1rem;
-    }
-
-    .trackInfo {
-        min-width: 120px;
-    }
-
-    .trackName {
-        max-width: 80px;
-        font-size: 0.8rem;
+        gap: 0.5rem;
     }
 
     .languageSelector {
-        align-self: center;
+        padding: 0.4rem 0.75rem;
+        font-size: 0.8rem;
+        flex-shrink: 0;
     }
 
-    .actionsSection {
-        flex-direction: column;
-        gap: 1rem;
+    .topActions {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
     }
 
+    .musicPlayer {
+        padding: 0.4rem 0.75rem;
+        gap: 0.4rem;
+    }
+
+    .playButton,
+    .volumeButton {
+        width: 1.75rem;
+        height: 1.75rem;
+    }
+
+    .icon,
+    .iconPlay,
+    .musicIcon {
+        width: 0.875rem;
+        height: 0.875rem;
+    }
+
+    .loginButton {
+        padding: 0.4rem 0.875rem;
+        font-size: 0.8rem;
+        gap: 0.35rem;
+    }
+
+    .loginIcon {
+        width: 0.875rem;
+        height: 0.875rem;
+    }
+
+    /* Main Section - logo lá»›n hÆ¡n, title canh tráº£i */
     .mainSection {
-        flex-direction: column;
-        text-align: center;
+        flex-direction: row;
+        text-align: left;
         gap: 1rem;
+        align-items: center;
+        justify-content: flex-start;
+        margin-left: 0;
+        max-width: 100%;
     }
 
+    .logo {
+        width: 6rem;
+        height: 6rem;
+        margin-left: 0;
+    }
+
+    .logoIcon {
+        width: 100%;
+        height: 100%;
+    }
+
+    .logoSparkle {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    .sparkleIcon {
+        width: 0.625rem;
+        height: 0.625rem;
+    }
+
+    .titleSection {
+        flex: 1;
+        text-align: left;
+    }
+
+    .title {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+    }
+
+    .titleMain {
+        font-size: 1.75rem;
+    }
+
+    .titleSub {
+        font-size: 1.25rem;
+    }
+
+    .guildBadge {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.6rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .badgeIcon {
+        width: 0.75rem;
+        height: 0.75rem;
+    }
+
+    .subtitle {
+        font-size: 0.875rem;
+        text-align: left;
+    }
+
+    /* Info Section */
     .infoSection {
         grid-template-columns: 1fr;
         gap: 1.5rem;
@@ -950,114 +1024,12 @@
         text-align: center;
     }
 
-    .title {
-        justify-content: center;
-    }
-
-    .titleMain {
-        font-size: 2rem;
-    }
-
-    .titleSub {
-        font-size: 1.5rem;
-    }
-
     .modalContent {
         padding: 1.5rem;
     }
 
     .socialButtons {
         grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 480px) {
-    .logo {
-        width: 4rem;
-        height: 4rem;
-    }
-
-    .logoIcon {
-        width: 2rem;
-        height: 2rem;
-    }
-
-    .titleMain {
-        font-size: 1.75rem;
-    }
-
-    .titleSub {
-        font-size: 1.25rem;
-    }
-
-    .statsGrid {
-        gap: 0.75rem;
-    }
-
-    .statCard {
-        padding: 0.5rem 0.75rem;
-    }
-
-    /* Cập nhật cho mobile nhỏ */
-    .musicPlayer {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.25rem;
-        padding: 0.5rem;
-    }
-
-    .trackInfo {
-        min-width: 100px;
-        margin-left: 0;
-        justify-content: center;
-    }
-
-    .playButton {
-        width: 2.5rem;
-        height: 2.5rem;
-    }
-
-    .navButton,
-    .volumeButton {
-        width: 2rem;
-        height: 2rem;
-    }
-
-    .icon,
-    .iconPlay,
-    .musicIcon {
-        width: 0.875rem;
-        height: 0.875rem;
-    }
-
-    .actionsSection {
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-
-    .languageSelector,
-    .loginButton {
-        width: 100%;
-        justify-content: center;
-    }
-
-    /* Playlist trên mobile */
-    .playlistDropdown {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 90%;
-        max-width: 280px;
-    }
-
-    .modalOverlay {
-        padding: 0.5rem;
-    }
-
-    .modalContent {
-        margin-top: 1rem;
-        max-height: calc(100vh - 2rem);
     }
 }
 
@@ -1079,5 +1051,160 @@
         width: 1.75rem;
         height: 1.75rem;
         font-size: 1rem;
+    }
+}
+
+/* Responsive cho mobile - FIXED */
+@media (max-width: 480px) {
+    .topBar {
+        flex-direction: column !important;
+        gap: 1rem !important;
+        align-items: stretch !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .languageSelector {
+        align-self: center !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+    .topActions {
+        justify-content: space-between !important;
+        width: 100% !important;
+        gap: 0.5rem !important;
+    }
+
+    .musicPlayer {
+        order: 2 !important;
+        justify-content: center !important;
+        padding: 0.4rem 0.8rem !important;
+        flex: 1 !important;
+        max-width: 140px !important;
+    }
+
+    .loginButton {
+        order: 1 !important;
+        padding: 0.5rem 1rem !important;
+        font-size: 0.8rem !important;
+        flex: 1 !important;
+        max-width: 120px !important;
+        justify-content: center !important;
+    }
+
+    .mainSection {
+        flex-direction: column !important;
+        text-align: center !important;
+        margin-left: 0 !important;
+        max-width: 100% !important;
+        justify-content: center !important;
+        gap: 1rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .logo {
+        width: 8rem !important;
+        height: 6rem !important;
+        margin-left: 0 !important;
+    }
+
+    .logoIcon {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+    }
+
+    .titleSection {
+        text-align: center !important;
+        width: 100% !important;
+    }
+
+    .title {
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+        gap: 0.3rem !important;
+    }
+
+    .titleMain {
+        font-size: 1.8rem !important;
+        text-align: center !important;
+    }
+
+    .titleSub {
+        font-size: 1.3rem !important;
+        text-align: center !important;
+    }
+
+    .guildBadge {
+        justify-content: center !important;
+        margin: 0.5rem auto !important;
+    }
+
+    .subtitle {
+        font-size: 0.9rem !important;
+        text-align: center !important;
+        margin: 0 auto !important;
+    }
+
+    .infoSection {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+
+    .statsGrid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0.5rem !important;
+    }
+
+    .statCard {
+        padding: 0.5rem !important;
+        flex-direction: column !important;
+        text-align: center !important;
+        gap: 0.3rem !important;
+        min-height: auto !important;
+    }
+
+    .statIconWrapper {
+        padding: 0.3rem !important;
+    }
+
+    .statIcon {
+        width: 1rem !important;
+        height: 1rem !important;
+    }
+
+    .statValue {
+        font-size: 0.9rem !important;
+        line-height: 1 !important;
+    }
+
+    .statLabel {
+        font-size: 0.65rem !important;
+        margin-top: 0 !important;
+    }
+
+    .motto {
+        text-align: center !important;
+    }
+
+    .mottoText {
+        font-size: 1rem !important;
+    }
+}
+
+/* Đảm bảo responsive cho các phần tử music player */
+@media (max-width: 480px) {
+
+    .playButton,
+    .volumeButton {
+        width: 1.8rem !important;
+        height: 1.8rem !important;
+        min-width: 1.8rem !important;
+    }
+
+    .icon,
+    .iconPlay,
+    .musicIcon {
+        width: 0.8rem !important;
+        height: 0.8rem !important;
     }
 }
