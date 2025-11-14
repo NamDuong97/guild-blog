@@ -153,7 +153,7 @@ export const prizes: Prize[] = [
         id: 1,
         name: 'Tịnh Bình',
         type: 'tẩy luyện',
-        icon: '/image/tinhbinh.png',
+        icon: '/image/tinhbinh.jpg',
         color: '#fbbf24',
         probability: 30
     },
@@ -161,7 +161,7 @@ export const prizes: Prize[] = [
         id: 2,
         name: 'Ân Khư',
         type: 'exp',
-        icon: '/image/ankhu.png',
+        icon: '/image/ankhu.jpg',
         color: '#06b6d4',
         probability: 15
     },
@@ -169,7 +169,7 @@ export const prizes: Prize[] = [
         id: 3,
         name: 'Bất Tận Mộc',
         type: 'tẩy luyện',
-        icon: '/image/battanmoc.png',
+        icon: '/image/battanmoc.jpg',
         color: '#ec4899',
         probability: 10
     },
@@ -177,7 +177,7 @@ export const prizes: Prize[] = [
         id: 4,
         name: 'Bích Liễu Lộ',
         type: 'tẩy luyện',
-        icon: '/image/bichlieulo.png',
+        icon: '/image/bichlieulo.jpg',
         color: '#f59e0b',
         probability: 5
     },
@@ -185,7 +185,7 @@ export const prizes: Prize[] = [
         id: 5,
         name: 'Đoạt Hồn Phiên',
         type: 'pk',
-        icon: '/image/doathonphien.png',
+        icon: '/image/doathonphien.jpg',
         color: '#8b5cf6',
         probability: 15
     },
@@ -193,23 +193,23 @@ export const prizes: Prize[] = [
         id: 6,
         name: 'Hộp Người Tuyết',
         type: 'vip',
-        icon: '/image/hopnguoituyet.png',
+        icon: '/image/hopnguoituyet.jpg',
         color: '#10b981',
         probability: 3
     },
     {
         id: 7,
-        name: '100 Vàng',
-        type: 'gold',
-        icon: Coins,
+        name: 'Niệm Châu',
+        type: 'tẩy luyện',
+        icon: '/image/niemchau.jpg',
         color: '#d97706',
         probability: 20
     },
     {
         id: 8,
-        name: 'Quà Đặc Biệt',
-        type: 'special',
-        icon: Sparkles,
+        name: 'Loa Nhỏ',
+        type: 'vip',
+        icon: '/image/loanho.jpg',
         color: '#dc2626',
         probability: 2
     }

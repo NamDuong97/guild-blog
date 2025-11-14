@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { Prize } from '@/types';
-import { Gift, RotateCcw, Sparkles } from 'lucide-react';
+import { Gift, RotateCcw, Sparkles, Trophy } from 'lucide-react';
 import styles from './LuckyWheel.module.css';
 import { prizes } from '@/data/mockData';
 import HistoryModal from '@/components/HistoryModal/HistoryModal'
@@ -110,7 +110,7 @@ const LuckyWheel: React.FC = () => {
         }
     }
 
-   const saveToGoogleSheets = async (history: SpinHistory) => {
+    const saveToGoogleSheets = async (history: SpinHistory) => {
         try {
             const response = await fetch(GOOGLE_SCRIPT_URL, {
                 method: "POST",
@@ -133,41 +133,52 @@ const LuckyWheel: React.FC = () => {
         try {
             const response = await fetch(GOOGLE_SCRIPT_URL);
             const result = await response.json();
-            console.log("load du lieu tu gg sheet");
+
             if (result.success) {
-                return result.data.map((item: any) => ({
-                    timestamp: new Date(item.timestamp),
-                    prizeName: item.prizename || item.prizeName,
-                    prizeId: item.prizeid || item.prizeId,
-                    userId: 'nam',
-                    quantity: Number(item.quantity) || 1,
-                    status: item.status || 'received',
-                    type: item.type || 'general'
-                } as SpinHistory));
+                return result.data.map((item: any) => {
+                    // Clean keys - remove trailing spaces
+                    const cleanItem: any = {};
+                    Object.keys(item).forEach(key => {
+                        const cleanKey = key.trim(); // Remove spaces from both ends
+                        cleanItem[cleanKey] = item[key];
+                    });
+                    console.log("Cleaned item:", cleanItem);
+                    return {
+                        timestamp: new Date(cleanItem.timestamp),
+                        prizeName: cleanItem.prizename || cleanItem.prizeName || 'Unknown Prize',
+                        prizeId: cleanItem.prizeid || cleanItem.prizeId || 'Unknown ID',
+                        userId: cleanItem.userid || 'nam',
+                        quantity: Number(cleanItem.quantity) || 1,
+                        status: cleanItem.status || 'received',
+                        type: cleanItem.type || 'general'
+                    } as SpinHistory;
+                });
             }
         } catch (error) {
-            console.error('❌ Load from Google Sheets error:', error);
+            console.error('Load from Google Sheets error:', error);
         }
         return [];
     };
 
     const loadSpinHistory = async () => {
         const storedData = localStorage.getItem('spinHistoryRef');
+        console.log("data gốc từ local", storedData)
         let data: SpinHistory[] = [];
-        if (storedData) {
-            console.log("du lieu duoi local la", storedData)
-            try {
+        try {
+            if (storedData && storedData !== "[]" && storedData !== "null" && storedData.trim().length > 2) {
                 data = JSON.parse(storedData) as SpinHistory[];
                 console.log("Du lieu lay tu local la: ", data);
-            } catch (error) {
-                console.error('Error parsing localStorage data:', error);
-                data = [];
+            } else {
+                data = await loadFromGoogleSheets()
+
+                console.log("Du lieu lay tu gg sheet la: ", data);
             }
-        } else {
-            data = await loadFromGoogleSheets()
-            console.log("Du lieu lay tu gg sheet la: ", data);
+        } catch (error) {
+            console.error('Error parsing localStorage data or Error load data from Google Sheet:', error);
+            data = [];
         }
-        spinHistoryRef.current = data ? [...data] : [];
+        spinHistoryRef.current = data;
+        saveHistoryToStorage();
     }
 
     useEffect(() => {
@@ -176,7 +187,7 @@ const LuckyWheel: React.FC = () => {
             // Lưu khi component unmount
             saveHistoryToStorage();
         };
-    }, [result]);
+    }, []);
 
     console.log("render ne");
 
@@ -254,7 +265,7 @@ const LuckyWheel: React.FC = () => {
                         className={`${styles.wheel} ${isSpinning ? styles.spinning : ''}`}
                     >
                         {prizes.map((prize, index) => {
-                            const Icon = prize.icon;
+                            // const Icon = prize.icon;
                             const rotation = index * wheelConfig.segmentAngle;
                             const segmentStyle = {
                                 '--segment-color': prize.color,
@@ -274,7 +285,6 @@ const LuckyWheel: React.FC = () => {
                                             '--segment-angle': `${wheelConfig.segmentAngle}deg`,
                                         } as React.CSSProperties}
                                     >
-                                        <Icon className={styles.prizeIcon} />
                                         <span className={styles.prizeName}>{prize.name}</span>
                                     </div>
                                 </div>
@@ -318,7 +328,7 @@ const LuckyWheel: React.FC = () => {
                             className={styles.resultIcon}
                             style={{ background: getTypeColor(result.type) }}
                         >
-                            <result.icon className={styles.resultPrizeIcon} />
+                            <Gift className={styles.resultPrizeIcon} />
                         </div>
                         <h3 className={styles.resultTitle}>Chúc mừng!</h3>
                         <p className={styles.resultPrize}>Bạn đã nhận được: {result.name}</p>
@@ -358,7 +368,7 @@ const LuckyWheel: React.FC = () => {
                                     className={styles.prizeItemIcon}
                                     style={{ background: getTypeColor(prize.type) }}
                                 >
-                                    <Icon className={styles.prizeItemSvg} />
+                                    <img src={prize.icon} alt={prize.name} />
                                 </div>
                                 <div className={styles.prizeItemInfo}>
                                     <span className={styles.prizeItemName}>{prize.name}</span>
