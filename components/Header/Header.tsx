@@ -3,16 +3,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Users, Trophy, Gamepad2, Crown, Shield, Sparkles, User, Music, Play, Pause, Volume2, VolumeX, Eye, EyeOff, Lock } from 'lucide-react';
 import styles from './Header.module.css';
+import LoginModal from '../LoginModal/LoginModal'
+import { useUser } from '@/contexts/UserContext'
 
 const Header: React.FC = () => {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
     const [isPlaying, setIsPlaying] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
     const [isUserInteracted, setIsUserInteracted] = useState(false);
     const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+    const [isLogin, setLogin] = useState(false);
+    const { user, logout } = useUser();
     const audioRef = useRef<HTMLAudioElement>(null);
 
     const playlist = [
@@ -69,6 +70,12 @@ const Header: React.FC = () => {
         };
     }, []);
 
+    useEffect(() => {
+        console.log("user hiện tại: ", user);
+        if (user) setLogin(true);
+        else setLogin(false);
+    }, [user]);
+
     const toggleMute = () => {
         if (audioRef.current) {
             audioRef.current.muted = !isMuted;
@@ -78,9 +85,25 @@ const Header: React.FC = () => {
 
     // Login functions
     const handleLogin = () => {
-        console.log('Login:', { username, password });
-        alert(`Đăng nhập với tài khoản: ${username}`);
-        setIsLoginModalOpen(false);
+        if (!isLoginModalOpen) {
+            console.log("đã vào hàm để mở form login");
+            setIsLoginModalOpen(true);
+        }
+    };
+
+    console.log("isLogin", isLogin);
+
+    const handleLogout = async () => {
+        setLogin(true);
+        console.log("Ban đã logout");
+        await logout();
+    };
+
+    const onCloseLogin = () => {
+        if (isLoginModalOpen) {
+            console.log("đã vào hàm để mở form login");
+            setIsLoginModalOpen(false);
+        }
     };
 
     return (
@@ -123,13 +146,26 @@ const Header: React.FC = () => {
                         </div>
 
                         {/* Login Button */}
-                        <button
-                            className={styles.loginButton}
-                            onClick={() => setIsLoginModalOpen(true)}
-                        >
-                            <User className={styles.loginIcon} />
-                            <span>Đăng Nhập</span>
-                        </button>
+
+                        {
+                            !isLogin ?
+                                <button
+                                    className={styles.loginButton}
+                                    onClick={handleLogin}
+                                >
+                                    <User className={styles.loginIcon} />
+                                    <span>Đăng Nhập</span>
+                                </button> : (
+                                    <><button
+                                        onClick={handleLogout}
+                                        className={styles.loginButton}
+                                    >
+                                        Đăng Xuất
+                                    </button><p className={styles.welcomeText}>Xin Chào {user?.userId}</p></>
+                                )
+                        }
+
+
                     </div>
                 </div>
 
@@ -139,7 +175,7 @@ const Header: React.FC = () => {
                         <div className={styles.logoGlow}></div>
                         <div className={styles.logo}>
                             {/* <Gamepad2 className={styles.logoIcon} /> */}
-                            <img src="/image/logo.jpg" alt="logo" className={styles.logoIcon}/>
+                            <img src="/image/logo.jpg" alt="logo" className={styles.logoIcon} />
                             <div className={styles.logoSparkle}>
                                 <Sparkles className={styles.sparkleIcon} />
                             </div>
@@ -208,106 +244,8 @@ const Header: React.FC = () => {
 
             {/* Login Modal */}
             {isLoginModalOpen && (
-                <div className={styles.modalOverlay}>
-                    <div className={styles.modalContent}>
-                        {/* Nút đóng */}
-                        <button onClick={() => setIsLoginModalOpen(false)} className={styles.closeButton}>
-                            ×
-                        </button>
-
-                        {/* Header */}
-                        <div className={styles.modalHeader}>
-                            <div className={styles.modalIconWrapper}>
-                                <User className={styles.modalHeaderIcon} />
-                            </div>
-                            <h2 className={styles.modalTitle}>Đăng Nhập</h2>
-                            <p className={styles.modalSubtitle}>Chào mừng bạn trở lại!</p>
-                        </div>
-
-                        {/* Form */}
-                        <div className={styles.modalForm}>
-                            {/* Username */}
-                            <div className={styles.inputGroup}>
-                                <label className={styles.label}>Tài khoản</label>
-                                <div className={styles.inputWrapper}>
-                                    <User className={styles.inputIcon} />
-                                    <input
-                                        type="text"
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
-                                        placeholder="Nhập tài khoản"
-                                        className={styles.input}
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Password */}
-                            <div className={styles.inputGroup}>
-                                <label className={styles.label}>Mật khẩu</label>
-                                <div className={styles.inputWrapper}>
-                                    <Lock className={styles.inputIcon} />
-                                    <input
-                                        type={showPassword ? 'text' : 'password'}
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        placeholder="Nhập mật khẩu"
-                                        className={styles.input}
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowPassword(!showPassword)}
-                                        className={styles.togglePassword}
-                                    >
-                                        {showPassword ? (
-                                            <EyeOff className={styles.eyeIcon} />
-                                        ) : (
-                                            <Eye className={styles.eyeIcon} />
-                                        )}
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* Remember & Forgot */}
-                            <div className={styles.options}>
-                                <label className={styles.remember}>
-                                    <input type="checkbox" className={styles.checkbox} />
-                                    <span>Ghi nhớ đăng nhập</span>
-                                </label>
-                                <button className={styles.forgotPassword}>Quên mật khẩu?</button>
-                            </div>
-
-                            {/* Submit Button */}
-                            <button onClick={handleLogin} className={styles.submitButton}>
-                                Đăng Nhập Ngay
-                            </button>
-
-                            {/* Divider */}
-                            <div className={styles.divider}>
-                                <div className={styles.dividerLine}></div>
-                                <span className={styles.dividerText}>Hoặc đăng nhập với</span>
-                            </div>
-
-                            {/* Social Login */}
-                            <div className={styles.socialButtons}>
-                                <button className={styles.facebookButton}>
-                                    <span>📘</span>
-                                    Facebook
-                                </button>
-                                <button className={styles.googleButton}>
-                                    <span>🔍</span>
-                                    Google
-                                </button>
-                            </div>
-
-                            {/* Register Link */}
-                            <div className={styles.register}>
-                                <span className={styles.registerText}>Chưa có tài khoản? </span>
-                                <button className={styles.registerLink}>Đăng ký ngay</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
+                <LoginModal isOpen={isLoginModalOpen} onClose={onCloseLogin} />)
+            }
 
             {/* Audio Element */}
             <audio

@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { User, Lock, Eye, EyeOff } from 'lucide-react';
 import styles from './LoginModal.module.css';
+import { Member } from '@/types';
+import { useUser } from '@/contexts/UserContext'
 
 interface LoginModalProps {
     isOpen: boolean;
@@ -12,11 +14,19 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const { login, isLoading, logout, user } = useUser();
 
-    const handleLogin = () => {
-        console.log('Login:', { username, password });
-        alert(`Đăng nhập với tài khoản: ${username}`);
-        onClose();
+    const handleLogin = async () => {
+        const success = await login(username, password);
+        console.log("login từ useContext", success);
+        if (success) {
+            alert('Đăng nhập thành công!');
+            onClose();
+            setUsername('');
+            setPassword('');
+        } else {
+            alert('Đăng nhập thất bại! - handleLogin - LoginModal');
+        }
     };
 
     if (!isOpen) return null;
@@ -90,28 +100,13 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                         <button className={styles.forgotPassword}>Quên mật khẩu?</button>
                     </div>
 
-                    {/* Submit Button */}
-                    <button onClick={handleLogin} className={styles.submitButton}>
-                        Đăng Nhập Ngay
+                    <button
+                        onClick={handleLogin}
+                        disabled={isLoading}
+                        className={styles.submitButton}
+                    >
+                        {isLoading ? 'Đang đăng nhập...' : 'Đăng Nhập'}
                     </button>
-
-                    {/* Divider */}
-                    <div className={styles.divider}>
-                        <div className={styles.dividerLine}></div>
-                        <span className={styles.dividerText}>Hoặc đăng nhập với</span>
-                    </div>
-
-                    {/* Social Login */}
-                    <div className={styles.socialButtons}>
-                        <button className={styles.facebookButton}>
-                            <span>📘</span>
-                            Facebook
-                        </button>
-                        <button className={styles.googleButton}>
-                            <span>🔍</span>
-                            Google
-                        </button>
-                    </div>
 
                     {/* Register Link */}
                     <div className={styles.register}>

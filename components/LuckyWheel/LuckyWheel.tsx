@@ -6,6 +6,9 @@ import styles from './LuckyWheel.module.css';
 import { prizes } from '@/data/mockData';
 import HistoryModal from '@/components/HistoryModal/HistoryModal'
 import { SpinHistory } from '@/types/index'
+import { GOOGLE_SCRIPT_URL_LUCKY_WHEEL } from '@/untils/Constants'
+import { useUser } from '@/contexts/UserContext'
+
 
 const LuckyWheel: React.FC = () => {
     const [isSpinning, setIsSpinning] = useState(false);
@@ -15,7 +18,8 @@ const LuckyWheel: React.FC = () => {
     const [isShowHistoryWheel, setShowHistoryWheel] = useState(false);
     const spinHistoryRef = useRef<SpinHistory[]>([]);
     const wheelRef = useRef<HTMLDivElement>(null);
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxHiBpLQkP8Hs8IdzVaysEqSKXZrZTIEucT9sKjR0W-KZ82RU3oQFwEAMaCiz1fd6TO/exec';
+    const { user } = useUser();
+
 
     const wheelConfig = useMemo(() => {
         const totalPrizes = prizes.length;
@@ -112,7 +116,7 @@ const LuckyWheel: React.FC = () => {
 
     const saveToGoogleSheets = async (history: SpinHistory) => {
         try {
-            const response = await fetch(GOOGLE_SCRIPT_URL, {
+            const response = await fetch(GOOGLE_SCRIPT_URL_LUCKY_WHEEL, {
                 method: "POST",
                 body: JSON.stringify(history)
             });
@@ -131,7 +135,7 @@ const LuckyWheel: React.FC = () => {
     // Load lịch sử từ Google Sheets
     const loadFromGoogleSheets = async (): Promise<SpinHistory[]> => {
         try {
-            const response = await fetch(GOOGLE_SCRIPT_URL);
+            const response = await fetch(GOOGLE_SCRIPT_URL_LUCKY_WHEEL);
             const result = await response.json();
 
             if (result.success) {
@@ -196,7 +200,7 @@ const LuckyWheel: React.FC = () => {
             timestamp: new Date(),
             prizeName: prize?.name || 'Unknown Prize',
             prizeId: String(prize?.id || 'UNKNOWN'),
-            userId: 'nam',
+            userId: user?.userId || 'UNKNOWN',
             quantity: 1,
             status: 'received',
             type: prize?.type || 'general'

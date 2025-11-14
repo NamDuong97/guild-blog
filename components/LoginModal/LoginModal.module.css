@@ -1,6 +1,7 @@
 .modalOverlay {
-    position: fixed;
+    position: absolute;
     inset: 0;
+    top: 100%;
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(8px);
     display: flex;

@@ -12,7 +12,7 @@
     /* Gradient overlay */
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(109, 189, 221, 0.3);
-    overflow: hidden;
+    /* overflow: hidden; */
     z-index: 10;
     /* Thêm z-index cho header */
 }
@@ -152,6 +152,20 @@
     border-radius: 2rem;
     border: 1px solid rgba(255, 255, 255, 0.2);
     transition: all 0.3s ease;
+}
+
+.welcomeText {
+    color: #0f172a;
+    /* Màu vàng nổi bật */
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0;
+    padding: 0.5rem 1rem;
+    background: #d5c01e1a;
+    border-radius: 0.5rem;
+    border: 1px solid #fbbf244d;
+    text-align: center;
+    min-width: 120px;
 }
 
 .languageSelector:hover {

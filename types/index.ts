@@ -26,6 +26,8 @@ export interface StatItem {
 export interface Member {
     id: number;
     name: string;
+    userId: string;
+    password: string;
     ingameName: string;
     role: 'guild-master' | 'vice-master' | 'hall-master' | 'village-master' | 'manager' | 'elder' | 'elite' | 'member';
     avatar: string;

@@ -69,6 +69,8 @@ export const members: Member[] = [
     {
         id: 1,
         name: 'Nguyễn Văn A',
+        userId: '12434312',
+        password: 'toilatoi',
         ingameName: 'PhoenixKing',
         role: 'guild-master',
         avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
@@ -79,9 +81,11 @@ export const members: Member[] = [
     {
         id: 2,
         name: 'Trần Thị B',
+        userId: '12434311',
+        password: 'toilatoi',
         ingameName: 'MoonShadow',
         role: 'vice-master',
-        avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
+        avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
         level: 92,
         joinDate: '2023-02-20',
         lastActive: '2024-03-20'
@@ -89,6 +93,8 @@ export const members: Member[] = [
     {
         id: 3,
         name: 'Lê Văn C',
+        userId: '12434310',
+        password: 'toilatoi',
         ingameName: 'DragonSlayer',
         role: 'hall-master',
         avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
@@ -99,6 +105,8 @@ export const members: Member[] = [
     {
         id: 4,
         name: 'Phạm Thị D',
+        userId: '12434349',
+        password: 'toilatoi',
         ingameName: 'IceMage',
         role: 'village-master',
         avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
@@ -109,6 +117,8 @@ export const members: Member[] = [
     {
         id: 5,
         name: 'Hoàng Văn E',
+        userId: '12434348',
+        password: 'toilatoi',
         ingameName: 'ShadowAssassin',
         role: 'manager',
         avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face',
@@ -119,6 +129,8 @@ export const members: Member[] = [
     {
         id: 6,
         name: 'Vũ Thị F',
+        userId: '12434347',
+        password: 'toilatoi',
         ingameName: 'HealingAngel',
         role: 'elder',
         avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face',
@@ -129,6 +141,8 @@ export const members: Member[] = [
     {
         id: 7,
         name: 'Đặng Văn G',
+        userId: '12434346',
+        password: 'toilatoi',
         ingameName: 'ThunderWarrior',
         role: 'elite',
         avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
@@ -139,6 +153,8 @@ export const members: Member[] = [
     {
         id: 8,
         name: 'Bùi Thị H',
+        userId: '12434345',
+        password: 'toilatoi',
         ingameName: 'ForestRanger',
         role: 'member',
         avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face',

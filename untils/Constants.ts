@@ -1,0 +1,2 @@
+export const GOOGLE_SCRIPT_URL_USER: string = 'https://script.google.com/macros/s/AKfycbwFcbRiBgFL8Xq4MPBv66YpV10Y7c4e7VuRXqXiw0icecCLNeYFu-d55NuBdSc4O550xQ/exec';
+export const GOOGLE_SCRIPT_URL_LUCKY_WHEEL: string = 'https://script.google.com/macros/s/AKfycbxHiBpLQkP8Hs8IdzVaysEqSKXZrZTIEucT9sKjR0W-KZ82RU3oQFwEAMaCiz1fd6TO/exec';

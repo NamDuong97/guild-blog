@@ -113,7 +113,7 @@
     right: 0;
     bottom: 0;
     border-radius: 50%;
-    border: 2px solid transparent;
+    border: 1.5px solid transparent;
     animation: musicPulse 2s ease-out infinite;
 }
 
@@ -148,7 +148,7 @@
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.95);
     /* ĐỔI: từ màu tối sang trắng trong suốt */
-    border: 4px solid rgba(168, 85, 247, 0.8);
+    border: 1.5px solid rgba(168, 85, 247, 0.8);
     /* TĂNG: viền đậm hơn, sáng hơn */
     box-shadow:
         0 0 100px rgba(168, 85, 247, 0.6),
