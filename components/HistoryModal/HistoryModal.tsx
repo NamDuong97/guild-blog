@@ -7,9 +7,8 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
     spinHistory
 }) => {
 
-   const formatDate = (date: any) => {
+    const formatDate = (date: any) => {
         const d = new Date(date);
-        console.log('Formatted date:', date);
         if (isNaN(d.getTime())) return "Không hợp lệ";
 
         return new Intl.DateTimeFormat('vi-VN', {

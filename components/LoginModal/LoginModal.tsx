@@ -18,7 +18,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
 
     const handleLogin = async () => {
         const success = await login(username, password);
-        console.log("login từ useContext", success);
         if (success) {
             alert('Đăng nhập thành công!');
             onClose();

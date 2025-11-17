@@ -91,9 +91,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const login = async (username: string, password: string): Promise<boolean> => {
         setIsLoading(true);
         try {
-            console.log("danh sách user", userFromGGSheet.current);
             var checkUser = userFromGGSheet.current.find(it => it.userId == username)
-            console.log("du liệu user tìm thấy", checkUser);
             if (checkUser && checkUser.password == password) {
                 setUser(checkUser);
                 // Đăng nhập thành công thì lưu user xún localStorage để duy trì đăng nhập

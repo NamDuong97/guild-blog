@@ -98,7 +98,6 @@ const Header: React.FC = () => {
 
     const onCloseLogin = () => {
         if (isLoginModalOpen) {
-            console.log("đã vào hàm để mở form login");
             setIsLoginModalOpen(false);
         }
     };

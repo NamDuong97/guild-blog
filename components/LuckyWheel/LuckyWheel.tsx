@@ -194,10 +194,8 @@ const LuckyWheel: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        console.log("moi lan thay doi user se vao ham nay");
         if (user) {
             spinHistoryRefForUser.current = spinHistoryRef.current.filter(it => it.userId == user.userId)
-            console.log("danh sach lich su la: ", spinHistoryRefForUser.current)
         } else {
             spinHistoryRefForUser.current = []
         }
