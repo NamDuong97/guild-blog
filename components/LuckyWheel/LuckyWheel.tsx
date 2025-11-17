@@ -17,6 +17,7 @@ const LuckyWheel: React.FC = () => {
     const [showResultModal, setShowResultModal] = useState(false);
     const [isShowHistoryWheel, setShowHistoryWheel] = useState(false);
     const spinHistoryRef = useRef<SpinHistory[]>([]);
+    const spinHistoryRefForUser = useRef<SpinHistory[]>([]);
     const wheelRef = useRef<HTMLDivElement>(null);
     const { user } = useUser();
 
@@ -165,24 +166,23 @@ const LuckyWheel: React.FC = () => {
     };
 
     const loadSpinHistory = async () => {
-        const storedData = localStorage.getItem('spinHistoryRef');
-        console.log("data gốc từ local", storedData)
-        let data: SpinHistory[] = [];
         try {
-            if (storedData && storedData !== "[]" && storedData !== "null" && storedData.trim().length > 2) {
-                data = JSON.parse(storedData) as SpinHistory[];
-                console.log("Du lieu lay tu local la: ", data);
+            const storedData = localStorage.getItem('spinHistoryRef');
+            let dataFromGG: SpinHistory[] = await loadFromGoogleSheets();
+            let dataFromLS: SpinHistory[] = JSON.parse(storedData || '[]');
+            if (dataFromGG.length != dataFromLS.length) {
+                spinHistoryRef.current = dataFromGG;
+                localStorage.setItem('spinHistoryRef', JSON.stringify(dataFromGG))
             } else {
-                data = await loadFromGoogleSheets()
-
-                console.log("Du lieu lay tu gg sheet la: ", data);
+                spinHistoryRef.current = dataFromLS;
             }
         } catch (error) {
             console.error('Error parsing localStorage data or Error load data from Google Sheet:', error);
-            data = [];
         }
-        spinHistoryRef.current = data;
-        saveHistoryToStorage();
+
+        if (user) {
+            spinHistoryRefForUser.current = spinHistoryRef.current.filter(it => it.userId == user.userId)
+        }
     }
 
     useEffect(() => {
@@ -192,6 +192,16 @@ const LuckyWheel: React.FC = () => {
             saveHistoryToStorage();
         };
     }, []);
+
+    useEffect(() => {
+        console.log("moi lan thay doi user se vao ham nay");
+        if (user) {
+            spinHistoryRefForUser.current = spinHistoryRef.current.filter(it => it.userId == user.userId)
+            console.log("danh sach lich su la: ", spinHistoryRefForUser.current)
+        } else {
+            spinHistoryRefForUser.current = []
+        }
+    }, [user]);
 
     console.log("render ne");
 
@@ -357,7 +367,7 @@ const LuckyWheel: React.FC = () => {
                 <HistoryModal
                     isShowHistory={isShowHistoryWheel}
                     onClose={() => setShowHistoryWheel(false)}
-                    spinHistory={spinHistoryRef.current}
+                    spinHistory={spinHistoryRefForUser.current}
                 />
             )}
 

@@ -2,9 +2,9 @@
 // contexts/UserContext.tsx
 "use client";
 import React, { createContext, useContext, useState, ReactNode, useEffect, useRef } from 'react';
-import { Member } from '@/types';
+import { Member, SpinHistory } from '@/types';
 import { authService } from '@/services/api/authService';
-import { GOOGLE_SCRIPT_URL_USER } from '@/untils/Constants'
+import { GOOGLE_SCRIPT_URL_LUCKY_WHEEL, GOOGLE_SCRIPT_URL_USER } from '@/untils/Constants'
 import { json } from 'stream/consumers';
 
 
@@ -12,6 +12,7 @@ interface UserContextType {
     user: Member | null;
     login: (username: string, password: string) => Promise<boolean>;
     logout: () => void;
+    loadUser: () => void;
     isLoading: boolean;
 }
 
@@ -58,27 +59,33 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
     }
 
+    const loadUser = () => {
+        try {
+            // hàm lấy user từ Google Sheet và lưu xuống local nếu local chưa có
+            const loadUserGGs = async () => {
+                var data = await loadUserFromGoogleSheet();
+                var dataUserLocal = localStorage.getItem('users');
+                if (data.length != (dataUserLocal?.length || 0)) {
+                    localStorage.setItem('users', JSON.stringify(data));
+                    userFromGGSheet.current = data;
+                } else {
+                    userFromGGSheet.current = JSON.parse(dataUserLocal || '[]');
+                }
+            }
+            loadUserGGs();
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser && savedUser != '' && savedUser != 'null') {
+                const userData = JSON.parse(savedUser);
+                setUser(userData);
+                // duy trì đăng nhập
+            }
+        } catch (error) {
+            console.error('Error parsing localStorage data or Error load data from Google Sheet:', error);
+        }
+    }
+
     useEffect(() => {
-        // hàm lấy user từ Google Sheet và lưu xuống local nếu local chưa có
-        const loadUsers = async () => {
-            var data = await loadUserFromGoogleSheet();
-            userFromGGSheet.current = data;
-            localStorage.setItem('users', JSON.stringify(data));
-        }
-
-        var dataUserLocal = localStorage.getItem('users');
-        if (dataUserLocal && dataUserLocal != '' && dataUserLocal != 'null' && dataUserLocal != '[]') {
-            userFromGGSheet.current = JSON.parse(dataUserLocal);
-        } else {
-            loadUsers();
-        }
-
-        const savedUser = localStorage.getItem('currentUser');
-        if (savedUser && savedUser != '' && savedUser != 'null') {
-            const userData = JSON.parse(savedUser);
-            setUser(userData);
-            // duy trì đăng nhập
-        }
+        loadUser();
     }, []);
 
     const login = async (username: string, password: string): Promise<boolean> => {
@@ -96,6 +103,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             }
             return false
         } catch (error: any) {
+            setIsLoading(false);
             console.error('Login failed:', error);
             return false;
         } finally {
@@ -121,6 +129,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         user,
         login,
         logout,
+        loadUser,
         isLoading,
     };
 

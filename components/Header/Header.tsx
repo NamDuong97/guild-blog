@@ -13,7 +13,7 @@ const Header: React.FC = () => {
     const [isUserInteracted, setIsUserInteracted] = useState(false);
     const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
     const [isLogin, setLogin] = useState(false);
-    const { user, logout } = useUser();
+    const { user, logout, loadUser } = useUser();
     const audioRef = useRef<HTMLAudioElement>(null);
 
     const playlist = [
@@ -71,7 +71,6 @@ const Header: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        console.log("user hiện tại: ", user);
         if (user) setLogin(true);
         else setLogin(false);
     }, [user]);
@@ -85,13 +84,11 @@ const Header: React.FC = () => {
 
     // Login functions
     const handleLogin = () => {
+        loadUser();
         if (!isLoginModalOpen) {
-            console.log("đã vào hàm để mở form login");
             setIsLoginModalOpen(true);
         }
     };
-
-    console.log("isLogin", isLogin);
 
     const handleLogout = async () => {
         setLogin(true);
