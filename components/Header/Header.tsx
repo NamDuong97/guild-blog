@@ -157,7 +157,7 @@ const Header: React.FC = () => {
                                         className={styles.loginButton}
                                     >
                                         Đăng Xuất
-                                    </button><p className={styles.welcomeText}>Xin Chào {user?.userId}</p></>
+                                    </button><p className={styles.welcomeText}>Xin Chào {user?.name}</p></>
                                 )
                         }
 

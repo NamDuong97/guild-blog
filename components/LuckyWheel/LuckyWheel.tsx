@@ -147,7 +147,6 @@ const LuckyWheel: React.FC = () => {
                         const cleanKey = key.trim(); // Remove spaces from both ends
                         cleanItem[cleanKey] = item[key];
                     });
-                    console.log("Cleaned item:", cleanItem);
                     return {
                         timestamp: new Date(cleanItem.timestamp),
                         prizeName: cleanItem.prizename || cleanItem.prizeName || 'Unknown Prize',
@@ -200,8 +199,6 @@ const LuckyWheel: React.FC = () => {
             spinHistoryRefForUser.current = []
         }
     }, [user]);
-
-    console.log("render ne");
 
     const addHistoryWheel = async (prize: Prize) => {
         const pr: SpinHistory = {
@@ -366,6 +363,7 @@ const LuckyWheel: React.FC = () => {
                     isShowHistory={isShowHistoryWheel}
                     onClose={() => setShowHistoryWheel(false)}
                     spinHistory={spinHistoryRefForUser.current}
+                    user={user}
                 />
             )}
 

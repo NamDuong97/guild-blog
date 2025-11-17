@@ -4,7 +4,8 @@ import { HistoryModalProps } from '@/types';
 const HistoryModal: React.FC<HistoryModalProps> = ({
     isShowHistory,
     onClose,
-    spinHistory
+    spinHistory,
+    user
 }) => {
 
     const formatDate = (date: any) => {
@@ -52,7 +53,7 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
         <div className={styles.historyModal}>
             <div className={styles.historyContent}>
                 <div className={styles.historyHeader}>
-                    <h2 className={styles.historyTitle}>Lịch Sử Vòng Quay</h2>
+                    <h2 className={styles.historyTitle}>Lịch Sử Vòng Quay: {user.name}</h2>
                     <button
                         className={styles.closeButton}
                         onClick={onClose}

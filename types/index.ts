@@ -72,4 +72,5 @@ export interface HistoryModalProps {
     isShowHistory: boolean;
     onClose: () => void;
     spinHistory: SpinHistory[];
+    user: Member
 }
