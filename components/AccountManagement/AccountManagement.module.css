@@ -1,0 +1,388 @@
+/* AccountManagement.module.css */
+.accountManagement {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.accountHeader {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.accountHeader h1 {
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.accountHeader p {
+    color: #666;
+    font-size: 16px;
+}
+
+.accountContainer {
+    display: flex;
+    gap: 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.accountSidebar {
+    width: 250px;
+    background: #f8f9fa;
+    padding: 30px 0;
+    border-right: 1px solid #e9ecef;
+}
+
+.sidebarItem {
+    padding: 15px 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+    font-weight: 500;
+}
+
+.sidebarItem:hover {
+    background: #e9ecef;
+    color: #495057;
+}
+
+.sidebarItem.active {
+    background: #007bff;
+    color: white;
+    border-left-color: #0056b3;
+}
+
+.accountContent {
+    flex: 1;
+    padding: 30px;
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.sectionHeader h2 {
+    color: #333;
+    margin: 0;
+}
+
+.editBtn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.editBtn:hover {
+    background: #0056b3;
+}
+
+.profileContent {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.avatarSection {
+    display: flex;
+    justify-content: center;
+}
+
+.avatarContainer {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #e9ecef;
+    cursor: pointer;
+}
+
+.avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatarOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.avatarOverlay:hover {
+    opacity: 1;
+}
+
+.avatarInput {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.formGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.formGroup.fullWidth {
+    grid-column: 1 / -1;
+}
+
+.formGroup label {
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.formInput {
+    padding: 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.formInput:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.formValue {
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #333;
+}
+
+.actionButtons {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.saveBtn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.saveBtn:hover {
+    background: #218838;
+}
+
+.cancelBtn {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.cancelBtn:hover {
+    background: #545b62;
+}
+
+/* Security Section */
+.securityItems {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.securityItem {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+.securityItem h3 {
+    margin: 0 0 8px 0;
+    color: #333;
+}
+
+.securityItem p {
+    margin: 0 0 15px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.changePasswordBtn,
+.manageDevicesBtn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.changePasswordBtn:hover,
+.manageDevicesBtn:hover {
+    background: #0056b3;
+}
+
+/* Settings Section */
+.settingsItems {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.settingItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.settingItem h3 {
+    margin: 0;
+    color: #333;
+}
+
+.settingSelect {
+    padding: 8px 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 4px;
+    background: white;
+}
+
+.settingDescription {
+    color: #666;
+    font-size: 14px;
+}
+
+/* Toggle Switch */
+.toggle {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+.toggle input:checked+.slider {
+    background-color: #007bff;
+}
+
+.toggle input:checked+.slider:before {
+    transform: translateX(26px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .accountContainer {
+        flex-direction: column;
+    }
+
+    .accountSidebar {
+        width: 100%;
+        display: flex;
+        padding: 0;
+    }
+
+    .sidebarItem {
+        flex: 1;
+        text-align: center;
+        border-left: none;
+        border-bottom: 4px solid transparent;
+    }
+
+    .sidebarItem.active {
+        border-left-color: transparent;
+        border-bottom-color: #0056b3;
+    }
+
+    .formGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .actionButtons {
+        justify-content: stretch;
+    }
+
+    .saveBtn,
+    .cancelBtn {
+        flex: 1;
+    }
+}

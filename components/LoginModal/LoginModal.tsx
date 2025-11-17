@@ -91,13 +91,13 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                     </div>
 
                     {/* Remember & Forgot */}
-                    <div className={styles.options}>
+                    {/* <div className={styles.options}>
                         <label className={styles.remember}>
                             <input type="checkbox" className={styles.checkbox} />
                             <span>Ghi nhớ đăng nhập</span>
                         </label>
                         <button className={styles.forgotPassword}>Quên mật khẩu?</button>
-                    </div>
+                    </div> */}
 
                     <button
                         onClick={handleLogin}
@@ -108,10 +108,10 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                     </button>
 
                     {/* Register Link */}
-                    <div className={styles.register}>
+                    {/* <div className={styles.register}>
                         <span className={styles.registerText}>Chưa có tài khoản? </span>
                         <button className={styles.registerLink}>Đăng ký ngay</button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

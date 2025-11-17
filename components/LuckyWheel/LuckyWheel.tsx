@@ -105,7 +105,6 @@ const LuckyWheel: React.FC = () => {
 
     const saveHistoryToStorage = () => {
         try {
-            console.log("doi tuong muon luu xuong local", spinHistoryRef.current);
             const data = JSON.stringify(spinHistoryRef.current);
             if (data) {
                 localStorage.setItem('spinHistoryRef', data)
@@ -219,7 +218,6 @@ const LuckyWheel: React.FC = () => {
     const receiveGifts = () => {
         setShowResultModal(false);
         setResult(null);
-        console.log('Đã nhận quà:', result?.name);
     };
 
     const resetWheel = () => {
@@ -276,7 +274,9 @@ const LuckyWheel: React.FC = () => {
                     >
                         {prizes.map((prize, index) => {
                             // const Icon = prize.icon;
-                            const rotation = index * wheelConfig.segmentAngle;
+                            console.log("index: ", index + prize.name);
+                            const rotation = (index + 1) * wheelConfig.segmentAngle;
+                            console.log("rotation: ", rotation);
                             const segmentStyle = {
                                 '--segment-color': prize.color,
                                 '--segment-angle': `${wheelConfig.segmentAngle}deg`,

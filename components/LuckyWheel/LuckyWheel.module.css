@@ -496,7 +496,7 @@
     top: -20px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 20;
+    z-index: 5;
 }
 
 .pointerArrow {
@@ -937,9 +937,4 @@
         top: -15px;
     }
 
-    .pointerArrow {
-        border-left: 12px solid transparent;
-        border-right: 12px solid transparent;
-        border-top: 24px solid #fbbf24;
-    }
 }

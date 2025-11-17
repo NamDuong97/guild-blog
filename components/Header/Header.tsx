@@ -5,6 +5,9 @@ import { Users, Trophy, Gamepad2, Crown, Shield, Sparkles, User, Music, Play, Pa
 import styles from './Header.module.css';
 import LoginModal from '../LoginModal/LoginModal'
 import { useUser } from '@/contexts/UserContext'
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+
 
 const Header: React.FC = () => {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -15,6 +18,8 @@ const Header: React.FC = () => {
     const [isLogin, setLogin] = useState(false);
     const { user, logout, loadUser } = useUser();
     const audioRef = useRef<HTMLAudioElement>(null);
+    const router = useRouter();
+
 
     const playlist = [
         { id: 1, name: "Bá Hổ Thuyết", url: "/music/bahothuyet.mp3" },
@@ -94,6 +99,7 @@ const Header: React.FC = () => {
         setLogin(true);
         console.log("Ban đã logout");
         await logout();
+        router.push('/'); // Quay về trang chủ sau khi logout
     };
 
     const onCloseLogin = () => {
@@ -157,7 +163,10 @@ const Header: React.FC = () => {
                                         className={styles.loginButton}
                                     >
                                         Đăng Xuất
-                                    </button><p className={styles.welcomeText}>Xin Chào {user?.name}</p></>
+                                    </button>
+                                        <Link href="/account" className={styles.welcomeText}>
+                                            Xin Chào {user?.name}
+                                        </Link></>
                                 )
                         }
 
