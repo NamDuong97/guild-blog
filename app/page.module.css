@@ -3,48 +3,7 @@
   max-width: 80rem;
   margin: 0 auto;
   padding: 2rem 1rem;
-  /* --tw-gradient-via: #ffffff;
-  --tw-gradient-via-stops: var(--tw-gradient-position),
-    lab(80 1.96 -33.4) var(--tw-gradient-from-position),
-    var(--tw-gradient-via) var(--tw-gradient-via-position),
-    lab(65 7.93 -57.33) var(--tw-gradient-to-position);
-    
-  background: linear-gradient(
-    to right,
-    lab(80 1.96 -33.4),
-    var(--tw-gradient-via),
-    lab(65 7.93 -57.33)
-  ); */
 }
-
-
-/* .container {
-  min-height: 100vh;
-  background-image: linear-gradient(135deg,
-      #0f172a 0%,
-      #1e1b4b 25%,
-      #581c87 50%,
-      #1e1b4b 75%,
-      #0f172a 100%);
-} */
-
-
-
-/* .container {
-  min-height: 100vh;
-  background-image: linear-gradient(135deg,
-      lab(80 1.96 -33.4) 0%,
-      lab(78 5.12 -45.2) 12.5%,
-      #ffffff 25%,
-      lab(72 6.84 -52.8) 37.5%,
-      lab(65 7.93 -57.33) 50%,
-      lab(72 6.84 -52.8) 62.5%,
-      #ffffff 75%,
-      lab(78 5.12 -45.2) 87.5%,
-      lab(80 1.96 -33.4) 100%);
-} */
-/* min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 */
-
 
 .container {
   min-height: 100vh;
@@ -63,49 +22,3 @@
   /* Xanh lá pastel */
   color: #253a5c;
 }
-
-
-/* Tiêu đề chính
-.container h1 {
-  color: #ffffff;
-  font-size: 2.5rem;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 1rem;
-  text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
-}
-
-/* Tác giả */
-/* .container h2 {
-  color: #a78bfa;
-  font-size: 1.5rem;
-  text-align: center;
-  margin-bottom: 2rem;
-  font-style: italic;
-} */
-
-/* Tiêu đề phần */
-/* .container h3 {
-  color: #7dd3fc;
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin: 1.5rem 0 1rem 0;
-  border-left: 3px solid #7dd3fc;
-  padding-left: 0.75rem;
-} */
-
-/* Phần Top 3 */
-/* .container h4 {
-  color: #86efac;
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin: 1rem 0 0.5rem 0;
-} */
-
-/* Nội dung thông tin */
-/* .container p {
-  color: #0c0c0c;
-  line-height: 1.6;
-  font-weight: 150;
-  margin-bottom: 0.5rem;
-} */
