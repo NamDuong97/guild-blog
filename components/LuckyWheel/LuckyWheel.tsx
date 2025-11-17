@@ -99,7 +99,7 @@ const LuckyWheel: React.FC = () => {
                 addHistoryWheel(selectedPrize);
                 setSpinsLeft(prev => prev - 1);
                 wheel.classList.remove('spinning');
-            }, 4000);
+            }, 2000);
         }
     };
 
@@ -211,6 +211,7 @@ const LuckyWheel: React.FC = () => {
             type: prize?.type || 'general'
         };
         spinHistoryRef.current = [...spinHistoryRef.current, pr];
+        spinHistoryRefForUser.current = [...spinHistoryRefForUser.current, pr];
         saveHistoryToStorage();
         await saveToGoogleSheets(pr);
     };
