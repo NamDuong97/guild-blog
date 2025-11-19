@@ -112,7 +112,7 @@ export const members: Member[] = [
         nickName: 'Xt có vk đẹp nhất sever',
         password: '1234',
         ingameName: 'NamDuong',
-        role: 'vice-master',
+        role: 'elite',
         avatar: '/image/imgNam.jpg',
         maxim: 'Bách mũi bách trúng',
         sect: 'Xạ Thủ',
@@ -122,6 +122,21 @@ export const members: Member[] = [
     },
     {
         id: 3,
+        name: 'Khánh Ngô',
+        userId: '1285004166',
+        nickName: 'Cà không cau có',
+        password: '1234',
+        ingameName: 'Cà',
+        role: 'vice-master',
+        avatar: '/image/imgCa.jpg',
+        maxim: 'Người nhà là số 1',
+        sect: 'Yển Sư',
+        level: 153,
+        joinDate: '2023-06-21',
+        lastActive: '2024-03-20'
+    },
+    {
+        id: 4,
         name: 'Lê Thùy Linh',
         userId: '291504168',
         nickName: 'Bóng Đêm Vô Ảnh',
@@ -136,7 +151,7 @@ export const members: Member[] = [
         lastActive: '2024-03-19'
     },
     {
-        id: 4,
+        id: 5,
         name: 'Phạm Quốc Hùng',
         userId: '291504169',
         nickName: 'Thiên Cơ Tuyệt Ảnh',
@@ -151,7 +166,7 @@ export const members: Member[] = [
         lastActive: '2024-03-20'
     },
     {
-        id: 5,
+        id: 6,
         name: 'Nguyễn Hải Yến',
         userId: '291504170',
         nickName: 'Huyền Ảo Linh Hồn',
@@ -166,7 +181,7 @@ export const members: Member[] = [
         lastActive: '2024-03-18'
     },
     {
-        id: 6,
+        id: 7,
         name: 'Hoàng Văn Tài',
         userId: '291504171',
         nickName: 'Đao Phong Tuyệt Đỉnh',
@@ -181,7 +196,7 @@ export const members: Member[] = [
         lastActive: '2024-03-20'
     },
     {
-        id: 7,
+        id: 8,
         name: 'Vũ Thị Mai',
         userId: '291504172',
         nickName: 'Dị Giới Hành Giả',
@@ -196,7 +211,7 @@ export const members: Member[] = [
         lastActive: '2024-03-19'
     },
     {
-        id: 8,
+        id: 9,
         name: 'Đặng Tuấn Anh',
         userId: '291504173',
         nickName: 'Cửu Âm Chân Kinh',
@@ -211,7 +226,7 @@ export const members: Member[] = [
         lastActive: '2024-03-17'
     },
     {
-        id: 9,
+        id: 10,
         name: 'Bùi Thanh Hằng',
         userId: '291504174',
         nickName: 'Họa Trung Tiên Tử',
@@ -226,7 +241,7 @@ export const members: Member[] = [
         lastActive: '2024-03-20'
     },
     {
-        id: 10,
+        id: 11,
         name: 'Mai Văn Kiên',
         userId: '291504175',
         nickName: 'Thiết Giáp Bất Khuất',
