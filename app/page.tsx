@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CategoryFilter from '@/components/CategoryFilter/CategoryFilter';
 import MemoryCard from '@/components/MemoryCard/MemoryCard';
 import StatsSection from '@/components/StatsSection/StatsSection';
@@ -7,12 +7,14 @@ import MemberList from '@/components/MemberList/MemberList';
 import LuckyWheel from '@/components/LuckyWheel/LuckyWheel';
 import styles from './page.module.css';
 import { memories, categories, stats, members } from '@/data/mockData';
+import { useUser } from '@/contexts/UserContext'
 
 type SortOption = 'newest' | 'oldest';
 
 export default function GuildBlog() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState<SortOption>('newest');
+  const { users } = useUser();
 
   const filteredMemories = selectedCategory === 'all'
     ? memories
@@ -24,10 +26,15 @@ export default function GuildBlog() {
       : new Date(a.date).getTime() - new Date(b.date).getTime();
   });
 
+  useEffect(() => {
+    console.log("data tu db", users);
+    console.log("data tu mockdata", members);
+  }, [])
+
   const renderCategoryContent = () => {
     switch (selectedCategory) {
       case 'member':
-        return <MemberList members={members} />;
+        return <MemberList members={users} />;
       case 'event':
         return <LuckyWheel />;
       default:
