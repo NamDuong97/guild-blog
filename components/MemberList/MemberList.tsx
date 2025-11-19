@@ -114,7 +114,7 @@ const MemberList: React.FC<MemberListProps> = ({ members }) => {
                                 <div className={styles.memberInfo}>
                                     <h3 className={styles.memberName}>{member.name}</h3>
                                     <p className={styles.ingameName}>{member.ingameName}</p>
-                                    <div className={styles.levelBadge}>Lv. {member.level}</div>
+                                    <div className={styles.userId}>ID: {member.userId}</div>
                                 </div>
                             </div>
 
@@ -134,23 +134,20 @@ const MemberList: React.FC<MemberListProps> = ({ members }) => {
                                         {new Date(member.joinDate).toLocaleDateString('vi-VN')}
                                     </span>
                                 </div>
+
                                 <div className={styles.detailItem}>
-                                    <span className={styles.detailLabel}>Hoạt động:</span>
+                                    <span className={styles.detailLabel}>Môn phái:</span>
                                     <span className={styles.detailValue}>
-                                        {isOnline ? 'Online' : 'Offline'}
+                                        {member.sect}
                                     </span>
                                 </div>
-                            </div>
 
-                            <div className={styles.actionButtons}>
-                                <button className={styles.actionBtn}>
-                                    <Heart className={styles.actionIcon} />
-                                    Thưởng
-                                </button>
-                                <button className={styles.actionBtn}>
-                                    <Sword className={styles.actionIcon} />
-                                    PvP
-                                </button>
+                                <div className={styles.detailItem}>
+                                    <span className={styles.detailLabel}>Châm ngôn:</span>
+                                    <span className={styles.detailValue}>
+                                        {member.maxim}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     );

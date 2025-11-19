@@ -39,10 +39,13 @@ export interface Member {
     id: number;
     name: string;
     userId: string;
+    nickName: string;
     password: string;
     ingameName: string;
     role: 'guild-master' | 'vice-master' | 'hall-master' | 'village-master' | 'manager' | 'elder' | 'elite' | 'member';
     avatar: string;
+    maxim: string; // trâm ngôn
+    sect: string;  // môn phái
     level: number;
     joinDate: string;
     lastActive: string;
@@ -58,6 +61,22 @@ export const memberRoles = {
     'elite': { label: 'Tinh Anh', color: '#ec4899', badge: '⚔️' },
     'member': { label: 'Bang Chúng', color: '#6b7280', badge: '👤' }
 } as const;
+
+export enum Sect {
+    CHIEN_CUONG = 'Chiến cuồng',
+    DIEP_KHACH = 'Điệp khách',
+    ANH_LINH = 'Ảnh Linh',
+    DI_NHAN = 'Dị nhân',
+    XA_THU = 'Xạ thủ',
+    DAO_KHACH = 'Đao khách',
+    YEN_SI = 'Yển sư',
+    PHUONG_SI = 'Phương Sĩ',
+    HIEP_KHACH = 'Hiệp khách',
+    GIAP_SI = 'Giáp sĩ',
+    Y_SI = 'Y Sư',
+    HOA_HON = 'Họa Hồn',
+    MI_GIA = 'Mị Giả'
+}
 
 export interface Prize {
     id: number;
