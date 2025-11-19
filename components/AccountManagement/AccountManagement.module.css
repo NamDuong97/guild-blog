@@ -1,24 +1,22 @@
 /* AccountManagement.module.css */
+
+.resetStyles {
+    /* Reset các style có thể bị ảnh hưởng */
+    all: initial;
+    all: unset;
+    /* Đảm bảo component có style riêng biệt */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
 .accountManagement {
+    isolation: isolate;
+    /* Tạo stacking context riêng */
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.accountHeader {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.accountHeader h1 {
-    color: #333;
-    margin-bottom: 8px;
-}
-
-.accountHeader p {
-    color: #666;
-    font-size: 16px;
 }
 
 .accountContainer {
