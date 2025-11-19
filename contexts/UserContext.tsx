@@ -4,6 +4,8 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 import { Member } from '@/types';
 import { GOOGLE_SCRIPT_URL_USER } from '@/untils/Constants'
 import { members } from '@/data/mockData';
+import { encrypt, decrypt, encryptForComparison } from '@/untils/encryption';
+
 
 interface UserContextType {
     user: Member | null;
@@ -64,33 +66,38 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             const loadUserGGs = async () => {
                 var data = await loadUserFromGoogleSheet();
                 var dataUserLocal = localStorage.getItem('users');
-                console.log("data", data);
-
-                const usersWithoutPassword = data.map(user => ({
+                // Mã hoá password trước khi lưu xuống localStorage
+                const usersWithEncryptedPassword = data.map(user => ({
                     ...user,
-                    password: ''
+                    password: encrypt(user.password) // Mã hoá password
                 }));
 
-                if (data.length != (JSON.parse(dataUserLocal || '[]')?.length || 0)) {
-                    localStorage.setItem('users', JSON.stringify(usersWithoutPassword));
-                    setUsers(data); // Cập nhật state users
+                const localUsersParsed = JSON.parse(dataUserLocal || '[]');
+
+                if (data.length !== localUsersParsed.length) {
+                    localStorage.setItem('users', JSON.stringify(usersWithEncryptedPassword));
+                    // Giữ nguyên password gốc trong state để login
+                    setUsers(data);
                 } else {
-                    const localUsers = JSON.parse(dataUserLocal || '[]');
-                    setUsers(localUsers); // Cập nhật state users
+                    const usersWithDecryptedPassword = localUsersParsed.map((user: Member) => ({
+                        ...user,
+                        password: decrypt(user.password) // Giải mã password
+                    }));
+                    setUsers(usersWithDecryptedPassword);
                 }
             }
             loadUserGGs();
 
             const savedUser = localStorage.getItem('currentUser');
-            if (savedUser && savedUser != '' && savedUser != 'null') {
+            if (savedUser && savedUser !== '' && savedUser !== 'null') {
                 const userData = JSON.parse(savedUser);
                 if (userData.password) {
-                    userData.password = '';
+                    userData.password = ''; // Vẫn ẩn password cho currentUser
                 }
                 setUser(userData);
             }
         } catch (error) {
-            console.error('Error parsing localStorage data or Error load data from Google Sheet:', error);
+            console.error('Error parsing localStorage data:', error);
         }
     }
 
@@ -101,15 +108,18 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const login = async (username: string, password: string): Promise<boolean> => {
         setIsLoading(true);
         try {
-            // Tìm user trong state users (đã được cập nhật)
-            var checkUser = users.find(it => it.userId == username)
-            if (checkUser && checkUser.password == password) {
-                setUser(checkUser);
-                const userToStore = { ...checkUser, password: '' };
-                localStorage.setItem('currentUser', JSON.stringify(userToStore));
-                return true;
+            var checkUser = users.find(it => it.userId == username);
+            if (checkUser) {
+                const encryptedInputPassword = encryptForComparison(password);
+                const encryptedUserPassword = encryptForComparison(checkUser.password);
+                if (encryptedUserPassword === encryptedInputPassword) {
+                    setUser(checkUser);
+                    const userToStore = { ...checkUser, password: '' };
+                    localStorage.setItem('currentUser', JSON.stringify(userToStore));
+                    return true;
+                }
             }
-            return false
+            return false;
         } catch (error: any) {
             console.error('Login failed:', error);
             return false;
@@ -123,7 +133,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         try {
             setUser(null);
             localStorage.setItem('currentUser', '');
-            console.log("logout thành công")
         } catch (error) {
             console.error('Logout error:', error);
         } finally {

@@ -26,11 +26,6 @@ export default function GuildBlog() {
       : new Date(a.date).getTime() - new Date(b.date).getTime();
   });
 
-  useEffect(() => {
-    console.log("data tu db", users);
-    console.log("data tu mockdata", members);
-  }, [])
-
   const renderCategoryContent = () => {
     switch (selectedCategory) {
       case 'member':
