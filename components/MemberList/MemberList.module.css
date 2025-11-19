@@ -29,6 +29,8 @@
     font-weight: bold;
     background: linear-gradient(135deg, #c084fc, #22d3ee);
     background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     color: transparent;
     line-height: 1;
 }
@@ -147,13 +149,14 @@
 
 .memberHeader {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 1rem;
     margin-bottom: 1rem;
 }
 
 .avatarContainer {
     position: relative;
+    flex-shrink: 0;
 }
 
 .avatar {
@@ -176,6 +179,7 @@
 
 .status.online {
     background: #10b981;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
 }
 
 .status.offline {
@@ -184,19 +188,33 @@
 
 .memberInfo {
     flex: 1;
+    min-width: 0;
 }
 
 .memberName {
     font-size: 1.125rem;
     font-weight: 600;
     color: white;
-    margin: 0 0 0.25rem 0;
+    margin: 0 0 0.375rem 0;
+    word-break: break-word;
 }
 
 .ingameName {
     color: #c084fc;
     font-size: 0.875rem;
+    margin: 0 0 0.375rem 0;
+    font-weight: 500;
+    word-break: break-word;
+}
+
+.nickName {
+    color: white;
+    font-size: 0.8125rem;
     margin: 0 0 0.5rem 0;
+    font-style: italic;
+    font-weight: 400;
+    opacity: 0.9;
+    word-break: break-word;
 }
 
 .userId {
@@ -207,6 +225,7 @@
     border-radius: 9999px;
     font-size: 0.75rem;
     font-weight: 600;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
 }
 
 .roleSection {
@@ -226,75 +245,176 @@
 }
 
 .memberDetails {
-    margin-bottom: 1rem;
+    margin-bottom: 0;
 }
 
 .detailItem {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 0.5rem;
+    gap: 0.5rem;
+}
+
+.detailItem:last-child {
+    margin-bottom: 0;
 }
 
 .detailLabel {
     color: #9ca3af;
     font-size: 0.875rem;
+    flex-shrink: 0;
 }
 
 .detailValue {
     color: #e5e7eb;
     font-size: 0.875rem;
     font-weight: 500;
+    text-align: right;
+    word-break: break-word;
 }
 
-.actionButtons {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.actionBtn {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background: rgba(168, 85, 247, 0.1);
-    border: 1px solid rgba(168, 85, 247, 0.3);
-    border-radius: 0.5rem;
-    color: #c084fc;
-    font-size: 0.75rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.actionBtn:hover {
-    background: rgba(168, 85, 247, 0.2);
-    border-color: rgba(168, 85, 247, 0.5);
-    transform: translateY(-1px);
-}
-
-.actionIcon {
-    width: 1rem;
-    height: 1rem;
-}
-
-/* Responsive */
+/* Responsive Tablets */
 @media (max-width: 768px) {
     .statsHeader {
         grid-template-columns: 1fr;
+    }
+
+    .statCard {
+        padding: 1.25rem;
+    }
+
+    .statNumber {
+        font-size: 1.75rem;
     }
 
     .controls {
         grid-template-columns: 1fr;
     }
 
+    .searchBox {
+        max-width: 100%;
+    }
+
     .filters {
         flex-direction: column;
     }
 
+    .filterSelect {
+        width: 100%;
+    }
+
     .membersGrid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Responsive Mobile */
+@media (max-width: 480px) {
+    .container {
+        padding: 0.75rem 0;
+    }
+
+    .statsHeader {
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .statCard {
+        padding: 1rem;
+        border-radius: 0.625rem;
+    }
+
+    .statNumber {
+        font-size: 1.5rem;
+    }
+
+    .statLabel {
+        font-size: 0.8125rem;
+    }
+
+    .controls {
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .searchInput {
+        padding: 0.625rem 0.875rem 0.625rem 2.75rem;
+        font-size: 0.9375rem;
+        border-radius: 0.625rem;
+    }
+
+    .searchIcon {
+        left: 0.875rem;
+        width: 1.125rem;
+        height: 1.125rem;
+    }
+
+    .filterSelect {
+        padding: 0.625rem 0.875rem;
+        font-size: 0.8125rem;
+        border-radius: 0.625rem;
+    }
+
+    .membersGrid {
+        gap: 1rem;
+    }
+
+    .memberCard {
+        padding: 1.25rem;
+        border-radius: 0.875rem;
+    }
+
+    .memberHeader {
+        gap: 0.875rem;
+    }
+
+    .avatar {
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+
+    .status {
+        width: 10px;
+        height: 10px;
+    }
+
+    .memberName {
+        font-size: 1rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .ingameName {
+        font-size: 0.8125rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .nickName {
+        font-size: 0.75rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .userId {
+        padding: 0.2rem 0.625rem;
+        font-size: 0.6875rem;
+    }
+
+    .roleSection {
+        margin-bottom: 0.875rem;
+    }
+
+    .roleBadge {
+        padding: 0.3rem 0.625rem;
+        font-size: 0.6875rem;
+    }
+
+    .detailItem {
+        margin-bottom: 0.4rem;
+        gap: 0.375rem;
+    }
+
+    .detailLabel,
+    .detailValue {
+        font-size: 0.8125rem;
     }
 }

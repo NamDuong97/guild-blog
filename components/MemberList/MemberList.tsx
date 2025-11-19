@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { Member, memberRoles } from '@/types';
-import { Search, Filter, Crown, Sword, Shield, Zap, Heart } from 'lucide-react';
+import { Search } from 'lucide-react';
 import styles from './MemberList.module.css';
 
 interface MemberListProps {
@@ -16,7 +16,8 @@ const MemberList: React.FC<MemberListProps> = ({ members }) => {
     const filteredMembers = members
         .filter(member =>
             member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            member.ingameName.toLowerCase().includes(searchTerm.toLowerCase())
+            member.ingameName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            member.nickName.toLowerCase().includes(searchTerm.toLowerCase())
         )
         .filter(member => roleFilter === 'all' || member.role === roleFilter)
         .sort((a, b) => {
@@ -60,7 +61,7 @@ const MemberList: React.FC<MemberListProps> = ({ members }) => {
                     <Search className={styles.searchIcon} />
                     <input
                         type="text"
-                        placeholder="Tìm theo tên hoặc tên game..."
+                        placeholder="Tìm theo tên, biệt danh hoặc tên game..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className={styles.searchInput}
@@ -108,12 +109,15 @@ const MemberList: React.FC<MemberListProps> = ({ members }) => {
                                         alt={member.name}
                                         className={styles.avatar}
                                     />
-                                    <div className={`${styles.status} ${isOnline ? styles.online : styles.offline}`}></div>
+                                    {/* <div className={`${styles.status} ${isOnline ? styles.online : styles.offline}`}></div> */}
                                 </div>
 
                                 <div className={styles.memberInfo}>
                                     <h3 className={styles.memberName}>{member.name}</h3>
                                     <p className={styles.ingameName}>{member.ingameName}</p>
+                                    {member.nickName && (
+                                        <div className={styles.nickName}>"{member.nickName}"</div>
+                                    )}
                                     <div className={styles.userId}>ID: {member.userId}</div>
                                 </div>
                             </div>
