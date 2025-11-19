@@ -3,13 +3,25 @@ export interface Memory {
     title: string;
     date: string;
     category: string;
-    image: string;
+    image?: string;
+    images?: string[];
     content: string;
     author: string;
     likes: number;
     comments: number;
     tags: string[];
 }
+
+// Helper function to get images array
+export const getMemoryImages = (memory: Memory): string[] => {
+    if (memory.images && memory.images.length > 0) {
+        return memory.images;
+    }
+    if (memory.image) {
+        return [memory.image];
+    }
+    return [];
+};
 
 export interface Category {
     id: string;

@@ -2,13 +2,26 @@
 import React, { useEffect } from 'react';
 import { Memory } from '@/types';
 import { X, Calendar, Heart, MessageSquare, Share2, Send, Smile, Image as ImageIcon } from 'lucide-react';
+import ImageCarousel from '@/components/ImageCarousel/ImageCarousel';
 import styles from './MemoryDetailModal.module.css';
+import { getMemoryImages } from '@/types/index'
 
 interface MemoryDetailModalProps {
     memory: Memory;
     isOpen: boolean;
     onClose: () => void;
 }
+
+// // Helper function to get images
+// const getMemoryImages = (memory: Memory): string[] => {
+//     if (memory.images && memory.images.length > 0) {
+//         return memory.images;
+//     }
+//     if (memory.image) {
+//         return [memory.image];
+//     }
+//     return [];
+// };
 
 const MemoryDetailModal: React.FC<MemoryDetailModalProps> = ({ memory, isOpen, onClose }) => {
     useEffect(() => {
@@ -41,6 +54,8 @@ const MemoryDetailModal: React.FC<MemoryDetailModalProps> = ({ memory, isOpen, o
 
     if (!isOpen) return null;
 
+    const images = getMemoryImages(memory);
+
     return (
         <div className={styles.overlay} onClick={onClose}>
             <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
@@ -49,13 +64,16 @@ const MemoryDetailModal: React.FC<MemoryDetailModalProps> = ({ memory, isOpen, o
                 </button>
 
                 <div className={styles.modalContent}>
-                    {/* Left side - Image */}
+                    {/* Left side - Image Carousel */}
                     <div className={styles.imageSection}>
-                        <img
-                            src={memory.image}
-                            alt={memory.title}
-                            className={styles.modalImage}
-                        />
+                        {images.length > 0 ? (
+                            <ImageCarousel images={images} alt={memory.title} />
+                        ) : (
+                            <div className={styles.noImage}>
+                                <ImageIcon size={48} />
+                                <p>No image available</p>
+                            </div>
+                        )}
                     </div>
 
                     {/* Right side - Details and Comments */}
@@ -145,7 +163,7 @@ const MemoryDetailModal: React.FC<MemoryDetailModalProps> = ({ memory, isOpen, o
                                         <div className={styles.commentBubble}>
                                             <span className={styles.commentAuthor}>Dương Nam</span>
                                             <p className={styles.commentText}>
-                                                Cloudflare xịn thật 🚀
+                                                Ảnh đẹp quá! 🚀
                                             </p>
                                         </div>
                                         <div className={styles.commentActions}>

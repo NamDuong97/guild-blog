@@ -8,10 +8,10 @@ export const memories: Memory[] = [
         "date": "2024-03-15",
         "category": "community",
         "image": "/image/img1.jpg",
-        "content": "Một lời chúc giản dị nhưng chân thành đến toàn thể thành viên trong bang. Cảm ơn tất cả anh em, từ Baachau, Hamðuang, Vüongky, Bangkhoa Mua, Ca Lacauce, Quyt Giang, HangMiù, Mor Cat, Maúðay, Quangtree, Gia Tuyet, Hye, Haàðao, Maho, BichTram Ly, Nhatiteunaiha, DangCham, God... vì đã cùng nhau viết nên những kỷ niệm đẹp. Hy vọng chúng ta sẽ còn bên nhau thật nhiều năm nữa!",
+        "content": "Một lời chúc giản dị nhưng chân thành đến toàn thể thành viên trong bang. Cảm ơn tất cả anh em, từ Baachau, Hamðuang, Vuongky, Bangkhoa Mua, Ca Lacauce, Quyt Giang, HangMiu, MorCat, Maúðay, Quangtree, Gia Tuyet, Hye, Haàðao, Maho, BichTram Ly, Nhatiteunaiha, DangCham, God... vì đã cùng nhau viết nên những kỷ niệm đẹp. Hy vọng chúng ta sẽ còn bên nhau thật nhiều năm nữa!",
         "author": "baochau",
-        "likes": 42,
-        "comments": 15,
+        "likes": 0,
+        "comments": 0,
         "tags": ["friendship", "anniversary", "community"]
     },
     {
@@ -19,11 +19,11 @@ export const memories: Memory[] = [
         "title": "Giáng Sinh An Lành - Merry Christmas Artiste",
         "date": "2024-03-10",
         "category": "event",
-        "image": "/image/img2.jpg",
+        "images": ["/image/img2.jpg", "/image/img7.jpg"],
         "content": "Gửi đến toàn thể gia đình Artiste một mùa Giáng Sinh thật ấm áp và an lành! Chúc cho mọi thành viên luôn tràn ngập tiếng cười và hạnh phúc. Cùng nhau đón một mùa lễ hội thật vui vẻ bên gia đình và bạn bè nhé!",
         "author": "baochau",
-        "likes": 38,
-        "comments": 12,
+        "likes": 0,
+        "comments": 0,
         "tags": ["christmas", "festival", "greetings"]
     },
     {
@@ -34,8 +34,8 @@ export const memories: Memory[] = [
         "image": "/image/img3.jpg",
         "content": "Chính thức chào mừng cột mốc 3 năm (02/09/2021 - 02/09/2024) của Artiste! Một hành trình dài với biết bao kỷ niệm, thử thách và sự gắn kết. Cảm ơn tất cả các thành viên, đặc biệt là Manny Tommela, và mọi người đã cùng nhau xây dựng nên một cộng đồng tuyệt vời như ngày hôm nay.",
         "author": "baochau",
-        "likes": 56,
-        "comments": 28,
+        "likes": 0,
+        "comments": 0,
         "tags": ["anniversary", "milestone", "celebration"]
     },
     {
@@ -46,8 +46,8 @@ export const memories: Memory[] = [
         "image": "/image/img4.jpg",
         "content": "'1 năm...2 năm...không biết là bao lâu nhưng cảm ơn vì mọi người đã cùng nhau tạo nên một Artiste'. Trân trọng kính mời toàn thể anh em, bạn bè, bác chú cô dì trong bang về Thành bang dự tiệc sinh nhật Artiste (02/09/2021 - 02/09/2023) vào lúc 21h thứ Bảy (02/08). Cùng nhau ôn lại kỷ niệm và hướng đến một tương lai phát triển hơn nữa!",
         "author": "baochau",
-        "likes": 31,
-        "comments": 22,
+        "likes": 0,
+        "comments": 0,
         "tags": ["birthday", "gathering", "invitation"]
     },
     {
@@ -58,8 +58,8 @@ export const memories: Memory[] = [
         "image": "/image/img5.jpg",
         "content": "Bức ảnh lưu giữ khoảnh khắc đầy tự hào của toàn thể hội anh em trong gia viên Artiste. Hình ảnh lá cờ đỏ sao vàng - biểu tượng của tinh thần dân tộc và sự đoàn kết - ở vị trí trung tâm càng khẳng định sức mạnh của một tập nhất trí. Chúng ta không chỉ là một bang hội trong game, mà còn là một đại gia đình thực thụ, cùng nhau hỗ trợ và hướng về một mục tiêu chung.",
         "author": "baochau",
-        "likes": 31,
-        "comments": 22,
+        "likes": 0,
+        "comments": 0,
         "tags": ["unity", "family", "brotherhood", "pride"]
     },
     {
@@ -70,8 +70,8 @@ export const memories: Memory[] = [
         "image": "/image/img6.jpg",
         "content": "Một trang mới sắp mở ra! Cùng Artiste chào đón một năm 2025 với thật nhiều năng lượng, thành công và gắn kết. Hãy sẵn sàng cho những cuộc phiêu lưu, những trận chiến và những kỷ niệm mới trong năm tới!",
         "author": "baochau",
-        "likes": 31,
-        "comments": 22,
+        "likes": 0,
+        "comments": 0,
         "tags": ["new-year", "greetings", "future"]
     }
 ];
