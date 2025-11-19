@@ -8,6 +8,17 @@ import { encrypt, decrypt, encryptForComparison } from '@/untils/encryption';
 
 
 interface UserContextType {
+    updateMemberProfile: (updates: {
+        id: string | number;
+        name?: string;
+        nickName?: string;
+        ingameName?: string;
+        avatar?: string;
+        maxim?: string;
+        sect?: string;
+        level?: number;
+    }) => Promise<boolean>;
+    reLoadCurrentUser: () => void;
     user: Member | null;
     users: Member[];
     login: (username: string, password: string) => Promise<boolean>;
@@ -101,6 +112,54 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
     }
 
+    const reLoadCurrentUser = () => {
+        const userNew = users.find(it => it.userId == user?.userId) || user;
+        if (userNew && userNew?.password) {
+            var userSaveLocal = { ...userNew, password: '' };
+            console.log("vào rồi nè!");
+            localStorage.setItem('currentUser', JSON.stringify(userSaveLocal));
+        }
+        setUser(userNew);
+    }
+
+    const updateMember = async (memberData: Partial<Member> & { id: string | number }): Promise<boolean> => {
+        try {
+            const response = await fetch(GOOGLE_SCRIPT_URL_USER, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'update',
+                    ...memberData
+                }),
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                console.log('Cập nhật thành viên thành công');
+                return true;
+            } else {
+                console.error('Lỗi khi cập nhật:', result.error);
+                return false;
+            }
+        } catch (error) {
+            console.error('Lỗi kết nối:', error);
+            return false;
+        }
+    };
+
+    const updateMemberProfile = async (updates: {
+        id: string | number;
+        name?: string;
+        nickName?: string;
+        ingameName?: string;
+        avatar?: string;
+        maxim?: string;
+        sect?: string;
+        level?: number;
+    }): Promise<boolean> => {
+        return await updateMember(updates);
+    };
+
     useEffect(() => {
         loadUser();
     }, []);
@@ -142,6 +201,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     };
 
     const value: UserContextType = {
+        updateMemberProfile,
+        reLoadCurrentUser,
         user,
         users: users, // Dùng state users
         login,

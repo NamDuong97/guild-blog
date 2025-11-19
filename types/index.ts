@@ -36,7 +36,7 @@ export interface StatItem {
 }
 
 export interface Member {
-    id: number;
+    id: number | string; // Cho phép cả number và string
     name: string;
     userId: string;
     nickName: string;

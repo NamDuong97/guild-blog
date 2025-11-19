@@ -1,2 +1,2 @@
-export const GOOGLE_SCRIPT_URL_USER: string = 'https://script.google.com/macros/s/AKfycbzgkc6vfZ3QtDQWRe47Vul2gqFk5QaD06cgMrmNBePVoOsncErJfMnF2TERC18qt2edPQ/exec';
+export const GOOGLE_SCRIPT_URL_USER: string = 'https://script.google.com/macros/s/AKfycbxOt7R6wnYB1EoD3JWOCsdCfIMH4Xay-1Zj16j2bBpw_X9bMCVvUXEzrql6pDk825z6jA/exec';
 export const GOOGLE_SCRIPT_URL_LUCKY_WHEEL: string = 'https://script.google.com/macros/s/AKfycbxHiBpLQkP8Hs8IdzVaysEqSKXZrZTIEucT9sKjR0W-KZ82RU3oQFwEAMaCiz1fd6TO/exec';

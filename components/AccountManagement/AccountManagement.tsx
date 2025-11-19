@@ -2,41 +2,22 @@
 
 import React, { useState, useEffect } from 'react';
 import styles from './AccountManagement.module.css';
-
-interface UserProfile {
-    id: string;
-    fullName: string;
-    email: string;
-    phone: string;
-    avatar: string;
-    dateOfBirth: string;
-    address: string;
-    gender: 'male' | 'female' | 'other';
-}
+import { useUser } from '@/contexts/UserContext';
+import { Member } from '@/types';
 
 const AccountManagement: React.FC = () => {
-    const [user, setUser] = useState<UserProfile>({
-        id: '1',
-        fullName: 'Nguyễn Văn A',
-        email: 'nguyenvana@email.com',
-        phone: '0123456789',
-        avatar: '',
-        dateOfBirth: '1990-01-01',
-        address: 'Hà Nội, Việt Nam',
-        gender: 'male'
-    });
-
+    const { user, updateMemberProfile, loadUser, reLoadCurrentUser } = useUser();
     const [isEditing, setIsEditing] = useState(false);
-    const [tempUser, setTempUser] = useState<UserProfile>(user);
+    const [tempUser, setTempUser] = useState<Member | null>(null);
     const [activeTab, setActiveTab] = useState<'profile' | 'security' | 'settings'>('profile');
+    const [isUpdating, setIsUpdating] = useState(false);
+
 
     useEffect(() => {
-        const fetchUserData = async () => {
-            // const response = await api.getUserProfile();
-            // setUser(response.data);
-        };
-        fetchUserData();
-    }, []);
+        if (user) {
+            setTempUser(user);
+        }
+    }, [user]);
 
     const handleEdit = () => {
         setTempUser(user);
@@ -44,12 +25,37 @@ const AccountManagement: React.FC = () => {
     };
 
     const handleSave = async () => {
+        if (!tempUser) return;
+
+        setIsUpdating(true);
         try {
-            setUser(tempUser);
-            setIsEditing(false);
-            alert('Cập nhật thông tin thành công!');
+            // Chỉ gửi các trường có thể cập nhật
+            const updateData = {
+                id: tempUser.id,
+                name: tempUser.name,
+                nickName: tempUser.nickName,
+                ingameName: tempUser.ingameName,
+                avatar: tempUser.avatar,
+                maxim: tempUser.maxim,
+                sect: tempUser.sect,
+            };
+
+            const success = await updateMemberProfile(updateData);
+
+            if (success) {
+                setIsEditing(false);
+                // Reload user data để cập nhật state
+                await loadUser();
+                await reLoadCurrentUser();
+                alert('Cập nhật thông tin thành công!');
+            } else {
+                alert('Có lỗi xảy ra khi cập nhật!');
+            }
         } catch (error) {
+            console.error('Lỗi khi cập nhật:', error);
             alert('Có lỗi xảy ra khi cập nhật!');
+        } finally {
+            setIsUpdating(false);
         }
     };
 
@@ -58,11 +64,11 @@ const AccountManagement: React.FC = () => {
         setIsEditing(false);
     };
 
-    const handleInputChange = (field: keyof UserProfile, value: string) => {
-        setTempUser(prev => ({
+    const handleInputChange = (field: keyof Member, value: string) => {
+        setTempUser(prev => prev ? {
             ...prev,
             [field]: value
-        }));
+        } : null);
     };
 
     const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,6 +81,35 @@ const AccountManagement: React.FC = () => {
             reader.readAsDataURL(file);
         }
     };
+
+    if (!user || !tempUser) {
+        return (
+            <div className={styles.accountManagement}>
+                <div className={styles.loading}>Đang tải thông tin...</div>
+            </div>
+        );
+    }
+
+    {
+        isEditing && (
+            <div className={styles.actionButtons}>
+                <button
+                    className={styles.saveBtn}
+                    onClick={handleSave}
+                    disabled={isUpdating}
+                >
+                    {isUpdating ? 'Đang cập nhật...' : 'Lưu thay đổi'}
+                </button>
+                <button
+                    className={styles.cancelBtn}
+                    onClick={handleCancel}
+                    disabled={isUpdating}
+                >
+                    Hủy bỏ
+                </button>
+            </div>
+        )
+    }
 
     return (
         <div className={styles.accountManagement}>
@@ -141,92 +176,106 @@ const AccountManagement: React.FC = () => {
                                     {/* Form fields */}
                                     <div className={styles.formGrid}>
                                         <div className={styles.formGroup}>
-                                            <label>Họ và tên</label>
+                                            <label>Tên hiển thị</label>
                                             {isEditing ? (
                                                 <input
                                                     type="text"
-                                                    value={tempUser.fullName}
-                                                    onChange={(e) => handleInputChange('fullName', e.target.value)}
+                                                    value={tempUser.name}
+                                                    onChange={(e) => handleInputChange('name', e.target.value)}
                                                     className={styles.formInput}
                                                 />
                                             ) : (
-                                                <div className={styles.formValue}>{user.fullName}</div>
+                                                <div className={styles.formValue}>{user.name}</div>
                                             )}
                                         </div>
 
                                         <div className={styles.formGroup}>
-                                            <label>Email</label>
+                                            <label>User ID</label>
+                                            <div className={styles.formValue}>{user.userId}</div>
+                                        </div>
+
+                                        <div className={styles.formGroup}>
+                                            <label>Biệt danh</label>
                                             {isEditing ? (
                                                 <input
-                                                    type="email"
-                                                    value={tempUser.email}
-                                                    onChange={(e) => handleInputChange('email', e.target.value)}
+                                                    type="text"
+                                                    value={tempUser.nickName}
+                                                    onChange={(e) => handleInputChange('nickName', e.target.value)}
                                                     className={styles.formInput}
                                                 />
                                             ) : (
-                                                <div className={styles.formValue}>{user.email}</div>
+                                                <div className={styles.formValue}>{user.nickName}</div>
                                             )}
                                         </div>
 
                                         <div className={styles.formGroup}>
-                                            <label>Số điện thoại</label>
+                                            <label>Tên trong game</label>
                                             {isEditing ? (
                                                 <input
-                                                    type="tel"
-                                                    value={tempUser.phone}
-                                                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                                                    type="text"
+                                                    value={tempUser.ingameName}
+                                                    onChange={(e) => handleInputChange('ingameName', e.target.value)}
                                                     className={styles.formInput}
                                                 />
                                             ) : (
-                                                <div className={styles.formValue}>{user.phone}</div>
+                                                <div className={styles.formValue}>{user.ingameName}</div>
                                             )}
                                         </div>
 
                                         <div className={styles.formGroup}>
-                                            <label>Ngày sinh</label>
+                                            <label>Chức vụ</label>
+                                            <div className={styles.formValue}>
+                                                {user.role === 'guild-master' ? 'Bang Chủ' :
+                                                    user.role === 'vice-master' ? 'Bang Phó' :
+                                                        user.role === 'hall-master' ? 'Đường Chủ' :
+                                                            user.role === 'village-master' ? 'Hương Chủ' :
+                                                                user.role === 'manager' ? 'Quản Gia' :
+                                                                    user.role === 'elder' ? 'Trưởng Lão' :
+                                                                        user.role === 'elite' ? 'Tinh Anh' : 'Bang Chúng'}
+                                            </div>
+                                        </div>
+
+                                        <div className={styles.formGroup}>
+                                            <label>Môn phái</label>
                                             {isEditing ? (
                                                 <input
-                                                    type="date"
-                                                    value={tempUser.dateOfBirth}
-                                                    onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
+                                                    type="text"
+                                                    value={tempUser.sect}
+                                                    onChange={(e) => handleInputChange('sect', e.target.value)}
                                                     className={styles.formInput}
                                                 />
                                             ) : (
-                                                <div className={styles.formValue}>{user.dateOfBirth}</div>
+                                                <div className={styles.formValue}>{user.sect}</div>
                                             )}
                                         </div>
 
                                         <div className={styles.formGroup}>
-                                            <label>Giới tính</label>
-                                            {isEditing ? (
-                                                <select
-                                                    value={tempUser.gender}
-                                                    onChange={(e) => handleInputChange('gender', e.target.value)}
-                                                    className={styles.formInput}
-                                                >
-                                                    <option value="male">Nam</option>
-                                                    <option value="female">Nữ</option>
-                                                    <option value="other">Khác</option>
-                                                </select>
-                                            ) : (
-                                                <div className={styles.formValue}>
-                                                    {user.gender === 'male' ? 'Nam' : user.gender === 'female' ? 'Nữ' : 'Khác'}
-                                                </div>
-                                            )}
+                                            <label>Cấp độ</label>
+                                            <div className={styles.formValue}>{user.level}</div>
                                         </div>
 
-                                        <div className={`${styles.formGroup} ${styles.fullWidth}`}>
-                                            <label>Địa chỉ</label>
+                                        <div className={styles.formGroup}>
+                                            <label>Trâm ngôn</label>
                                             {isEditing ? (
                                                 <textarea
-                                                    value={tempUser.address}
-                                                    onChange={(e) => handleInputChange('address', e.target.value)}
+                                                    value={tempUser.maxim}
+                                                    onChange={(e) => handleInputChange('maxim', e.target.value)}
                                                     className={styles.formInput}
-                                                    rows={3}
+                                                    rows={2}
                                                 />
                                             ) : (
-                                                <div className={styles.formValue}>{user.address}</div>
+                                                <div className={styles.formValue}>{user.maxim}</div>
                                             )}
+                                        </div>
+
+                                        <div className={styles.formGroup}>
+                                            <label>Ngày tham gia</label>
+                                            <div className={styles.formValue}>{user.joinDate}</div>
+                                        </div>
+
+                                        <div className={styles.formGroup}>
+                                            <label>Hoạt động gần nhất</label>
+                                            <div className={styles.formValue}>{user.lastActive}</div>
                                         </div>
                                     </div>
 
@@ -258,20 +307,17 @@ const AccountManagement: React.FC = () => {
                                     </div>
 
                                     <div className={styles.securityItem}>
-                                        <h3>Xác thực 2 yếu tố</h3>
-                                        <p>Bật xác thực 2 yếu tố để tăng cường bảo mật</p>
-                                        <label className={styles.toggle}>
-                                            <input type="checkbox" />
-                                            <span className={styles.slider}></span>
-                                        </label>
-                                    </div>
-
-                                    <div className={styles.securityItem}>
-                                        <h3>Thiết bị đăng nhập</h3>
-                                        <p>Quản lý các thiết bị đã đăng nhập vào tài khoản</p>
-                                        <button className={styles.manageDevicesBtn}>
-                                            Quản lý thiết bị
-                                        </button>
+                                        <h3>Thông tin đăng nhập</h3>
+                                        <p>User ID: <strong>{user.userId}</strong></p>
+                                        <p>Vai trò: <strong>
+                                            {user.role === 'guild-master' ? 'Bang Chủ' :
+                                                user.role === 'vice-master' ? 'Bang Phó' :
+                                                    user.role === 'hall-master' ? 'Đường Chủ' :
+                                                        user.role === 'village-master' ? 'Hương Chủ' :
+                                                            user.role === 'manager' ? 'Quản Gia' :
+                                                                user.role === 'elder' ? 'Trưởng Lão' :
+                                                                    user.role === 'elite' ? 'Tinh Anh' : 'Bang Chúng'}
+                                        </strong></p>
                                     </div>
                                 </div>
                             </div>
