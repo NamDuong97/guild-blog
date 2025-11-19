@@ -440,7 +440,7 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    background: rgba(30, 41, 59, 0.6);
+    background: #c1d8ff99;
     backdrop-filter: blur(12px);
     padding: 0.75rem 1rem;
     border-radius: 0.75rem;
@@ -477,13 +477,13 @@
 .statValue {
     font-size: 1.25rem;
     font-weight: 700;
-    color: white;
+    color: #0c0c0c;
     line-height: 1;
 }
 
 .statLabel {
     font-size: 0.75rem;
-    color: #cbd5e1;
+    color: #0c0c0c;
     margin-top: 0.125rem;
 }
 
