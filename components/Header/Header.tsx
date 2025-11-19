@@ -1,7 +1,7 @@
 // Header.tsx
 "use client";
 import React, { useState, useRef, useEffect } from 'react';
-import { Users, Trophy, Gamepad2, Crown, Shield, Sparkles, User, Music, Play, Pause, Volume2, VolumeX, Eye, EyeOff, Lock } from 'lucide-react';
+import { Users, Trophy, Gamepad2, Crown, Shield, Sparkles, User, Music, Play, Pause, Volume2, VolumeX, Eye, EyeOff, Lock, Calendar } from 'lucide-react';
 import styles from './Header.module.css';
 import LoginModal from '../LoginModal/LoginModal'
 import { useUser } from '@/contexts/UserContext'
@@ -22,6 +22,7 @@ const Header: React.FC = () => {
 
 
     const playlist = [
+        { id: 0, name: "Nhạc Thiện Nữ", url: "/music/nhacgamethiennu.mp3" },
         { id: 1, name: "Bá Hổ Thuyết", url: "/music/bahothuyet.mp3" },
         { id: 2, name: "Thương Thì Thôi", url: "/music/thuongthithoi.mp3" }
     ];
@@ -205,31 +206,41 @@ const Header: React.FC = () => {
                     <div className={styles.statsGrid}>
                         <div className={styles.statCard}>
                             <div className={styles.statIconWrapper}>
-                                <Users className={styles.statIcon} />
+                                <Calendar className={styles.statIcon} />
                             </div>
                             <div className={styles.statContent}>
-                                <div className={styles.statValue}>58</div>
-                                <div className={styles.statLabel}>Active Members</div>
+                                <div className={styles.statValue}>02/09/2021</div>
+                                <div className={styles.statLabel}>Ngày lập</div>
                             </div>
                         </div>
 
                         <div className={styles.statCard}>
                             <div className={styles.statIconWrapper}>
+                                <Users className={styles.statIcon} />
+                            </div>
+                            <div className={styles.statContent}>
+                                <div className={styles.statValue}>93</div>
+                                <div className={styles.statLabel}>Thành viên</div>
+                            </div>
+                        </div>
+                        {/* 
+                        <div className={styles.statCard}>
+                            <div className={styles.statIconWrapper}>
                                 <Trophy className={styles.statIcon} />
                             </div>
                             <div className={styles.statContent}>
-                                <div className={styles.statValue}>Top 3</div>
-                                <div className={styles.statLabel}>Server Rank</div>
+                                <div className={styles.statValue}>3</div>
+                                <div className={styles.statLabel}>Hạng server</div>
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className={styles.statCard}>
                             <div className={styles.statIconWrapper}>
                                 <Shield className={styles.statIcon} />
                             </div>
                             <div className={styles.statContent}>
-                                <div className={styles.statValue}>Lv5</div>
-                                <div className={styles.statLabel}>Guild Level</div>
+                                <div className={styles.statValue}>5</div>
+                                <div className={styles.statLabel}>Cấp bang</div>
                             </div>
                         </div>
                     </div>
