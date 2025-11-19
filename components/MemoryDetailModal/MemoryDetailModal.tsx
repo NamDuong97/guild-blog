@@ -121,7 +121,7 @@ const MemoryDetailModal: React.FC<MemoryDetailModalProps> = ({ memory, isOpen, o
                         </div>
 
                         {/* Action Buttons */}
-                        <div className={styles.actionBar}>
+                        {/* <div className={styles.actionBar}>
                             <button className={styles.actionBtn}>
                                 <Heart className={styles.btnIcon} />
                                 <span>Thích</span>
@@ -134,13 +134,13 @@ const MemoryDetailModal: React.FC<MemoryDetailModalProps> = ({ memory, isOpen, o
                                 <Share2 className={styles.btnIcon} />
                                 <span>Chia sẻ</span>
                             </button>
-                        </div>
+                        </div> */}
 
                         {/* Comments Section */}
-                        <div className={styles.commentsSection}>
-                            <div className={styles.commentsList}>
-                                {/* Sample comments - replace with actual data */}
-                                <div className={styles.comment}>
+                        {/* <div className={styles.commentsSection}> */}
+                        {/* <div className={styles.commentsList}> */}
+                        {/* Sample comments - replace with actual data */}
+                        {/* <div className={styles.comment}>
                                     <div className={styles.commentAvatar}>H</div>
                                     <div className={styles.commentContent}>
                                         <div className={styles.commentBubble}>
@@ -173,10 +173,10 @@ const MemoryDetailModal: React.FC<MemoryDetailModalProps> = ({ memory, isOpen, o
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
 
-                            {/* Comment Input */}
-                            <div className={styles.commentInput}>
+                        {/* Comment Input */}
+                        {/* <div className={styles.commentInput}>
                                 <div className={styles.inputAvatar}>B</div>
                                 <div className={styles.inputWrapper}>
                                     <input
@@ -196,8 +196,8 @@ const MemoryDetailModal: React.FC<MemoryDetailModalProps> = ({ memory, isOpen, o
                                         </button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </div> */}
+                        {/* </div> */}
                     </div>
                 </div>
             </div>

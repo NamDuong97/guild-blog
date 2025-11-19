@@ -92,14 +92,14 @@ export const stats: StatItem[] = [
 export const members: Member[] = [
     {
         id: 1,
-        name: 'Nguyễn Văn A',
-        userId: '12434312',
-        password: 'toilatoi',
-        ingameName: 'PhoenixKing',
+        name: 'Bảo Châu',
+        userId: '291504166',
+        password: '1234',
+        ingameName: 'Bảo Châu',
         role: 'guild-master',
-        avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
-        level: 95,
-        joinDate: '2023-01-15',
+        avatar: '/image/imgChau.jpg',
+        level: 152,
+        joinDate: '2021-09-02',
         lastActive: '2024-03-20'
     },
     {
