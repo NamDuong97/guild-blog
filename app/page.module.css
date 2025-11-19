@@ -1,24 +1,111 @@
-.main {
-  position: relative;
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-}
-
 .container {
   min-height: 100vh;
   background-image: linear-gradient(135deg,
       #fce7f3 15%,
-      /* Hồng pastel */
       #dcfce7 30%,
-      /* Xanh lá pastel */
       #ccfbf1 45%,
-      /* Xanh ngọc pastel */
       #dbeafe 60%,
-      /* Xanh da trời pastel */
       #ccfbf1 75%,
-      /* Xanh ngọc pastel */
       #dcfce7 90%);
-  /* Xanh lá pastel */
   color: #253a5c;
+}
+
+.main {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 0 10px;
+  gap: 20px;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Simple Filter Tabs */
+.filterTabs {
+  display: flex;
+  gap: 0;
+  background: #f1f5f9;
+  padding: 5px;
+  border-radius: 15px;
+  width: fit-content;
+  margin-bottom: 12px;
+}
+
+.filterTab {
+  padding: 10px 28px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.filterTab:hover {
+  color: #334155;
+}
+
+.filterTab.activeTab {
+  background: #000000;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.memoriesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 24px;
+  width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+
+  .filterTabs {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .filterTab {
+    flex: 1;
+    text-align: center;
+  }
+
+  .memoriesGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 15px;
+  }
+
+  .header {
+    padding: 0;
+  }
+
+  .memoriesGrid {
+    grid-template-columns: 1fr;
+  }
 }
