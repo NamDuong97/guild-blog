@@ -10,7 +10,7 @@
 }
 
 .statCard {
-    background: rgba(30, 41, 59, 0.6);
+    background: rgba(10, 40, 87, 0.6);
     backdrop-filter: blur(12px);
     padding: 1.5rem;
     border-radius: 0.75rem;
@@ -115,7 +115,7 @@
 }
 
 .memberCard {
-    background: rgba(30, 41, 59, 0.6);
+    background: #02193fd9;
     backdrop-filter: blur(12px);
     border: 1px solid rgba(168, 85, 247, 0.2);
     border-radius: 1rem;
@@ -160,8 +160,8 @@
 }
 
 .avatar {
-    width: 4rem;
-    height: 4rem;
+    width: 6rem;
+    height: 8rem;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid rgba(168, 85, 247, 0.3);
@@ -201,7 +201,7 @@
 
 .ingameName {
     color: #c084fc;
-    font-size: 0.875rem;
+    font-size: 1rem;
     margin: 0 0 0.375rem 0;
     font-weight: 500;
     word-break: break-word;

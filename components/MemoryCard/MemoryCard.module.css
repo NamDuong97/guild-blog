@@ -1,5 +1,5 @@
 .card {
-    background: rgba(30, 41, 59, 0.5);
+    background: #e7e0ff;
     backdrop-filter: blur(8px);
     border-radius: 0.75rem;
     overflow: hidden;
@@ -90,7 +90,7 @@
 .title {
     font-size: 1.25rem;
     font-weight: bold;
-    color: white;
+    color:#012554;
     margin-bottom: 0.75rem;
     transition: all 0.3s;
 }
@@ -103,7 +103,7 @@
 }
 
 .description {
-    color: #d8b4fe;
+    color: #000000;
     margin-bottom: 1rem;
     display: -webkit-box;
     -webkit-line-clamp: 3;

@@ -52,14 +52,14 @@ export interface Member {
 }
 
 export const memberRoles = {
-    'guild-master': { label: 'Bang Chủ', color: '#f59e0b', badge: '👑' },
+    'guild-master': { label: 'Bang Chủ', color: '#ef4444', badge: '👑' },
     'vice-master': { label: 'Bang Phó', color: '#ef4444', badge: '⭐' },
     'hall-master': { label: 'Đường Chủ', color: '#8b5cf6', badge: '🏛️' },
     'village-master': { label: 'Hương Chủ', color: '#06b6d4', badge: '🏡' },
     'manager': { label: 'Quản Gia', color: '#10b981', badge: '📊' },
     'elder': { label: 'Trưởng Lão', color: '#f97316', badge: '🧙' },
     'elite': { label: 'Tinh Anh', color: '#ec4899', badge: '⚔️' },
-    'member': { label: 'Bang Chúng', color: '#6b7280', badge: '👤' }
+    'member': { label: 'Bang Chúng', color: '#26835df0', badge: '👤' }
 } as const;
 
 export enum Sect {
