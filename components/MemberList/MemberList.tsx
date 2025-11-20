@@ -101,7 +101,7 @@ const MemberList: React.FC<MemberListProps> = ({ members }) => {
                     const isOnline = new Date(member.lastActive).getTime() > Date.now() - 24 * 60 * 60 * 1000;
 
                     return (
-                        <div key={member.id} className={styles.memberCard}>
+                        <div key={member.userId} className={styles.memberCard}>
                             <div className={styles.memberHeader}>
                                 <div className={styles.avatarContainer}>
                                     <img

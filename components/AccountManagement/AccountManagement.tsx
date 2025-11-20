@@ -6,7 +6,6 @@ import { useUser } from '@/contexts/UserContext';
 import { Member, Sect } from '@/types';
 import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
 import { useRouter } from 'next/navigation';
-import { Home } from 'lucide-react'
 
 const AccountManagement: React.FC = () => {
     const { user, updateMemberProfile, loadUser, updatePassword } = useUser();
@@ -16,7 +15,6 @@ const AccountManagement: React.FC = () => {
     const [isUpdating, setIsUpdating] = useState(false);
     const [isChangePass, setIsChangePass] = useState(false);
     const router = useRouter();
-
 
     useEffect(() => {
         if (user) {
@@ -31,22 +29,49 @@ const AccountManagement: React.FC = () => {
 
     const handleSave = async () => {
         if (!tempUser) return;
-
         setIsUpdating(true);
         try {
-            // Chỉ gửi các trường có thể cập nhật
+            let finalAvatarPath = tempUser.avatar;
+
+            // Nếu có ảnh mới (base64), upload lên server trước
+            if (tempUser.avatar && tempUser.avatar.startsWith('data:image')) {
+                const uploadResponse = await fetch('/api/upload-avatar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        imageBase64: tempUser.avatar,
+                        userId: tempUser.id,
+                        userData: {
+                            name: tempUser.name,
+                            nickName: tempUser.nickName,
+                            ingameName: tempUser.ingameName,
+                            maxim: tempUser.maxim,
+                            sect: tempUser.sect
+                        }
+                    }),
+                });
+
+                const uploadResult = await uploadResponse.json();
+                if (uploadResult.success) {
+                    finalAvatarPath = uploadResult.avatarPath;
+                } else {
+                    throw new Error(uploadResult.error || 'Upload avatar failed');
+                }
+            }
+
+            // Chuẩn bị data để update profile
             const updateData = {
                 id: tempUser.id,
                 name: tempUser.name,
                 nickName: tempUser.nickName,
                 ingameName: tempUser.ingameName,
-                avatar: tempUser.avatar,
+                avatar: finalAvatarPath, // Đường dẫn ảnh "images/avatars/avatar-123.jpg"
                 maxim: tempUser.maxim,
                 sect: tempUser.sect,
             };
-
             const success = await updateMemberProfile(updateData);
-
             if (success) {
                 setIsEditing(false);
                 // Reload user data để cập nhật state
@@ -106,13 +131,19 @@ const AccountManagement: React.FC = () => {
 
     const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                handleInputChange('avatar', e.target?.result as string);
-            };
-            reader.readAsDataURL(file);
+
+        if (!file) {
+            return;
         }
+
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            const result = e.target?.result as string;
+            handleInputChange('avatar', result);
+        };
+
+        reader.readAsDataURL(file);
     };
 
     if (!user || !tempUser) {
@@ -210,6 +241,11 @@ const AccountManagement: React.FC = () => {
                                                         accept="image/*"
                                                         onChange={handleAvatarChange}
                                                         className={styles.avatarInput}
+                                                        id="avatar-upload"
+                                                        name="avatar"
+                                                        multiple={false}
+                                                        capture="user"
+                                                        disabled={isUpdating}
                                                     />
                                                     <span>📷 Thay đổi</span>
                                                 </div>

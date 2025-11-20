@@ -164,8 +164,8 @@
 
 .avatarContainer {
     position: relative;
-    width: 140px;
-    height: 140px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     overflow: hidden;
     border: 5px solid transparent;
