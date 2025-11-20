@@ -4,9 +4,11 @@ import React, { useState, useEffect } from 'react';
 import styles from './AccountManagement.module.css';
 import { useUser } from '@/contexts/UserContext';
 import { Member, Sect } from '@/types';
+import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
+
 
 const AccountManagement: React.FC = () => {
-    const { user, updateMemberProfile, loadUser } = useUser();
+    const { user, updateMemberProfile, loadUser, updatePassword } = useUser();
     const [isEditing, setIsEditing] = useState(false);
     const [tempUser, setTempUser] = useState<Member | null>(user);
     const [activeTab, setActiveTab] = useState<'profile' | 'security' | 'settings'>('profile');
@@ -67,6 +69,31 @@ const AccountManagement: React.FC = () => {
     const handleChangePassword = () => {
         setIsChangePass(true);
     }
+
+    // Hàm xử lý submit
+    const handlePasswordSubmit = async (oldPassword: string, newPassword: string): Promise<boolean> => {
+        try {
+            const updateData = {
+                id: tempUser?.id || '',
+                userId: tempUser?.userId || '',
+                password: newPassword
+            };
+            // Gọi API đổi mật khẩu của bạn ở đây
+            const response = await updatePassword(updateData);
+
+            if (response) {
+                alert('Đổi mật khẩu thành công!');
+                // Reload user data để cập nhật state
+                await loadUser();
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.error('Error changing password:', error);
+            return false;
+        }
+    };
 
     const handleInputChange = (field: keyof Member, value: string) => {
         setTempUser(prev => prev ? {
@@ -369,6 +396,12 @@ const AccountManagement: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <ChangePasswordModal
+                isOpen={isChangePass}
+                onClose={() => setIsChangePass(false)}
+                onSubmit={handlePasswordSubmit}
+                oldPass={tempUser.password}
+            />
         </div>
     );
 };

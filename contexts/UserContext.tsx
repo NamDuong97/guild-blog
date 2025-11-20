@@ -18,6 +18,7 @@ interface UserContextType {
         sect?: string;
         level?: number;
     }) => Promise<boolean>;
+    updatePassword: (updatePass: { id: string | number; userId: string; password: string }) => Promise<boolean>;
     user: Member | null;
     users: Member[];
     login: (username: string, password: string) => Promise<boolean>;
@@ -122,7 +123,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
             if (result.success) {
                 console.log('Cập nhật thành viên thành công');
-                console.log("data", result.data);
                 return true;
             } else {
                 console.error('Lỗi khi cập nhật:', result.error);
@@ -132,6 +132,11 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             console.error('Lỗi kết nối:', error);
             return false;
         }
+    };
+
+    const updatePassword = async (updatePass: { id: string | number; userId: string; password: string }): Promise<boolean> => {
+        console.log("dữ liệu mún cập nhật", updatePass);
+        return await updateMember(updatePass);
     };
 
     const updateMemberProfile = async (updates: {
@@ -189,6 +194,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     const value: UserContextType = {
         updateMemberProfile,
+        updatePassword,
         user,
         users: users, // Dùng state users
         login,
