@@ -5,7 +5,8 @@ import styles from './AccountManagement.module.css';
 import { useUser } from '@/contexts/UserContext';
 import { Member, Sect } from '@/types';
 import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
-
+import { useRouter } from 'next/navigation';
+import { Home } from 'lucide-react'
 
 const AccountManagement: React.FC = () => {
     const { user, updateMemberProfile, loadUser, updatePassword } = useUser();
@@ -14,6 +15,7 @@ const AccountManagement: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'profile' | 'security' | 'settings'>('profile');
     const [isUpdating, setIsUpdating] = useState(false);
     const [isChangePass, setIsChangePass] = useState(false);
+    const router = useRouter();
 
 
     useEffect(() => {
@@ -142,12 +144,22 @@ const AccountManagement: React.FC = () => {
         )
     }
 
+    const goHome = () => {
+        router.push('/');
+    }
+
     return (
         <div className={styles.accountManagement}>
             <div className={styles.resetStyles}>
                 <div className={styles.accountContainer}>
                     {/* Sidebar */}
                     <div className={styles.accountSidebar}>
+                        <div
+                            className={styles.sidebarItem}
+                            onClick={goHome}
+                        >
+                            🏠 Trang chủ
+                        </div>
                         <div
                             className={`${styles.sidebarItem} ${activeTab === 'profile' ? styles.active : ''}`}
                             onClick={() => setActiveTab('profile')}
@@ -167,6 +179,7 @@ const AccountManagement: React.FC = () => {
                             ⚙️ Cài đặt
                         </div>
                     </div>
+
 
                     {/* Main content */}
                     <div className={styles.accountContent}>
