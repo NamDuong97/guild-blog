@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 import { User, Lock, Eye, EyeOff } from 'lucide-react';
 import styles from './LoginModal.module.css';
-import { Member } from '@/types';
 import { useUser } from '@/contexts/UserContext'
+import { useAlert } from '@/contexts/AlertContext';
+
 
 interface LoginModalProps {
     isOpen: boolean;
@@ -15,16 +16,18 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const { login, isLoading, logout, user } = useUser();
+    const { showAlert } = useAlert();
+
 
     const handleLogin = async () => {
         const success = await login(username, password);
         if (success) {
-            alert('Đăng nhập thành công!');
+            showAlert('Đăng nhập thành công!', 'success');
             onClose();
             setUsername('');
             setPassword('');
         } else {
-            alert('Đăng nhập thất bại! - handleLogin - LoginModal');
+            showAlert('Đăng nhập thất bại!', 'warning');
         }
     };
 
@@ -90,15 +93,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                         </div>
                     </div>
 
-                    {/* Remember & Forgot */}
-                    {/* <div className={styles.options}>
-                        <label className={styles.remember}>
-                            <input type="checkbox" className={styles.checkbox} />
-                            <span>Ghi nhớ đăng nhập</span>
-                        </label>
-                        <button className={styles.forgotPassword}>Quên mật khẩu?</button>
-                    </div> */}
-
                     <button
                         onClick={handleLogin}
                         disabled={isLoading}
@@ -106,12 +100,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                     >
                         {isLoading ? 'Đang đăng nhập...' : 'Đăng Nhập'}
                     </button>
-
-                    {/* Register Link */}
-                    {/* <div className={styles.register}>
-                        <span className={styles.registerText}>Chưa có tài khoản? </span>
-                        <button className={styles.registerLink}>Đăng ký ngay</button>
-                    </div> */}
                 </div>
             </div>
         </div>
