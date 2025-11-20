@@ -166,7 +166,7 @@ const Header: React.FC = () => {
                                         Đăng Xuất
                                     </button>
                                         <Link href="/account" className={styles.welcomeText}>
-                                            Xin Chào {user?.name}
+                                            {user?.name}
                                         </Link></>
                                 )
                         }
