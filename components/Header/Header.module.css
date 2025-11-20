@@ -8,7 +8,7 @@
                 rgba(83, 100, 255, 0.95) 70%,
                 rgba(19, 91, 173, 0.95) 80%); */
 
-        url('/image/header4.jpg') center/cover no-repeat;
+        url('/image/bg0.jpeg') center/cover no-repeat;
     /* Gradient overlay */
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(109, 189, 221, 0.3);
