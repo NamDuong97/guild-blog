@@ -3,14 +3,15 @@
 import React, { useState, useEffect } from 'react';
 import styles from './AccountManagement.module.css';
 import { useUser } from '@/contexts/UserContext';
-import { Member } from '@/types';
+import { Member, Sect } from '@/types';
 
 const AccountManagement: React.FC = () => {
-    const { user, updateMemberProfile, loadUser, reLoadCurrentUser } = useUser();
+    const { user, updateMemberProfile, loadUser } = useUser();
     const [isEditing, setIsEditing] = useState(false);
-    const [tempUser, setTempUser] = useState<Member | null>(null);
+    const [tempUser, setTempUser] = useState<Member | null>(user);
     const [activeTab, setActiveTab] = useState<'profile' | 'security' | 'settings'>('profile');
     const [isUpdating, setIsUpdating] = useState(false);
+    const [isChangePass, setIsChangePass] = useState(false);
 
 
     useEffect(() => {
@@ -46,7 +47,6 @@ const AccountManagement: React.FC = () => {
                 setIsEditing(false);
                 // Reload user data để cập nhật state
                 await loadUser();
-                await reLoadCurrentUser();
                 alert('Cập nhật thông tin thành công!');
             } else {
                 alert('Có lỗi xảy ra khi cập nhật!');
@@ -63,6 +63,10 @@ const AccountManagement: React.FC = () => {
         setTempUser(user);
         setIsEditing(false);
     };
+
+    const handleChangePassword = () => {
+        setIsChangePass(true);
+    }
 
     const handleInputChange = (field: keyof Member, value: string) => {
         setTempUser(prev => prev ? {
@@ -185,13 +189,13 @@ const AccountManagement: React.FC = () => {
                                                     className={styles.formInput}
                                                 />
                                             ) : (
-                                                <div className={styles.formValue}>{user.name}</div>
+                                                <div className={styles.formValue}>{tempUser.name}</div>
                                             )}
                                         </div>
 
                                         <div className={styles.formGroup}>
                                             <label>User ID</label>
-                                            <div className={styles.formValue}>{user.userId}</div>
+                                            <div className={styles.formValue}>{tempUser.userId}</div>
                                         </div>
 
                                         <div className={styles.formGroup}>
@@ -204,7 +208,7 @@ const AccountManagement: React.FC = () => {
                                                     className={styles.formInput}
                                                 />
                                             ) : (
-                                                <div className={styles.formValue}>{user.nickName}</div>
+                                                <div className={styles.formValue}>{tempUser.nickName}</div>
                                             )}
                                         </div>
 
@@ -218,40 +222,54 @@ const AccountManagement: React.FC = () => {
                                                     className={styles.formInput}
                                                 />
                                             ) : (
-                                                <div className={styles.formValue}>{user.ingameName}</div>
+                                                <div className={styles.formValue}>{tempUser.ingameName}</div>
                                             )}
                                         </div>
 
                                         <div className={styles.formGroup}>
                                             <label>Chức vụ</label>
                                             <div className={styles.formValue}>
-                                                {user.role === 'guild-master' ? 'Bang Chủ' :
-                                                    user.role === 'vice-master' ? 'Bang Phó' :
-                                                        user.role === 'hall-master' ? 'Đường Chủ' :
-                                                            user.role === 'village-master' ? 'Hương Chủ' :
-                                                                user.role === 'manager' ? 'Quản Gia' :
-                                                                    user.role === 'elder' ? 'Trưởng Lão' :
-                                                                        user.role === 'elite' ? 'Tinh Anh' : 'Bang Chúng'}
+                                                {tempUser.role === 'guild-master' ? 'Bang Chủ' :
+                                                    tempUser.role === 'vice-master' ? 'Bang Phó' :
+                                                        tempUser.role === 'hall-master' ? 'Đường Chủ' :
+                                                            tempUser.role === 'village-master' ? 'Hương Chủ' :
+                                                                tempUser.role === 'manager' ? 'Quản Gia' :
+                                                                    tempUser.role === 'elder' ? 'Trưởng Lão' :
+                                                                        tempUser.role === 'elite' ? 'Tinh Anh' : 'Bang Chúng'}
                                             </div>
                                         </div>
 
                                         <div className={styles.formGroup}>
                                             <label>Môn phái</label>
                                             {isEditing ? (
-                                                <input
-                                                    type="text"
+                                                <select
                                                     value={tempUser.sect}
                                                     onChange={(e) => handleInputChange('sect', e.target.value)}
                                                     className={styles.formInput}
-                                                />
+                                                >
+                                                    {Object.values(Sect).map((sect) => (
+                                                        <option key={sect} value={sect}>
+                                                            {sect}
+                                                        </option>
+                                                    ))}
+                                                </select>
                                             ) : (
-                                                <div className={styles.formValue}>{user.sect}</div>
+                                                <div className={styles.formValue}>{tempUser.sect}</div>
                                             )}
                                         </div>
 
                                         <div className={styles.formGroup}>
                                             <label>Cấp độ</label>
-                                            <div className={styles.formValue}>{user.level}</div>
+                                            {isEditing ? (
+                                                <input
+                                                    type="number"
+                                                    value={tempUser.level}
+                                                    onChange={(e) => handleInputChange('level', e.target.value)}
+                                                    className={styles.formInput}
+                                                />
+                                            ) : (
+                                                <div className={styles.formValue}>{tempUser.level}</div>
+                                            )}
                                         </div>
 
                                         <div className={styles.formGroup}>
@@ -264,22 +282,22 @@ const AccountManagement: React.FC = () => {
                                                     rows={2}
                                                 />
                                             ) : (
-                                                <div className={styles.formValue}>{user.maxim}</div>
+                                                <div className={styles.formValue}>{tempUser.maxim}</div>
                                             )}
                                         </div>
 
                                         <div className={styles.formGroup}>
                                             <label>Ngày tham gia</label>
-                                            <div className={styles.formValue}>{user.joinDate}</div>
+                                            <div className={styles.formValue}>{tempUser.joinDate}</div>
                                         </div>
 
                                         <div className={styles.formGroup}>
                                             <label>Hoạt động gần nhất</label>
-                                            <div className={styles.formValue}>{user.lastActive}</div>
+                                            <div className={styles.formValue}>{tempUser.lastActive}</div>
                                         </div>
                                     </div>
 
-                                    {/* Action buttons */}
+                                    {/* Action buttons Lưu Cập Nhật*/}
                                     {isEditing && (
                                         <div className={styles.actionButtons}>
                                             <button className={styles.saveBtn} onClick={handleSave}>
@@ -301,7 +319,8 @@ const AccountManagement: React.FC = () => {
                                     <div className={styles.securityItem}>
                                         <h3>Đổi mật khẩu</h3>
                                         <p>Cập nhật mật khẩu mới để bảo vệ tài khoản</p>
-                                        <button className={styles.changePasswordBtn}>
+                                        <button className={styles.changePasswordBtn}
+                                            onClick={handleChangePassword}>
                                             Đổi mật khẩu
                                         </button>
                                     </div>
@@ -327,14 +346,6 @@ const AccountManagement: React.FC = () => {
                             <div className={styles.settingsSection}>
                                 <h2>Cài đặt tài khoản</h2>
                                 <div className={styles.settingsItems}>
-                                    <div className={styles.settingItem}>
-                                        <h3>Ngôn ngữ</h3>
-                                        <select className={styles.settingSelect}>
-                                            <option value="vi">Tiếng Việt</option>
-                                            <option value="en">English</option>
-                                        </select>
-                                    </div>
-
                                     <div className={styles.settingItem}>
                                         <h3>Thông báo</h3>
                                         <label className={styles.toggle}>

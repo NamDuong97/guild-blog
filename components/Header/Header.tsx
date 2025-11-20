@@ -223,16 +223,6 @@ const Header: React.FC = () => {
                                 <div className={styles.statLabel}>Thành viên</div>
                             </div>
                         </div>
-                        {/* 
-                        <div className={styles.statCard}>
-                            <div className={styles.statIconWrapper}>
-                                <Trophy className={styles.statIcon} />
-                            </div>
-                            <div className={styles.statContent}>
-                                <div className={styles.statValue}>3</div>
-                                <div className={styles.statLabel}>Hạng server</div>
-                            </div>
-                        </div> */}
 
                         <div className={styles.statCard}>
                             <div className={styles.statIconWrapper}>

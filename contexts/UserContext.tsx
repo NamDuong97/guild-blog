@@ -18,7 +18,6 @@ interface UserContextType {
         sect?: string;
         level?: number;
     }) => Promise<boolean>;
-    reLoadCurrentUser: () => void;
     user: Member | null;
     users: Member[];
     login: (username: string, password: string) => Promise<boolean>;
@@ -76,50 +75,37 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         try {
             const loadUserGGs = async () => {
                 var data = await loadUserFromGoogleSheet();
-                var dataUserLocal = localStorage.getItem('users');
+                console.log("data tu db", data);
+
                 // Mã hoá password trước khi lưu xuống localStorage
                 const usersWithEncryptedPassword = data.map(user => ({
                     ...user,
                     password: encrypt(user.password) // Mã hoá password
                 }));
 
-                const localUsersParsed = JSON.parse(dataUserLocal || '[]');
+                // Lưu lại xún local storage
+                localStorage.setItem('users', JSON.stringify(usersWithEncryptedPassword));
 
-                if (data.length !== localUsersParsed.length) {
-                    localStorage.setItem('users', JSON.stringify(usersWithEncryptedPassword));
-                    // Giữ nguyên password gốc trong state để login
-                    setUsers(data);
-                } else {
-                    const usersWithDecryptedPassword = localUsersParsed.map((user: Member) => ({
-                        ...user,
-                        password: decrypt(user.password) // Giải mã password
-                    }));
-                    setUsers(usersWithDecryptedPassword);
+                // Giữ nguyên password gốc trong state để login
+                setUsers(data);
+
+                // Cập nhật lại user hiện tại vào state và localStorage
+                const savedUser = localStorage.getItem('currentUser');
+                if (savedUser && savedUser !== '' && savedUser !== 'null') {
+                    var userLocal = JSON.parse(savedUser);
+                    var userDB = data.find(it => it.userId == userLocal.userId)
+                    if (userDB) {
+                        localStorage.setItem('currentUser', JSON.stringify({ ...userDB, password: encrypt(userDB.password) }));
+                        setUser(userDB);
+                    } else {
+                        setUser({ ...userLocal, password: decrypt(userLocal.password) });
+                    }
                 }
             }
             loadUserGGs();
-
-            const savedUser = localStorage.getItem('currentUser');
-            if (savedUser && savedUser !== '' && savedUser !== 'null') {
-                const userData = JSON.parse(savedUser);
-                if (userData.password) {
-                    userData.password = ''; // Vẫn ẩn password cho currentUser
-                }
-                setUser(userData);
-            }
         } catch (error) {
             console.error('Error parsing localStorage data:', error);
         }
-    }
-
-    const reLoadCurrentUser = () => {
-        const userNew = users.find(it => it.userId == user?.userId) || user;
-        if (userNew && userNew?.password) {
-            var userSaveLocal = { ...userNew, password: '' };
-            console.log("vào rồi nè!");
-            localStorage.setItem('currentUser', JSON.stringify(userSaveLocal));
-        }
-        setUser(userNew);
     }
 
     const updateMember = async (memberData: Partial<Member> & { id: string | number }): Promise<boolean> => {
@@ -136,6 +122,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
             if (result.success) {
                 console.log('Cập nhật thành viên thành công');
+                console.log("data", result.data);
                 return true;
             } else {
                 console.error('Lỗi khi cập nhật:', result.error);
@@ -173,7 +160,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 const encryptedUserPassword = encryptForComparison(checkUser.password);
                 if (encryptedUserPassword === encryptedInputPassword) {
                     setUser(checkUser);
-                    const userToStore = { ...checkUser, password: '' };
+                    const userToStore = { ...checkUser, password: encrypt(checkUser.password) };
                     localStorage.setItem('currentUser', JSON.stringify(userToStore));
                     return true;
                 }
@@ -202,7 +189,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     const value: UserContextType = {
         updateMemberProfile,
-        reLoadCurrentUser,
         user,
         users: users, // Dùng state users
         login,
