@@ -315,7 +315,7 @@ const AccountManagement: React.FC = () => {
 
                                         <div className={styles.formGroup}>
                                             <label>Ngày tham gia</label>
-                                            <div className={styles.formValue}>{tempUser.joinDate}</div>
+                                            <div className={styles.formValue}>{new Date(tempUser.joinDate).toLocaleDateString('vi-VN')}</div>
                                         </div>
 
                                         <div className={styles.formGroup}>
