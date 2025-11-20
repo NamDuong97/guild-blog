@@ -60,7 +60,7 @@ export default function GuildBlog() {
                 />
               ))}
             </div>
-            <StatsSection stats={stats} />
+            {/* <StatsSection stats={stats} /> */}
           </div>
         );
     }
@@ -68,7 +68,7 @@ export default function GuildBlog() {
 
   return (
     <main className={styles.main}>
-      <div className={styles.header}>
+      <div className={styles.subHeader}>
         <CategoryFilter
           categories={categories}
           selectedCategory={selectedCategory}
