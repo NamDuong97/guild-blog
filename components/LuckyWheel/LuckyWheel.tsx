@@ -10,7 +10,7 @@ import { GOOGLE_SCRIPT_URL_LUCKY_WHEEL } from "@/untils/Constants";
 import { useUser } from "@/contexts/UserContext";
 
 interface GoogleSheetItem {
-    timestamp: string;
+    timestamp?: string;
     prizename?: string;
     prizeName?: string;
     prizeid?: string;
@@ -23,7 +23,7 @@ interface GoogleSheetItem {
 }
 
 interface CleanGoogleSheetItem {
-    timestamp: string;
+    timestamp?: string;
     prizename?: string;
     prizeName?: string;
     prizeid?: string;
@@ -211,7 +211,7 @@ const LuckyWheel: React.FC = () => {
             const result = await response.json();
             if (result.success && Array.isArray(result.data)) {
                 return result.data.map((item: GoogleSheetItem): SpinHistory => {
-                    const cleanItem: CleanGoogleSheetItem = {};
+                    const cleanItem: CleanGoogleSheetItem & Record<string, any> = {} as any;
 
                     // Clean và normalize data từ Google Sheets
                     Object.keys(item).forEach((key) => {
@@ -220,7 +220,7 @@ const LuckyWheel: React.FC = () => {
                     });
 
                     return {
-                        timestamp: new Date(cleanItem.timestamp),
+                        timestamp: new Date(cleanItem.timestamp || Date.now()),
                         prizeName: cleanItem.prizename || cleanItem.prizeName || "Unknown Prize",
                         prizeId: cleanItem.prizeid || cleanItem.prizeId || "Unknown ID",
                         userId: cleanItem.userid || "nam",
