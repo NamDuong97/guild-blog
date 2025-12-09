@@ -312,10 +312,10 @@ const LuckyWheel: React.FC = () => {
                             const rotation = index * wheelConfig.segmentAngle;
                             const centerAngle = wheelConfig.segmentAngle / 2;
 
-                            const segmentStyle: React.CSSProperties = {
+                            const segmentStyle = {
                                 '--segment-color': prize.color,
                                 transform: `rotate(${rotation}deg)`,
-                            };
+                            } as React.CSSProperties;
 
                             const contentStyle: React.CSSProperties = {
                                 transform: `rotate(${centerAngle}deg)`,
