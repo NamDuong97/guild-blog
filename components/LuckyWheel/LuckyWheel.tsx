@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useMemo, useEffect } from "react";
+import React, { useState, useRef, useMemo, useEffect, useCallback } from "react";
 import { Prize } from "@/types";
 import { Gift, RotateCcw, Sparkles } from "lucide-react";
 import styles from "./LuckyWheel.module.css";
@@ -8,6 +8,31 @@ import HistoryModal from "@/components/HistoryModal/HistoryModal";
 import { SpinHistory } from "@/types/index";
 import { GOOGLE_SCRIPT_URL_LUCKY_WHEEL } from "@/untils/Constants";
 import { useUser } from "@/contexts/UserContext";
+
+interface GoogleSheetItem {
+    timestamp: string;
+    prizename?: string;
+    prizeName?: string;
+    prizeid?: string;
+    prizeId?: string;
+    userid?: string;
+    quantity?: string | number;
+    status?: string;
+    type?: string;
+    [key: string]: string | number | undefined;
+}
+
+interface CleanGoogleSheetItem {
+    timestamp: string;
+    prizename?: string;
+    prizeName?: string;
+    prizeid?: string;
+    prizeId?: string;
+    userid?: string;
+    quantity?: string | number;
+    status?: string;
+    type?: string;
+}
 
 const LuckyWheel: React.FC = () => {
     const [isSpinning, setIsSpinning] = useState(false);
@@ -40,6 +65,27 @@ const LuckyWheel: React.FC = () => {
         void wheel.offsetWidth;
     }, [prizes.length]);
 
+    // Tách hàm chọn giải thưởng ra ngoài để tránh lỗi purity
+    const selectPrize = useCallback((): Prize => {
+        const totalProb = prizes.reduce((s, p) => s + (p.probability || 0), 0);
+        if (totalProb <= 0) {
+            return prizes[prizes.length - 1];
+        }
+
+        // Sửa: Tạo random number trong callback function
+        const rnd = Math.random() * totalProb;
+        let cumulative = 0;
+
+        for (const p of prizes) {
+            cumulative += p.probability;
+            if (rnd < cumulative) {
+                return p;
+            }
+        }
+
+        return prizes[prizes.length - 1];
+    }, []);
+
     const spinWheel = () => {
         if (isSpinning || spinsLeft <= 0) return;
 
@@ -47,21 +93,8 @@ const LuckyWheel: React.FC = () => {
         setResult(null);
         setShowResultModal(false);
 
-        const totalProb = prizes.reduce((s, p) => s + (p.probability || 0), 0);
-        if (totalProb <= 0) {
-            setIsSpinning(false);
-            return;
-        }
-        const rnd = Math.random() * totalProb;
-        let cumulative = 0;
-        let selectedPrize = prizes[prizes.length - 1];
-        for (const p of prizes) {
-            cumulative += p.probability;
-            if (rnd < cumulative) {
-                selectedPrize = p;
-                break;
-            }
-        }
+        // Sửa: Gọi hàm selectPrize thay vì tính toán trực tiếp trong render
+        const selectedPrize = selectPrize();
 
         const wheel = wheelRef.current;
         if (!wheel) {
@@ -144,7 +177,7 @@ const LuckyWheel: React.FC = () => {
         }, durationMs + 400);
     };
 
-    const saveHistoryToStorage = () => {
+    const saveHistoryToStorage = useCallback(() => {
         try {
             const data = JSON.stringify(spinHistoryRef.current);
             if (data) {
@@ -153,7 +186,7 @@ const LuckyWheel: React.FC = () => {
         } catch (error) {
             console.error("Error parsing localStorage data:", error);
         }
-    };
+    }, []);
 
     const saveToGoogleSheets = async (history: SpinHistory) => {
         try {
@@ -176,22 +209,25 @@ const LuckyWheel: React.FC = () => {
         try {
             const response = await fetch(GOOGLE_SCRIPT_URL_LUCKY_WHEEL);
             const result = await response.json();
-            if (result.success) {
-                return result.data.map((item: any) => {
-                    const cleanItem: any = {};
+            if (result.success && Array.isArray(result.data)) {
+                return result.data.map((item: GoogleSheetItem): SpinHistory => {
+                    const cleanItem: CleanGoogleSheetItem = {};
+
+                    // Clean và normalize data từ Google Sheets
                     Object.keys(item).forEach((key) => {
                         const cleanKey = key.trim();
                         cleanItem[cleanKey] = item[key];
                     });
+
                     return {
                         timestamp: new Date(cleanItem.timestamp),
                         prizeName: cleanItem.prizename || cleanItem.prizeName || "Unknown Prize",
                         prizeId: cleanItem.prizeid || cleanItem.prizeId || "Unknown ID",
                         userId: cleanItem.userid || "nam",
                         quantity: Number(cleanItem.quantity) || 1,
-                        status: cleanItem.status || "received",
+                        status: (cleanItem.status || "received") as "received" | "pending" | "failed",
                         type: cleanItem.type || "general",
-                    } as SpinHistory;
+                    };
                 });
             }
         } catch (error) {
@@ -200,12 +236,13 @@ const LuckyWheel: React.FC = () => {
         return [];
     };
 
-    const loadSpinHistory = async () => {
+    const loadSpinHistory = useCallback(async () => {
         try {
             const storedData = localStorage.getItem("spinHistoryRef");
-            let dataFromGG: SpinHistory[] = await loadFromGoogleSheets();
-            let dataFromLS: SpinHistory[] = JSON.parse(storedData || "[]");
-            if (dataFromGG.length != dataFromLS.length) {
+            const dataFromGG: SpinHistory[] = await loadFromGoogleSheets(); // Sửa: const thay vì let
+            const dataFromLS: SpinHistory[] = JSON.parse(storedData || "[]"); // Sửa: const thay vì let
+
+            if (dataFromGG.length !== dataFromLS.length) {
                 spinHistoryRef.current = dataFromGG;
                 localStorage.setItem("spinHistoryRef", JSON.stringify(dataFromGG));
             } else {
@@ -215,20 +252,20 @@ const LuckyWheel: React.FC = () => {
             console.error("Error parsing localStorage data or Error load data from Google Sheet:", error);
         }
         if (user) {
-            spinHistoryRefForUser.current = spinHistoryRef.current.filter((it) => it.userId == user.userId);
+            spinHistoryRefForUser.current = spinHistoryRef.current.filter((it) => it.userId === user.userId);
         }
-    };
+    }, [user]);
 
     useEffect(() => {
         loadSpinHistory();
         return () => {
             saveHistoryToStorage();
         };
-    }, []);
+    }, [loadSpinHistory, saveHistoryToStorage]);
 
     useEffect(() => {
         if (user) {
-            spinHistoryRefForUser.current = spinHistoryRef.current.filter((it) => it.userId == user.userId);
+            spinHistoryRefForUser.current = spinHistoryRef.current.filter((it) => it.userId === user.userId);
         } else {
             spinHistoryRefForUser.current = [];
         }
@@ -313,7 +350,6 @@ const LuckyWheel: React.FC = () => {
                             const centerAngle = wheelConfig.segmentAngle / 2;
 
                             const segmentStyle = {
-                                '--segment-color': prize.color,
                                 transform: `rotate(${rotation}deg)`,
                             } as React.CSSProperties;
 
@@ -411,7 +447,6 @@ const LuckyWheel: React.FC = () => {
                                 </div>
                                 <div className={styles.prizeItemInfo}>
                                     <span className={styles.prizeItemName}>{prize.name}</span>
-
                                 </div>
                             </div>
                         );

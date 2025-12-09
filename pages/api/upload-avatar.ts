@@ -12,7 +12,7 @@ export const config = {
 };
 
 // Mock database tạm thời (có thể thay bằng real database sau)
-let mockDatabase: any = {};
+const mockDatabase: any = {};
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {

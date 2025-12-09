@@ -1,13 +1,18 @@
-// Header.tsx
 "use client";
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Users, Trophy, Gamepad2, Crown, Shield, Sparkles, User, Music, Play, Pause, Volume2, VolumeX, Eye, EyeOff, Lock, Calendar } from 'lucide-react';
 import styles from './Header.module.css';
-import LoginModal from '../LoginModal/LoginModal'
-import { useUser } from '@/contexts/UserContext'
+import LoginModal from '../LoginModal/LoginModal';
+import { useUser } from '@/contexts/UserContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image'; // Thêm import Image từ next/image
 
+interface PlaylistItem {
+    id: number;
+    name: string;
+    url: string;
+}
 
 const Header: React.FC = () => {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -20,43 +25,48 @@ const Header: React.FC = () => {
     const audioRef = useRef<HTMLAudioElement>(null);
     const router = useRouter();
 
-
-    const playlist = [
+    const playlist: PlaylistItem[] = [
         { id: 0, name: "Nhạc Thiện Nữ", url: "/music/nhacgamethiennu.mp3" },
         { id: 1, name: "Bá Hổ Thuyết", url: "/music/bahothuyet.mp3" },
         { id: 2, name: "Thương Thì Thôi", url: "/music/thuongthithoi.mp3" }
     ];
 
     // Music Player functions
-    const toggleMusic = () => {
+    const toggleMusic = useCallback(() => {
         if (audioRef.current) {
             if (isPlaying) {
                 audioRef.current.pause();
             } else {
-                audioRef.current.play();
+                audioRef.current.play().catch(error => {
+                    console.error('Audio play failed:', error);
+                });
             }
             setIsPlaying(!isPlaying);
         }
-    };
+    }, [isPlaying]);
 
     // Xử lý khi kết thúc bài hát
-    const handleEnded = () => {
+    const handleEnded = useCallback(() => {
         playNextTrack();
-    };
+    }, []);
 
     // Xử lý bật bài hát tiếp theo
-    const playNextTrack = () => {
+    const playNextTrack = useCallback(() => {
         const nextIndex = (currentTrackIndex + 1) % playlist.length;
         setCurrentTrackIndex(nextIndex);
         setIsPlaying(true);
 
         // Đảm bảo audio được load và play
-        setTimeout(() => {
+        const playAudio = () => {
             if (audioRef.current) {
-                audioRef.current.play();
+                audioRef.current.play().catch(error => {
+                    console.error('Audio play failed:', error);
+                });
             }
-        }, 100);
-    };
+        };
+
+        setTimeout(playAudio, 100);
+    }, [currentTrackIndex, playlist.length]);
 
     useEffect(() => {
         const handleUserInteraction = () => {
@@ -64,6 +74,8 @@ const Header: React.FC = () => {
             if (audioRef.current && !isPlaying) {
                 audioRef.current.play().then(() => {
                     setIsPlaying(true);
+                }).catch(error => {
+                    console.error('Auto-play failed:', error);
                 });
             }
             document.removeEventListener('click', handleUserInteraction);
@@ -74,40 +86,53 @@ const Header: React.FC = () => {
         return () => {
             document.removeEventListener('click', handleUserInteraction);
         };
-    }, []);
+    }, [isPlaying]);
 
+    // Sửa lỗi setState trong useEffect
     useEffect(() => {
-        if (user) setLogin(true);
-        else setLogin(false);
+        let mounted = true;
+
+        const updateLoginState = () => {
+            if (mounted) {
+                setLogin(!!user);
+            }
+        };
+
+        // Đặt trong setTimeout để tránh synchronous setState
+        const timer = setTimeout(updateLoginState, 0);
+
+        return () => {
+            mounted = false;
+            clearTimeout(timer);
+        };
     }, [user]);
 
-    const toggleMute = () => {
+    const toggleMute = useCallback(() => {
         if (audioRef.current) {
             audioRef.current.muted = !isMuted;
             setIsMuted(!isMuted);
         }
-    };
+    }, [isMuted]);
 
     // Login functions
-    const handleLogin = () => {
+    const handleLogin = useCallback(() => {
         loadUser();
         if (!isLoginModalOpen) {
             setIsLoginModalOpen(true);
         }
-    };
+    }, [isLoginModalOpen, loadUser]);
 
-    const handleLogout = async () => {
-        setLogin(true);
-        console.log("Ban đã logout");
+    const handleLogout = useCallback(async () => {
+        console.log("Bạn đã logout");
         await logout();
         router.push('/'); // Quay về trang chủ sau khi logout
-    };
+    }, [logout, router]);
 
-    const onCloseLogin = () => {
+    const onCloseLogin = useCallback(() => {
         if (isLoginModalOpen) {
             setIsLoginModalOpen(false);
         }
-    };
+    }, [isLoginModalOpen]);
 
     return (
         <header className={styles.header}>
@@ -145,33 +170,34 @@ const Header: React.FC = () => {
                                 )}
                             </button>
 
-                            <Music className={`${styles.musicIcon} ${isPlaying ? styles.pulse : ''}`} onClick={playNextTrack} />
+                            <Music
+                                className={`${styles.musicIcon} ${isPlaying ? styles.pulse : ''}`}
+                                onClick={playNextTrack}
+                            />
                         </div>
 
                         {/* Login Button */}
-
-                        {
-                            !isLogin ?
+                        {!isLogin ? (
+                            <button
+                                className={styles.loginButton}
+                                onClick={handleLogin}
+                            >
+                                <User className={styles.loginIcon} />
+                                <span>Đăng Nhập</span>
+                            </button>
+                        ) : (
+                            <>
                                 <button
+                                    onClick={handleLogout}
                                     className={styles.loginButton}
-                                    onClick={handleLogin}
                                 >
-                                    <User className={styles.loginIcon} />
-                                    <span>Đăng Nhập</span>
-                                </button> : (
-                                    <><button
-                                        onClick={handleLogout}
-                                        className={styles.loginButton}
-                                    >
-                                        Đăng Xuất
-                                    </button>
-                                        <Link href="/account" className={styles.welcomeText}>
-                                            {user?.name}
-                                        </Link></>
-                                )
-                        }
-
-
+                                    Đăng Xuất
+                                </button>
+                                <Link href="/account" className={styles.welcomeText}>
+                                    {user?.name}
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </div>
 
@@ -180,8 +206,17 @@ const Header: React.FC = () => {
                     <div className={styles.logoContainer}>
                         <div className={styles.logoGlow}></div>
                         <div className={styles.logo}>
-                            {/* <Gamepad2 className={styles.logoIcon} /> */}
-                            <img src="/image/logo.jpg" alt="logo" className={styles.logoIcon} />
+                            {/* Thay thế <img> bằng <Image> từ next/image */}
+                            <Image
+                                src="/image/logo.jpg"
+                                alt="logo"
+                                width={64}
+                                height={64}
+                                className={styles.logoIcon}
+                                priority
+                                unoptimized
+                                quality={100}
+                            />
                             <div className={styles.logoSparkle}>
                                 <Sparkles className={styles.sparkleIcon} />
                             </div>
@@ -235,9 +270,11 @@ const Header: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Guild Motto */}
+                    {/* Guild Motto - Sửa lỗi unescaped entities */}
                     <div className={styles.motto}>
-                        <div className={styles.mottoText}>"Kéo xe bò đi năn nỉ é"</div>
+                        <div className={styles.mottoText}>
+                            &quot;Kéo xe bò đi năn nỉ é&quot;
+                        </div>
                         <div className={styles.mottoDivider}></div>
                     </div>
                 </div>
@@ -250,8 +287,8 @@ const Header: React.FC = () => {
 
             {/* Login Modal */}
             {isLoginModalOpen && (
-                <LoginModal isOpen={isLoginModalOpen} onClose={onCloseLogin} />)
-            }
+                <LoginModal isOpen={isLoginModalOpen} onClose={onCloseLogin} />
+            )}
 
             {/* Audio Element */}
             <audio

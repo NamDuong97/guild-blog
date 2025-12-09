@@ -1,5 +1,6 @@
+import React from 'react';
 import styles from './HistoryModal.module.css';
-import { HistoryModalProps } from '@/types';
+import { HistoryModalProps, SpinHistory } from '@/types';
 
 const HistoryModal: React.FC<HistoryModalProps> = ({
     isShowHistory,
@@ -8,7 +9,7 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
     user
 }) => {
 
-    const formatDate = (date: any) => {
+    const formatDate = (date: string | Date): string => {
         const d = new Date(date);
         if (isNaN(d.getTime())) return "Không hợp lệ";
 
@@ -21,7 +22,7 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
         }).format(d);
     };
 
-    const getStatusText = (status: string) => {
+    const getStatusText = (status: string): string => {
         switch (status) {
             case 'received':
                 return 'Đã nhận';
@@ -34,7 +35,7 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
         }
     };
 
-    const getStatusClass = (status: string) => {
+    const getStatusClass = (status: string): string => {
         switch (status) {
             case 'received':
                 return styles.statusReceived;
@@ -53,10 +54,13 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
         <div className={styles.historyModal}>
             <div className={styles.historyContent}>
                 <div className={styles.historyHeader}>
-                    <h2 className={styles.historyTitle}>Lịch Sử Vòng Quay: {user?.name || ''}</h2>
+                    <h2 className={styles.historyTitle}>
+                        Lịch Sử Vòng Quay: {user?.name || ''}
+                    </h2>
                     <button
                         className={styles.closeButton}
                         onClick={onClose}
+                        aria-label="Đóng lịch sử"
                     >
                         ×
                     </button>
@@ -76,8 +80,8 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
                                 </tr>
                             </thead>
                             <tbody>
-                                {spinHistory.map((item, index) => (
-                                    <tr key={index}>
+                                {spinHistory.map((item: SpinHistory, index: number) => (
+                                    <tr key={`${item.prizeId}-${item.timestamp}-${index}`}>
                                         <td>{index + 1}</td>
                                         <td>{formatDate(item.timestamp)}</td>
                                         <td>{item.prizeId}</td>
