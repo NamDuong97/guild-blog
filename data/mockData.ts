@@ -519,7 +519,7 @@ export const prizes: Prize[] = [
         type: 'tẩy luyện',
         icon: '/image/tinhbinh.jpg',
         color: '#fbbf24',
-        probability: 30
+        probability: 28
     },
     {
         id: 2,
@@ -527,7 +527,7 @@ export const prizes: Prize[] = [
         type: 'exp',
         icon: '/image/ankhu.jpg',
         color: '#06b6d4',
-        probability: 15
+        probability: 12
     },
     {
         id: 3,
@@ -535,7 +535,7 @@ export const prizes: Prize[] = [
         type: 'tẩy luyện',
         icon: '/image/battanmoc.jpg',
         color: '#ec4899',
-        probability: 10
+        probability: 5
     },
     {
         id: 4,
@@ -551,7 +551,7 @@ export const prizes: Prize[] = [
         type: 'pk',
         icon: '/image/doathonphien.jpg',
         color: '#8b5cf6',
-        probability: 15
+        probability: 3
     },
     {
         id: 6,
@@ -567,7 +567,7 @@ export const prizes: Prize[] = [
         type: 'tẩy luyện',
         icon: '/image/niemchau.jpg',
         color: '#d97706',
-        probability: 20
+        probability: 38
     },
     {
         id: 8,
@@ -575,6 +575,6 @@ export const prizes: Prize[] = [
         type: 'vip',
         icon: '/image/loanho.jpg',
         color: '#dc2626',
-        probability: 2
+        probability: 6
     }
 ];

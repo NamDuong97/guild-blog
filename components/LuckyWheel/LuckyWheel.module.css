@@ -84,7 +84,7 @@
     margin-bottom: 2rem;
 }
 
-/* Hiệu ứng sóng nhạc - LÀM SÁNG HƠN */
+/* Hiệu ứng sóng nhạc */
 .wheelWrapper::before {
     content: '';
     position: absolute;
@@ -95,17 +95,14 @@
     border-radius: 50%;
     background: radial-gradient(circle at 50% 50%,
             rgba(168, 85, 247, 0.9) 0%,
-            /* Tăng opacity từ 0.8 lên 0.9 */
             rgba(168, 85, 247, 0.6) 20%,
-            /* Tăng opacity từ 0.4 lên 0.6 */
             rgba(168, 85, 247, 0.4) 40%,
-            /* Tăng opacity từ 0.2 lên 0.4 */
             transparent 70%);
     z-index: -1;
     animation: twinkle 1.5s ease-in-out infinite alternate;
 }
 
-/* Hiệu ứng sóng nhạc - các vòng tròn lan tỏa - LÀM SÁNG HƠN */
+/* Hiệu ứng sóng nhạc - các vòng tròn lan tỏa */
 .musicWaves {
     position: absolute;
     top: 0;
@@ -120,48 +117,40 @@
 .musicWaves:nth-child(1) {
     animation-delay: 0s;
     border-color: rgba(168, 85, 247, 0.8);
-    /* Tăng từ 0.6 lên 0.8 */
 }
 
 .musicWaves:nth-child(2) {
     animation-delay: 0.5s;
     border-color: rgba(236, 72, 153, 0.7);
-    /* Tăng từ 0.5 lên 0.7 */
 }
 
 .musicWaves:nth-child(3) {
     animation-delay: 1s;
     border-color: rgba(6, 182, 212, 0.6);
-    /* Tăng từ 0.4 lên 0.6 */
 }
 
 .musicWaves:nth-child(4) {
     animation-delay: 1.5s;
     border-color: rgba(139, 92, 246, 0.5);
-    /* Tăng từ 0.3 lên 0.5 */
 }
 
+/* VÒNG QUAY CHÍNH */
 .wheel {
     position: relative;
     width: 420px;
     height: 420px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.95);
-    /* ĐỔI: từ màu tối sang trắng trong suốt */
     border: 1.5px solid rgba(168, 85, 247, 0.8);
-    /* TĂNG: viền đậm hơn, sáng hơn */
     box-shadow:
         0 0 100px rgba(168, 85, 247, 0.6),
-        /* TĂNG: từ 80px/0.4 lên 100px/0.6 */
         inset 0 0 80px rgba(168, 85, 247, 0.3);
-    /* TĂNG: từ 60px/0.15 lên 80px/0.3 */
     transition: transform 4s cubic-bezier(0.2, 0.8, 0.3, 1);
     overflow: hidden;
     z-index: 1;
-    animation: wheelPulse 3s ease-in-out infinite;
 }
 
-/* Viền ngoài nhấp nháy như hào quang - LÀM SÁNG HƠN */
+/* Viền ngoài nhấp nháy */
 .wheel::before {
     content: '';
     position: absolute;
@@ -173,17 +162,15 @@
     border: 2px solid transparent;
     background: linear-gradient(45deg,
             #c084fc, #f472b6, #22d3ee, #c084fc);
-    /* ĐỔI: màu pastel sáng hơn */
     background-size: 400% 400%;
     z-index: -1;
     animation: pulseGlow 2s ease-in-out infinite,
         rotateGradient 3s linear infinite;
     filter: blur(8px);
     opacity: 0.9;
-    /* TĂNG: từ 0.8 lên 0.9 */
 }
 
-/* Thêm hiệu ứng tia sáng tỏa ra - LÀM SÁNG HƠN */
+/* Hiệu ứng tia sáng tỏa ra */
 .wheel::after {
     content: '';
     position: absolute;
@@ -195,25 +182,21 @@
     background: conic-gradient(from 0deg at 50% 50%,
             transparent 0%,
             rgba(168, 85, 247, 0.5) 10%,
-            /* TĂNG: từ 0.3 lên 0.5 */
             transparent 20%,
             rgba(236, 72, 153, 0.4) 30%,
-            /* TĂNG: từ 0.3 lên 0.4 */
             transparent 40%,
             rgba(6, 182, 212, 0.5) 50%,
-            /* TĂNG: từ 0.3 lên 0.5 */
             transparent 60%,
             rgba(168, 85, 247, 0.5) 70%,
-            /* TĂNG: từ 0.3 lên 0.5 */
             transparent 80%,
             rgba(236, 72, 153, 0.4) 90%,
-            /* TĂNG: từ 0.3 lên 0.4 */
             transparent 100%);
     z-index: -2;
     animation: rotateRays 8s linear infinite;
     filter: blur(4px);
 }
 
+/* CÁC MẢNH VÒNG QUAY - ĐÃ SỬA */
 .wheelSegment {
     position: absolute;
     width: 50%;
@@ -221,23 +204,113 @@
     top: 0;
     left: 50%;
     transform-origin: 0% 100%;
-    background: conic-gradient(from 0deg at 0% 0%, var(--segment-color) 0deg 45deg, transparent 45deg);
+    overflow: hidden;
 }
 
+/* Màu nền cho mỗi segment */
+/* .wheelSegment::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--segment-color, #667);
+    transform-origin: 0% 100%;
+} */
+
+/* Đường kẻ phân chia các segment */
+.segmentDivider {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    height: 50%;
+    width: 2px;
+    background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0.3) 0%,
+            rgba(255, 255, 255, 0.8) 50%,
+            rgba(255, 255, 255, 0.3) 100%);
+    transform-origin: 0% 100%;
+    z-index: 1;
+}
+
+/* CONTENT TRONG SEGMENT - ĐÃ SỬA HOÀN TOÀN */
 .segmentContent {
     position: absolute;
-    top: 20px;
-    left: 40px;
-    transform: rotate(17.5deg);
-    text-align: center;
+    /* Đặt ở vị trí gần rìa ngoài */
+    top: 40px;
+    left: 50px;
+    width: 100px;
+    transform-origin: 0% 0%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
-    transform-origin: 0% 0%;
+    justify-content: center;
+    text-align: center;
 }
 
-/* Keyframes mới cho hiệu ứng sóng nhạc và pulsating */
+.prizeIcon {
+    width: 24px;
+    height: 24px;
+    color: white;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+    margin-bottom: 4px;
+}
+
+/* TÊN QUÀ HIỂN THỊ DỌC - ĐÃ SỬA */
+.prizeName {
+    display: block;
+    font-size: 15px;
+    font-weight: 550;
+    color: white;
+    line-height: 1.2;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(199deg);
+    white-space: nowrap;
+    height: 126px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 1px;
+}
+
+/* Hiệu ứng khi wheel đang quay */
+.wheel.spinning {
+    border: 5px solid rgba(168, 85, 247, 0.6);
+    box-shadow:
+        0 0 80px rgba(168, 85, 247, 0.5),
+        inset 0 0 60px rgba(168, 85, 247, 0.2);
+    animation: wheelSpinGlow 1s ease-in-out infinite;
+}
+
+.wheel.spinning::before {
+    animation-duration: 1s, 2s;
+    opacity: 0.8;
+    filter: blur(6px);
+    background: linear-gradient(45deg,
+            rgba(192, 132, 252, 0.8),
+            rgba(244, 114, 182, 0.6),
+            rgba(34, 211, 238, 0.7),
+            rgba(192, 132, 252, 0.8));
+}
+
+.wheel.spinning::after {
+    animation-duration: 3s;
+    opacity: 0.6;
+    background: conic-gradient(from 0deg at 50% 50%,
+            transparent 0%,
+            rgba(168, 85, 247, 0.4) 10%,
+            transparent 20%,
+            rgba(236, 72, 153, 0.3) 30%,
+            transparent 40%,
+            rgba(6, 182, 212, 0.4) 50%,
+            transparent 60%,
+            rgba(168, 85, 247, 0.4) 70%,
+            transparent 80%,
+            rgba(236, 72, 153, 0.3) 90%,
+            transparent 100%);
+}
+
+/* Keyframes */
 @keyframes musicPulse {
     0% {
         transform: scale(1);
@@ -250,30 +323,16 @@
     }
 }
 
-@keyframes wheelPulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.05);
-    }
-}
-
 @keyframes pulseGlow {
 
     0%,
     100% {
         opacity: 0.7;
-        /* TĂNG: từ 0.6 lên 0.7 */
         transform: scale(1);
     }
 
     50% {
         opacity: 1;
-        /* GIỮ: 1 (tối đa) */
         transform: scale(1.02);
     }
 }
@@ -301,173 +360,33 @@
 @keyframes twinkle {
     0% {
         opacity: 0.4;
-        /* TĂNG: từ 0.3 lên 0.4 */
         filter: blur(8px);
     }
 
     100% {
         opacity: 0.9;
-        /* TĂNG: từ 0.8 lên 0.9 */
         filter: blur(12px);
     }
 }
 
-/* Hiệu ứng khi wheel đang quay - LÀM SÁNG HƠN */
-.wheel.spinning {
-    border: 5px solid rgba(168, 85, 247, 0.6);
-    /* TĂNG: từ 4px/0.4 lên 5px/0.6 */
-    box-shadow:
-        0 0 80px rgba(168, 85, 247, 0.5),
-        /* TĂNG: từ 60px/0.3 lên 80px/0.5 */
-        inset 0 0 60px rgba(168, 85, 247, 0.2);
-    /* TĂNG: từ 40px/0.1 lên 60px/0.2 */
-    animation: wheelSpinPulse 1s linear infinite;
-}
-
-.wheel.spinning::before {
-    animation-duration: 1s, 2s;
-    opacity: 0.8;
-    /* TĂNG: từ 0.7 lên 0.8 */
-    filter: blur(6px);
-    background: linear-gradient(45deg,
-            rgba(192, 132, 252, 0.8),
-            /* ĐỔI: màu pastel sáng hơn */
-            rgba(244, 114, 182, 0.6),
-            rgba(34, 211, 238, 0.7),
-            rgba(192, 132, 252, 0.8));
-}
-
-.wheel.spinning::after {
-    animation-duration: 3s;
-    opacity: 0.6;
-    /* TĂNG: từ 0.4 lên 0.6 */
-    background: conic-gradient(from 0deg at 50% 50%,
-            transparent 0%,
-            rgba(168, 85, 247, 0.4) 10%,
-            /* TĂNG: từ 0.2 lên 0.4 */
-            transparent 20%,
-            rgba(236, 72, 153, 0.3) 30%,
-            /* TĂNG: từ 0.15 lên 0.3 */
-            transparent 40%,
-            rgba(6, 182, 212, 0.4) 50%,
-            /* TĂNG: từ 0.2 lên 0.4 */
-            transparent 60%,
-            rgba(168, 85, 247, 0.4) 70%,
-            /* TĂNG: từ 0.2 lên 0.4 */
-            transparent 80%,
-            rgba(236, 72, 153, 0.3) 90%,
-            /* TĂNG: từ 0.15 lên 0.3 */
-            transparent 100%);
-}
-
-/* Hiệu ứng pulsating nhẹ nhàng hơn */
-@keyframes wheelSpinPulse {
+/* Hiệu ứng nhấp nháy khi đang quay */
+@keyframes wheelSpinGlow {
 
     0%,
     100% {
-        transform: scale(1) rotate(0deg);
-        border-color: rgba(168, 85, 247, 0.6);
-        /* TĂNG: từ 0.4 lên 0.6 */
-    }
-
-    25% {
-        transform: scale(1.02) rotate(45deg);
-        border-color: rgba(168, 85, 247, 0.7);
-        /* TĂNG: từ 0.5 lên 0.7 */
+        box-shadow:
+            0 0 80px rgba(168, 85, 247, 0.5),
+            inset 0 0 60px rgba(168, 85, 247, 0.2);
     }
 
     50% {
-        transform: scale(1.03) rotate(90deg);
-        border-color: rgba(168, 85, 247, 0.8);
-        /* TĂNG: từ 0.6 lên 0.8 */
-    }
-
-    75% {
-        transform: scale(1.02) rotate(135deg);
-        border-color: rgba(168, 85, 247, 0.7);
-        /* TĂNG: từ 0.5 lên 0.7 */
+        box-shadow:
+            0 0 100px rgba(168, 85, 247, 0.8),
+            inset 0 0 80px rgba(168, 85, 247, 0.4);
     }
 }
 
-/* Thêm hiệu ứng mờ dần nhẹ nhàng */
-.wheel.spinning {
-    transition: all 0.5s ease-in-out;
-}
-
-/* Tăng tốc độ sóng nhạc khi đang quay */
-.wheel.spinning~.musicWaves {
-    animation-duration: 0.8s;
-}
-
-/*==============================================================*/
-
-/* .wheelContainer {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.wheelWrapper {
-    position: relative;
-    display: inline-block;
-    margin-bottom: 2rem;
-}
-
-.wheel {
-    position: relative;
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    background: rgba(30, 41, 59, 0.8);
-    border: 4px solid rgba(168, 85, 247, 0.5);
-    box-shadow:
-        0 0 60px rgba(168, 85, 247, 0.3),
-        inset 0 0 40px rgba(168, 85, 247, 0.1);
-    transition: transform 4s cubic-bezier(0.2, 0.8, 0.3, 1);
-    overflow: hidden;
-}
-
-.wheelSegment {
-    position: absolute;
-    width: 50%;
-    height: 50%;
-    top: 0;
-    left: 50%;
-    transform-origin: 0% 100%;
-    background: conic-gradient(from 0deg at 0% 0%, var(--segment-color) 0deg 45deg, transparent 45deg);
-}
-
-.segmentContent {
-    position: absolute;
-    top: 20px;
-    left: 40px;
-    transform: rotate(22.5deg);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    transform-origin: 0% 0%;
-} */
-
-.prizeIcon {
-    width: 1.5rem;
-    height: 1.5rem;
-    color: white;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
-}
-
-.prizeName {
-    display: block;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: white;
-    line-height: 1.2;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    white-space: nowrap;
-}
-
+/* TÂM VÒNG QUAY */
 .wheelCenter {
     position: absolute;
     top: 50%;
@@ -491,12 +410,13 @@
     animation: spin 3s linear infinite;
 }
 
+/* KIM CHỈ */
 .wheelPointer {
     position: absolute;
     top: -20px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 5;
+    z-index: 20;
 }
 
 .pointerArrow {
@@ -508,6 +428,7 @@
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
+/* NÚT QUAY */
 .spinButton {
     background: linear-gradient(135deg, #fbbf24, #ec4899);
     border: none;
@@ -542,6 +463,7 @@
     transform: none;
 }
 
+/* MODAL KẾT QUẢ */
 .resultModal {
     position: fixed;
     inset: 0;
@@ -564,6 +486,7 @@
     width: 90%;
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
     animation: scaleIn 0.3s ease;
+    position: relative;
 }
 
 .resultIcon {
@@ -634,6 +557,7 @@
     box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
 }
 
+/* DANH SÁCH PHẦN THƯỞNG - ĐÃ SỬA */
 .prizeList {
     background: rgba(50, 78, 122, 0.6);
     backdrop-filter: blur(12px);
@@ -646,13 +570,13 @@
     font-size: 1.125rem;
     font-weight: 600;
     color: white;
-    margin: 0 0 1rem 0;
+    margin: 0 0 1.5rem 0;
     text-align: center;
 }
 
 .prizesGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 1rem;
 }
 
@@ -671,20 +595,23 @@
     transform: translateY(-1px);
 }
 
+/* ICON PHẦN THƯỞNG - ĐÃ SỬA */
 .prizeItemIcon {
-    width: 4rem;
-    height: 4rem;
+    width: 80px;
+    height: 80px;
     border-radius: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
 }
 
-.prizeItemSvg {
-    width: 1.25rem;
-    height: 1.25rem;
-    color: white;
+.prizeItemIcon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .prizeItemInfo {
@@ -694,18 +621,20 @@
 }
 
 .prizeItemName {
-    font-size: 0.875rem;
+    font-size: 0.9rem;
     font-weight: 500;
     color: white;
-    line-height: 1.2;
+    line-height: 1.3;
+    margin-bottom: 0.25rem;
 }
 
 .prizeItemProbability {
-    font-size: 0.75rem;
-    color: #9ca3af;
-    margin-top: 0.125rem;
+    font-size: 0.8rem;
+    color: #c084fc;
+    font-weight: 600;
 }
 
+/* NÚT ĐÓNG MODAL */
 .closeButton {
     position: absolute;
     top: 1rem;
@@ -729,20 +658,6 @@
     background: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.3);
     transform: scale(1.1);
-}
-
-/* Đảm bảo resultContent có position relative */
-.resultContent {
-    position: relative;
-    background: linear-gradient(135deg, #1e293b, #0f172a);
-    padding: 2rem;
-    border-radius: 1.5rem;
-    border: 2px solid rgba(168, 85, 247, 0.5);
-    text-align: center;
-    max-width: 400px;
-    width: 90%;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-    animation: scaleIn 0.3s ease;
 }
 
 /* Animations */
@@ -825,12 +740,13 @@
     }
 
     .segmentContent {
-        left: 30px;
-        top: 12px;
+        left: 40px;
+        top: 30px;
     }
 
     .prizeName {
-        font-size: 0.75rem;
+        font-size: 11px;
+        height: 60px;
     }
 
     .wheelCenter {
@@ -847,6 +763,16 @@
         grid-template-columns: repeat(2, 1fr);
     }
 
+    .prizeItemIcon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .prizeItemIcon img {
+        width: 100%;
+        height: 100%;
+    }
+
     .resultActions {
         flex-direction: column;
     }
@@ -857,11 +783,11 @@
     }
 
     .prizeItemName {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
     }
 
     .prizeItemProbability {
-        font-size: 0.7rem;
+        font-size: 0.75rem;
     }
 }
 
@@ -893,12 +819,13 @@
     }
 
     .segmentContent {
-        left: 25px;
-        top: 10px;
+        left: 35px;
+        top: 25px;
     }
 
     .prizeName {
-        font-size: 0.7rem;
+        font-size: 10px;
+        height: 50px;
     }
 
     .wheelCenter {
@@ -917,24 +844,38 @@
     }
 
     .prizeIcon {
-        width: 1.25rem;
-        height: 1.25rem;
+        width: 100%;
+        height: 100%;
     }
 
     .prizeListTitle {
         font-size: 1rem;
     }
 
+    .prizeItem {
+        padding: 0.5rem;
+    }
+
+    .prizeItemIcon {
+        width: 38px;
+        height: 8px;
+    }
+
+    .prizeItemIcon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
     .prizeItemName {
-        font-size: 0.75rem;
+        font-size: 0.8rem;
     }
 
     .prizeItemProbability {
-        font-size: 0.65rem;
+        font-size: 0.7rem;
     }
 
     .wheelPointer {
         top: -15px;
     }
-
 }

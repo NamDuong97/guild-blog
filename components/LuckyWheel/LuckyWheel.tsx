@@ -1,14 +1,13 @@
 "use client";
-import React, { useState, useRef, useMemo, useEffect } from 'react';
-import { Prize } from '@/types';
-import { Gift, RotateCcw, Sparkles, Trophy } from 'lucide-react';
-import styles from './LuckyWheel.module.css';
-import { prizes } from '@/data/mockData';
-import HistoryModal from '@/components/HistoryModal/HistoryModal'
-import { SpinHistory } from '@/types/index'
-import { GOOGLE_SCRIPT_URL_LUCKY_WHEEL } from '@/untils/Constants'
-import { useUser } from '@/contexts/UserContext'
-
+import React, { useState, useRef, useMemo, useEffect } from "react";
+import { Prize } from "@/types";
+import { Gift, RotateCcw, Sparkles } from "lucide-react";
+import styles from "./LuckyWheel.module.css";
+import { prizes } from "@/data/mockData";
+import HistoryModal from "@/components/HistoryModal/HistoryModal";
+import { SpinHistory } from "@/types/index";
+import { GOOGLE_SCRIPT_URL_LUCKY_WHEEL } from "@/untils/Constants";
+import { useUser } from "@/contexts/UserContext";
 
 const LuckyWheel: React.FC = () => {
     const [isSpinning, setIsSpinning] = useState(false);
@@ -21,32 +20,24 @@ const LuckyWheel: React.FC = () => {
     const wheelRef = useRef<HTMLDivElement>(null);
     const { user } = useUser();
 
-
+    // Cấu hình wheel
     const wheelConfig = useMemo(() => {
         const totalPrizes = prizes.length;
         const segmentAngle = 360 / totalPrizes;
         const pointerOffset = segmentAngle / 2;
-
         return {
             totalPrizes,
             segmentAngle,
-            pointerOffset
+            pointerOffset,
         };
     }, [prizes.length]);
 
     useEffect(() => {
-        const totalPrizes = prizes.length;
-        const segmentAngle = 360 / totalPrizes;
-        const pointerOffset = segmentAngle / 2;
-
-        // 👇 Ví dụ muốn vòng quay khởi động ở múi thứ 0
-        const initialSegment = 0;
-        const initialRotation = initialSegment * wheelConfig.segmentAngle + wheelConfig.pointerOffset;
-
-        if (wheelRef.current) {
-            wheelRef.current.style.transition = "none";
-            wheelRef.current.style.transform = `rotate(${initialRotation}deg)`;
-        }
+        const wheel = wheelRef.current;
+        if (!wheel) return;
+        wheel.style.transition = "none";
+        wheel.style.transform = `rotate(0deg)`;
+        void wheel.offsetWidth;
     }, [prizes.length]);
 
     const spinWheel = () => {
@@ -56,71 +47,120 @@ const LuckyWheel: React.FC = () => {
         setResult(null);
         setShowResultModal(false);
 
-        const random = Math.random() * 100;
-        let cumulativeProbability = 0;
-        let selectedPrize = prizes[0];
-
-        for (const prize of prizes) {
-            cumulativeProbability += prize.probability;
-            if (random <= cumulativeProbability) {
-                console.log("=========================")
-                selectedPrize = prize;
-                console.log("quà nhận được ", prize.name)
+        const totalProb = prizes.reduce((s, p) => s + (p.probability || 0), 0);
+        if (totalProb <= 0) {
+            setIsSpinning(false);
+            return;
+        }
+        const rnd = Math.random() * totalProb;
+        let cumulative = 0;
+        let selectedPrize = prizes[prizes.length - 1];
+        for (const p of prizes) {
+            cumulative += p.probability;
+            if (rnd < cumulative) {
+                selectedPrize = p;
                 break;
             }
         }
 
         const wheel = wheelRef.current;
-        if (wheel) {
-            // Khi bắt đầu quay
-            wheel.classList.add('spinning');
-
-            const currentRotation = parseFloat(wheel.style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
-            wheel.style.transform = `rotate(${currentRotation}deg)`;
-            console.log("góc ban đầu", currentRotation)
-
-            const { segmentAngle, pointerOffset } = wheelConfig;
-            const prizeIndex = prizes.findIndex(p => p.id === selectedPrize.id);
-            console.log("số đo góc 1 phần tử", segmentAngle)
-            console.log("1 nửa số đo góc 1pt", pointerOffset)
-            console.log("stt của phần quà trúng", prizeIndex)
-
-            const targetRotation = currentRotation + 1440 + (360 - (prizeIndex + 1) * segmentAngle);
-            console.log("số đo góc cần quay", targetRotation)
-            console.log("=========================")
-            wheel.style.transition = 'transform 4s cubic-bezier(0.2, 0.8, 0.3, 1)';
-            wheel.style.transform = `rotate(${targetRotation}deg)`;
-
-            setTimeout(() => {
-                // Khi kết thúc quay
-                setIsSpinning(false);
-                setResult(selectedPrize);
-                setShowResultModal(true);
-                addHistoryWheel(selectedPrize);
-                setSpinsLeft(prev => prev - 1);
-                wheel.classList.remove('spinning');
-            }, 2000);
+        if (!wheel) {
+            setIsSpinning(false);
+            return;
         }
+
+        const computed = window.getComputedStyle(wheel).transform;
+        let currentRotation = 0;
+        if (computed && computed !== "none") {
+            const m = computed.match(/^matrix\((.+)\)$/);
+            if (m) {
+                const nums = m[1].split(",").map((s) => parseFloat(s));
+                const a = nums[0],
+                    b = nums[1];
+                const angle = Math.atan2(b, a) * (180 / Math.PI);
+                currentRotation = angle;
+            } else {
+                const r = (wheel.style.transform || "").match(/rotate\(([-0-9.]+)deg\)/);
+                if (r) currentRotation = parseFloat(r[1]);
+            }
+        }
+        currentRotation = ((currentRotation % 360) + 360) % 360;
+
+        const N = prizes.length;
+        if (N <= 0) {
+            setIsSpinning(false);
+            return;
+        }
+        const segmentAngle = wheelConfig.segmentAngle;
+
+        const prizeIndex = prizes.findIndex((p) => p.id === selectedPrize.id);
+        if (prizeIndex < 0) {
+            setIsSpinning(false);
+            return;
+        }
+
+        const centerOfSegment = prizeIndex * segmentAngle + segmentAngle / 2;
+        const pointerAngle = 0;
+        const desiredFinalMod = ((360 - centerOfSegment + pointerAngle) % 360 + 360) % 360;
+
+        let delta = desiredFinalMod - currentRotation;
+        if (delta < 0) delta += 360;
+
+        const fullSpins = 4;
+        const targetRotation = currentRotation + fullSpins * 360 + delta;
+
+        const wheelEl = wheelRef.current;
+        if (wheelEl) {
+            wheelEl.classList.add(styles.spinning);
+        }
+
+        const durationMs = 4000;
+        const onTransitionEnd = () => {
+            if (wheelEl) {
+                wheelEl.classList.remove(styles.spinning);
+            }
+            setIsSpinning(false);
+            setResult(selectedPrize);
+            setShowResultModal(true);
+            addHistoryWheel(selectedPrize);
+            setSpinsLeft((prev) => prev - 1);
+
+            if (wheel) {
+                const normalizedFinal = targetRotation % 360;
+                wheel.style.transition = "none";
+                wheel.style.transform = `rotate(${normalizedFinal}deg)`;
+                void wheel.offsetWidth;
+            }
+        };
+
+        wheel.addEventListener("transitionend", onTransitionEnd as EventListener, { once: true });
+        wheel.style.transition = `transform ${durationMs / 1000}s cubic-bezier(0.2,0.8,0.3,1)`;
+        wheel.style.transform = `rotate(${targetRotation}deg)`;
+
+        setTimeout(() => {
+            if (isSpinning) {
+                onTransitionEnd();
+            }
+        }, durationMs + 400);
     };
 
     const saveHistoryToStorage = () => {
         try {
             const data = JSON.stringify(spinHistoryRef.current);
             if (data) {
-                localStorage.setItem('spinHistoryRef', data)
+                localStorage.setItem("spinHistoryRef", data);
             }
         } catch (error) {
-            console.error('Error parsing localStorage data:', error);
+            console.error("Error parsing localStorage data:", error);
         }
-    }
+    };
 
     const saveToGoogleSheets = async (history: SpinHistory) => {
         try {
             const response = await fetch(GOOGLE_SCRIPT_URL_LUCKY_WHEEL, {
                 method: "POST",
-                body: JSON.stringify(history)
+                body: JSON.stringify(history),
             });
-
             const result = await response.json();
             if (result.success) {
                 console.log("✅ Saved to Google Sheets");
@@ -132,82 +172,77 @@ const LuckyWheel: React.FC = () => {
         }
     };
 
-    // Load lịch sử từ Google Sheets
     const loadFromGoogleSheets = async (): Promise<SpinHistory[]> => {
         try {
             const response = await fetch(GOOGLE_SCRIPT_URL_LUCKY_WHEEL);
             const result = await response.json();
-
             if (result.success) {
                 return result.data.map((item: any) => {
-                    // Clean keys - remove trailing spaces
                     const cleanItem: any = {};
-                    Object.keys(item).forEach(key => {
-                        const cleanKey = key.trim(); // Remove spaces from both ends
+                    Object.keys(item).forEach((key) => {
+                        const cleanKey = key.trim();
                         cleanItem[cleanKey] = item[key];
                     });
                     return {
                         timestamp: new Date(cleanItem.timestamp),
-                        prizeName: cleanItem.prizename || cleanItem.prizeName || 'Unknown Prize',
-                        prizeId: cleanItem.prizeid || cleanItem.prizeId || 'Unknown ID',
-                        userId: cleanItem.userid || 'nam',
+                        prizeName: cleanItem.prizename || cleanItem.prizeName || "Unknown Prize",
+                        prizeId: cleanItem.prizeid || cleanItem.prizeId || "Unknown ID",
+                        userId: cleanItem.userid || "nam",
                         quantity: Number(cleanItem.quantity) || 1,
-                        status: cleanItem.status || 'received',
-                        type: cleanItem.type || 'general'
+                        status: cleanItem.status || "received",
+                        type: cleanItem.type || "general",
                     } as SpinHistory;
                 });
             }
         } catch (error) {
-            console.error('Load from Google Sheets error:', error);
+            console.error("Load from Google Sheets error:", error);
         }
         return [];
     };
 
     const loadSpinHistory = async () => {
         try {
-            const storedData = localStorage.getItem('spinHistoryRef');
+            const storedData = localStorage.getItem("spinHistoryRef");
             let dataFromGG: SpinHistory[] = await loadFromGoogleSheets();
-            let dataFromLS: SpinHistory[] = JSON.parse(storedData || '[]');
+            let dataFromLS: SpinHistory[] = JSON.parse(storedData || "[]");
             if (dataFromGG.length != dataFromLS.length) {
                 spinHistoryRef.current = dataFromGG;
-                localStorage.setItem('spinHistoryRef', JSON.stringify(dataFromGG))
+                localStorage.setItem("spinHistoryRef", JSON.stringify(dataFromGG));
             } else {
                 spinHistoryRef.current = dataFromLS;
             }
         } catch (error) {
-            console.error('Error parsing localStorage data or Error load data from Google Sheet:', error);
+            console.error("Error parsing localStorage data or Error load data from Google Sheet:", error);
         }
-
         if (user) {
-            spinHistoryRefForUser.current = spinHistoryRef.current.filter(it => it.userId == user.userId)
+            spinHistoryRefForUser.current = spinHistoryRef.current.filter((it) => it.userId == user.userId);
         }
-    }
+    };
 
     useEffect(() => {
         loadSpinHistory();
         return () => {
-            // Lưu khi component unmount
             saveHistoryToStorage();
         };
     }, []);
 
     useEffect(() => {
         if (user) {
-            spinHistoryRefForUser.current = spinHistoryRef.current.filter(it => it.userId == user.userId)
+            spinHistoryRefForUser.current = spinHistoryRef.current.filter((it) => it.userId == user.userId);
         } else {
-            spinHistoryRefForUser.current = []
+            spinHistoryRefForUser.current = [];
         }
     }, [user]);
 
     const addHistoryWheel = async (prize: Prize) => {
         const pr: SpinHistory = {
             timestamp: new Date(),
-            prizeName: prize?.name || 'Unknown Prize',
-            prizeId: String(prize?.id || 'UNKNOWN'),
-            userId: user?.userId || 'UNKNOWN',
+            prizeName: prize?.name || "Unknown Prize",
+            prizeId: String(prize?.id || "UNKNOWN"),
+            userId: user?.userId || "UNKNOWN",
             quantity: 1,
-            status: 'received',
-            type: prize?.type || 'general'
+            status: "received",
+            type: prize?.type || "general",
         };
         spinHistoryRef.current = [...spinHistoryRef.current, pr];
         spinHistoryRefForUser.current = [...spinHistoryRefForUser.current, pr];
@@ -224,8 +259,8 @@ const LuckyWheel: React.FC = () => {
         setSpinsLeft(1);
         const wheel = wheelRef.current;
         if (wheel) {
-            wheel.style.transition = 'none';
-            wheel.style.transform = 'rotate(0deg)';
+            wheel.style.transition = "none";
+            wheel.style.transform = "rotate(0deg)";
         }
         setResult(null);
         setShowResultModal(false);
@@ -233,10 +268,10 @@ const LuckyWheel: React.FC = () => {
 
     const getTypeColor = (type: string) => {
         const typeColors: Record<string, string> = {
-            gold: 'linear-gradient(135deg, #fbbf24, #d97706)',
-            item: 'linear-gradient(135deg, #06b6d4, #0891b2)',
-            vip: 'linear-gradient(135deg, #ec4899, #db2777)',
-            special: 'linear-gradient(135deg, #dc2626, #b91c1c)'
+            gold: "linear-gradient(135deg, #fbbf24, #d97706)",
+            item: "linear-gradient(135deg, #06b6d4, #0891b2)",
+            vip: "linear-gradient(135deg, #ec4899, #db2777)",
+            special: "linear-gradient(135deg, #dc2626, #b91c1c)",
         };
         return typeColors[type] || typeColors.gold;
     };
@@ -268,20 +303,23 @@ const LuckyWheel: React.FC = () => {
                     <div className={styles.musicWaves}></div>
                     <div className={styles.musicWaves}></div>
                     <div className={styles.musicWaves}></div>
+
                     <div
                         ref={wheelRef}
                         className={`${styles.wheel} ${isSpinning ? styles.spinning : ''}`}
                     >
                         {prizes.map((prize, index) => {
-                            // const Icon = prize.icon;
-                            console.log("index: ", index + prize.name);
-                            const rotation = (index + 1) * wheelConfig.segmentAngle;
-                            console.log("rotation: ", rotation);
-                            const segmentStyle = {
+                            const rotation = index * wheelConfig.segmentAngle;
+                            const centerAngle = wheelConfig.segmentAngle / 2;
+
+                            const segmentStyle: React.CSSProperties = {
                                 '--segment-color': prize.color,
-                                '--segment-angle': `${wheelConfig.segmentAngle}deg`,
                                 transform: `rotate(${rotation}deg)`,
-                            } as React.CSSProperties;
+                            };
+
+                            const contentStyle: React.CSSProperties = {
+                                transform: `rotate(${centerAngle}deg)`,
+                            };
 
                             return (
                                 <div
@@ -291,9 +329,7 @@ const LuckyWheel: React.FC = () => {
                                 >
                                     <div
                                         className={styles.segmentContent}
-                                        style={{
-                                            '--segment-angle': `${wheelConfig.segmentAngle}deg`,
-                                        } as React.CSSProperties}
+                                        style={contentStyle}
                                     >
                                         <span className={styles.prizeName}>{prize.name}</span>
                                     </div>
@@ -307,8 +343,10 @@ const LuckyWheel: React.FC = () => {
                                 <div
                                     key={`divider-${index}`}
                                     className={styles.segmentDivider}
-                                    style={{ transform: `rotate(${rotation}deg)` }}
-                                ></div>
+                                    style={{
+                                        transform: `rotate(${rotation}deg)`,
+                                    } as React.CSSProperties}
+                                />
                             );
                         })}
 
@@ -323,21 +361,18 @@ const LuckyWheel: React.FC = () => {
                 </div>
 
                 <button
-                    className={`${styles.spinButton} ${isSpinning ? styles.spinning : ''} ${spinsLeft <= 0 ? styles.disabled : ''}`}
+                    className={`${styles.spinButton} ${isSpinning ? styles.spinning : ""} ${spinsLeft <= 0 ? styles.disabled : ""}`}
                     onClick={spinWheel}
                     disabled={isSpinning || spinsLeft <= 0}
                 >
-                    {spinsLeft <= 0 ? 'Hết lượt quay' : 'QUAY NGAY'}
+                    {spinsLeft <= 0 ? "Hết lượt quay" : "QUAY NGAY"}
                 </button>
             </div>
 
             {showResultModal && result && (
                 <div className={styles.resultModal}>
                     <div className={styles.resultContent}>
-                        <div
-                            className={styles.resultIcon}
-                            style={{ background: getTypeColor(result.type) }}
-                        >
+                        <div className={styles.resultIcon} style={{ background: getTypeColor(result.type) }}>
                             <Gift className={styles.resultPrizeIcon} />
                         </div>
                         <h3 className={styles.resultTitle}>Chúc mừng!</h3>
@@ -349,10 +384,7 @@ const LuckyWheel: React.FC = () => {
                             </button>
                         </div>
 
-                        <button
-                            className={styles.closeButton}
-                            onClick={() => setShowResultModal(false)}
-                        >
+                        <button className={styles.closeButton} onClick={() => setShowResultModal(false)}>
                             ×
                         </button>
                     </div>
@@ -371,19 +403,15 @@ const LuckyWheel: React.FC = () => {
             <div className={styles.prizeList}>
                 <h4 className={styles.prizeListTitle}>Giải thưởng có thể nhận</h4>
                 <div className={styles.prizesGrid}>
-                    {prizes.map(prize => {
-                        const Icon = prize.icon;
+                    {prizes.map((prize) => {
                         return (
                             <div key={prize.id} className={styles.prizeItem}>
-                                <div
-                                    className={styles.prizeItemIcon}
-                                    style={{ background: getTypeColor(prize.type) }}
-                                >
+                                <div className={styles.prizeItemIcon} style={{ background: getTypeColor(prize.type) }}>
                                     <img src={prize.icon} alt={prize.name} />
                                 </div>
                                 <div className={styles.prizeItemInfo}>
                                     <span className={styles.prizeItemName}>{prize.name}</span>
-                                    <span className={styles.prizeItemProbability}>{prize.probability}%</span>
+
                                 </div>
                             </div>
                         );
