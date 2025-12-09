@@ -1,9 +1,10 @@
 "use client";
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useRef } from 'react';
 import { Member, memberRoles } from '@/types';
 import { Search } from 'lucide-react';
 import styles from './MemberList.module.css';
 import Image from 'next/image';
+import { useCurrentTime } from '@/hooks/useCurrentTime';
 
 interface MemberListProps {
     members: Member[];
@@ -15,7 +16,7 @@ const MemberList: React.FC<MemberListProps> = ({ members }) => {
     const [sortBy, setSortBy] = useState<'level' | 'joinDate' | 'name'>('level');
 
     // Tính toán thời gian hiện tại một lần trong component
-    const currentTime = useMemo(() => Date.now(), []);
+    const currentTime = useCurrentTime();
 
     // Tính toán roleStats
     const roleStats = useMemo(() => {

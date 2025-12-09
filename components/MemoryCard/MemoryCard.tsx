@@ -1,10 +1,11 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Memory } from '@/types';
 import { Calendar, Heart, ImageIcon, MessageSquare, Share2 } from 'lucide-react';
 import styles from './MemoryCard.module.css';
 import MemoryDetailModal from '@/components/MemoryDetailModal/MemoryDetailModal';
-import { getMemoryImages } from '@/types/index'
+import { getMemoryImages } from '@/types/index';
+import Image from 'next/image';
 
 interface MemoryCardProps {
     memory: Memory;
@@ -14,13 +15,13 @@ interface MemoryCardProps {
 const MemoryCard: React.FC<MemoryCardProps> = ({ memory, index }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleCardClick = () => {
+    const handleCardClick = useCallback(() => {
         setIsModalOpen(true);
-    };
+    }, []);
 
-    const handleCloseModal = () => {
+    const handleCloseModal = useCallback(() => {
         setIsModalOpen(false);
-    };
+    }, []);
 
     const images = getMemoryImages(memory);
 
@@ -30,13 +31,23 @@ const MemoryCard: React.FC<MemoryCardProps> = ({ memory, index }) => {
                 className={styles.card}
                 style={{ animationDelay: `${index * 100}ms` }}
                 onClick={handleCardClick}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        handleCardClick();
+                    }
+                }}
             >
                 <div className={styles.imageContainer}>
                     {images.length > 0 ? (
-                        <img
+                        <Image
                             src={images[0]}
                             alt={memory.title}
+                            width={400}
+                            height={300}
                             className={styles.image}
+                            sizes="(max-width: 768px) 100vw, 400px"
                         />
                     ) : (
                         <div className={styles.noImage}>
@@ -47,7 +58,7 @@ const MemoryCard: React.FC<MemoryCardProps> = ({ memory, index }) => {
 
                     <div className={styles.imageOverlay}></div>
                     <div className={styles.tags}>
-                        {memory.tags.map(tag => (
+                        {memory.tags.map((tag: string) => (
                             <span key={tag} className={styles.tag}>
                                 #{tag}
                             </span>
@@ -66,47 +77,57 @@ const MemoryCard: React.FC<MemoryCardProps> = ({ memory, index }) => {
 
                     <h2 className={styles.title}>{memory.title}</h2>
 
-                    <p className={styles.description}>{memory.content}</p>
+                    <p className={styles.description}>{memory.content.substring(0, 150)}...</p>
 
                     <div className={styles.actions}>
                         <div className={styles.actionButtons}>
-                            {
-                                memory.likes > 0 ?
-                                    <button className={styles.actionButton}>
-                                        <Heart className={styles.actionIcon} />
-                                        <span>{memory.likes}</span>
-                                    </button>
-                                    :
-                                    ''
-                            }
-                            {
-                                memory.comments > 0 ?
-                                    <button className={styles.actionButton}>
-                                        <MessageSquare className={styles.actionIcon} />
-                                        <span>{memory.comments}</span>
-                                    </button>
-                                    :
-                                    ''
-                            }
-
-                        </div>
-                        {
-                            memory.comments > 0 ?
-                                <button className={styles.actionButton}>
-                                    <Share2 className={styles.actionIcon} />
+                            {memory.likes > 0 && (
+                                <button
+                                    className={styles.actionButton}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        // Handle like logic
+                                    }}
+                                >
+                                    <Heart className={styles.actionIcon} />
+                                    <span>{memory.likes}</span>
                                 </button>
-                                :
-                                ''
-                        }
+                            )}
+                            {memory.comments > 0 && (
+                                <button
+                                    className={styles.actionButton}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        // Handle comment logic
+                                    }}
+                                >
+                                    <MessageSquare className={styles.actionIcon} />
+                                    <span>{memory.comments}</span>
+                                </button>
+                            )}
+                        </div>
+                        {memory.comments > 0 && (
+                            <button
+                                className={styles.actionButton}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    // Handle share logic
+                                }}
+                            >
+                                <Share2 className={styles.actionIcon} />
+                            </button>
+                        )}
                     </div>
                 </div>
             </article>
 
-            <MemoryDetailModal
-                memory={memory}
-                isOpen={isModalOpen}
-                onClose={handleCloseModal}
-            />
+            {isModalOpen && (
+                <MemoryDetailModal
+                    memory={memory}
+                    isOpen={isModalOpen}
+                    onClose={handleCloseModal}
+                />
+            )}
         </>
     );
 };
