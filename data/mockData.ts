@@ -8,7 +8,15 @@ export const memories: Memory[] = [
         "date": "2024-03-15",
         "category": "community",
         "image": "/image/img1.jpg",
-        "content": "Một lời chúc giản dị nhưng chân thành đến toàn thể thành viên trong bang. Cảm ơn tất cả anh em, từ Baachau, Hamðuang, Vuongky, Bangkhoa Mua, Ca Lacauce, Quyt Giang, HangMiu, MorCat, Maúðay, Quangtree, Gia Tuyet, Hye, Haàðao, Maho, BichTram Ly, Nhatiteunaiha, DangCham, God... vì đã cùng nhau viết nên những kỷ niệm đẹp. Hy vọng chúng ta sẽ còn bên nhau thật nhiều năm nữa!",
+        content: `Happy birthday Artisté
+            Bang tui tuy nghèo nhưng được cái giàu tình cảm với làm biếng
+            Lại thêm 1 năm ám nhau
+            👏👏Vỗ tay vì sự kiên trì và tình cảm này của tất cả tvb bang, từ hiện tại đến trước kia, những tv còn onl, những bạn đã từng đến và rời đi, những tv đã off
+            Hi vọng năm sau vẫn may mắn được ăn tiếp sinh nhật với mn
+            Vinh dự khi ngày thành lập bang rơi đúng vào Lễ lớn của đất nước 🫶
+            Chúc bang mình Lễ vui vẻ, luôn yêu thương nhau
+            X10 xe bò cho tất cả tvb của tui 💌💌
+            `,
         "author": "baochau",
         "likes": 0,
         "comments": 0,
@@ -68,7 +76,8 @@ export const memories: Memory[] = [
         "date": "2024-02-25",
         "category": "event",
         "image": "/image/img6.jpg",
-        "content": "Một trang mới sắp mở ra! Cùng Artiste chào đón một năm 2025 với thật nhiều năng lượng, thành công và gắn kết. Hãy sẵn sàng cho những cuộc phiêu lưu, những trận chiến và những kỷ niệm mới trong năm tới!",
+        "content": `Niềm vui to bự cuối năm 2024. Tự tay chuẩn bị từng món nho nhỏ cho Bang. Tui cưng Bang tui
+#Artisté #s66`,
         "author": "baochau",
         "likes": 0,
         "comments": 0,
