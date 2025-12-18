@@ -28,7 +28,11 @@ export const memories: Memory[] = [
         "date": "2024-03-10",
         "category": "event",
         "images": ["/image/img2.jpg", "/image/img7.jpg"],
-        "content": "Gửi đến toàn thể gia đình Artiste một mùa Giáng Sinh thật ấm áp và an lành! Chúc cho mọi thành viên luôn tràn ngập tiếng cười và hạnh phúc. Cùng nhau đón một mùa lễ hội thật vui vẻ bên gia đình và bạn bè nhé!",
+        "content": `Một chiếc bang ngựa ngựa xập xình đón Nu-en
+        Chúc mấy đại ca, mấy con giời bang Té noel vui vẻ
+        Thân tặng mn voucher x10 bào thương, mãi iuuu 🙈🙈
+        #Artisté #s66
+        ❤ FormBCwithlove`,
         "author": "baochau",
         "likes": 0,
         "comments": 0,
@@ -40,7 +44,10 @@ export const memories: Memory[] = [
         "date": "2024-02-08",
         "category": "anniversary",
         "image": "/image/img3.jpg",
-        "content": "Chính thức chào mừng cột mốc 3 năm (02/09/2021 - 02/09/2024) của Artiste! Một hành trình dài với biết bao kỷ niệm, thử thách và sự gắn kết. Cảm ơn tất cả các thành viên, đặc biệt là Manny Tommela, và mọi người đã cùng nhau xây dựng nên một cộng đồng tuyệt vời như ngày hôm nay.",
+        "content": `Flexing~~ bang của bọn tui lại thêm 1 năm tuổi 👏👏
+        Chưa bao giờ mình nghĩ mình có thể gắn bó với 1 bang lâu đến vậy.
+        Cảm ơn tất cả thành viên bang Artisté rất nhiều. Không có mn sẽ không có Bảo Châu và Artisté như hôm nay. 
+        Mãi mận mãi báo làng báo xóm nghen mấy đại ca`,
         "author": "baochau",
         "likes": 0,
         "comments": 0,
@@ -64,7 +71,10 @@ export const memories: Memory[] = [
         "date": "2024-02-25",
         "category": "community",
         "image": "/image/img5.jpg",
-        "content": "Bức ảnh lưu giữ khoảnh khắc đầy tự hào của toàn thể hội anh em trong gia viên Artiste. Hình ảnh lá cờ đỏ sao vàng - biểu tượng của tinh thần dân tộc và sự đoàn kết - ở vị trí trung tâm càng khẳng định sức mạnh của một tập nhất trí. Chúng ta không chỉ là một bang hội trong game, mà còn là một đại gia đình thực thụ, cùng nhau hỗ trợ và hướng về một mục tiêu chung.",
+        "content": `Hưởng ứng concert Quốc gia 30/4
+        How to đồng bọn ở xa k đi quẩy concert chung được??
+        Cũng cũng có vài kiểu trước khi bye bye Gia viên cũ 😂
+        #Artisté #S66 #Mộngngân`,
         "author": "baochau",
         "likes": 0,
         "comments": 0,
