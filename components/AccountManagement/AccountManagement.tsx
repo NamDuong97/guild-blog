@@ -43,20 +43,13 @@ const AccountManagement: React.FC = () => {
                     body: JSON.stringify({
                         imageBase64: tempUser.avatar,
                         userId: tempUser.id,
-                        userData: {
-                            name: tempUser.name,
-                            nickName: tempUser.nickName,
-                            ingameName: tempUser.ingameName,
-                            maxim: tempUser.maxim,
-                            sect: tempUser.sect
-                        }
                     }),
                 });
 
                 const uploadResult = await uploadResponse.json();
                 console.log("dũ liệu sau upload la: ", uploadResult);
                 if (uploadResult.success) {
-                    finalAvatarPath = uploadResult.avatarPath;
+                    finalAvatarPath = uploadResult.data.displayUrl;
                 } else {
                     throw new Error(uploadResult.error || 'Upload avatar failed');
                 }
