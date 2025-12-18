@@ -54,6 +54,7 @@ const AccountManagement: React.FC = () => {
                 });
 
                 const uploadResult = await uploadResponse.json();
+                console.log("dũ liệu sau upload la: ", uploadResult);
                 if (uploadResult.success) {
                     finalAvatarPath = uploadResult.avatarPath;
                 } else {
@@ -70,6 +71,7 @@ const AccountManagement: React.FC = () => {
                 avatar: finalAvatarPath, // Đường dẫn ảnh "images/avatars/avatar-123.jpg"
                 maxim: tempUser.maxim,
                 sect: tempUser.sect,
+                level: tempUser.level
             };
             const success = await updateMemberProfile(updateData);
             if (success) {
