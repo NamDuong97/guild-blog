@@ -105,3 +105,9 @@ export interface HistoryModalProps {
     spinHistory: SpinHistory[];
     user: Member | null
 }
+
+
+export interface RuleModalProps {
+    isShowRuleWheel: boolean;
+    onClose: () => void;
+}

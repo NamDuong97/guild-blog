@@ -5,6 +5,7 @@ import { Gift, RotateCcw, Sparkles } from "lucide-react";
 import styles from "./LuckyWheel.module.css";
 import { prizes } from "@/data/mockData";
 import HistoryModal from "@/components/HistoryModal/HistoryModal";
+import RuleModal from "@/components/RuleModal/RuleModal";
 import { SpinHistory } from "@/types/index";
 import { GOOGLE_SCRIPT_URL_LUCKY_WHEEL } from "@/untils/Constants";
 import { useUser } from "@/contexts/UserContext";
@@ -40,6 +41,7 @@ const LuckyWheel: React.FC = () => {
     const [spinsLeft, setSpinsLeft] = useState(1);
     const [showResultModal, setShowResultModal] = useState(false);
     const [isShowHistoryWheel, setShowHistoryWheel] = useState(false);
+    const [isShowRuleWheel, setShowRuleWheel] = useState(false);
     const spinHistoryRef = useRef<SpinHistory[]>([]);
     const spinHistoryRefForUser = useRef<SpinHistory[]>([]);
     const wheelRef = useRef<HTMLDivElement>(null);
@@ -323,7 +325,10 @@ const LuckyWheel: React.FC = () => {
                 <div className={styles.spinsCounter}>
                     <div className={styles.spinsBadge}>
                         <RotateCcw className={styles.spinsIcon} />
-                        <span>{spinsLeft} lượt quay</span>
+                        <span>{spinsLeft} lượt</span>
+                    </div>
+                    <div className={styles.resetButton} onClick={() => setShowRuleWheel(true)}>
+                        Thể lệ
                     </div>
                     <div className={styles.resetButton} onClick={resetWheel}>
                         Làm mới
@@ -425,6 +430,13 @@ const LuckyWheel: React.FC = () => {
                         </button>
                     </div>
                 </div>
+            )}
+
+            {isShowRuleWheel && (
+                <RuleModal
+                    isShowRuleWheel={isShowRuleWheel}
+                    onClose={() => setShowRuleWheel(false)}
+                />
             )}
 
             {isShowHistoryWheel && (
