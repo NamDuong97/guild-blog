@@ -109,7 +109,7 @@ const MemoryDetailModal: React.FC<MemoryDetailModalProps> = ({ memory, isOpen, o
                         </div>
 
                         {/* Stats */}
-                        <div className={styles.stats}>
+                        {/*<div className={styles.stats}>
                             <div className={styles.statItem}>
                                 <Heart className={styles.statIcon} fill="currentColor" />
                                 <span>{memory.likes} lượt thích</span>
@@ -118,7 +118,7 @@ const MemoryDetailModal: React.FC<MemoryDetailModalProps> = ({ memory, isOpen, o
                                 <MessageSquare className={styles.statIcon} />
                                 <span>{memory.comments} bình luận</span>
                             </div>
-                        </div>
+                        </div>*/}
 
                         {/* Action Buttons */}
                         {/* <div className={styles.actionBar}>
