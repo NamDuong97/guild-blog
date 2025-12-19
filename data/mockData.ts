@@ -574,9 +574,9 @@ export const prizes: Prize[] = [
     },
     {
         id: 6,
-        name: 'Hộp Người Tuyết',
+        name: 'Chúc Long Thạch',
         type: 'vip',
-        icon: '/image/hopnguoituyet.jpg',
+        icon: '/image/chuclongthach.jpg',
         color: '#10b981',
         probability: 3
     },
