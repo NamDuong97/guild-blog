@@ -164,7 +164,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 const encryptedUserPassword = encryptForComparison(checkUser.password);
                 if (encryptedUserPassword === encryptedInputPassword) {
                     setUser(checkUser);
-                    const userToStore = { ...checkUser, password: encrypt(checkUser.password) };
+                    const userToStore = { ...checkUser, password: "lamgicopasshehe"};
                     localStorage.setItem('currentUser', JSON.stringify(userToStore));
                     return true;
                 }
