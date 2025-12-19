@@ -76,7 +76,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         try {
             const loadUserGGs = async () => {
                 var data = await loadUserFromGoogleSheet();
-                console.log("data tu db", data);
 
                 // Mã hoá password trước khi lưu xuống localStorage
                 const usersWithEncryptedPassword = data.map(user => ({
