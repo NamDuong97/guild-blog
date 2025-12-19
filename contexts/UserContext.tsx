@@ -80,7 +80,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 // Mã hoá password trước khi lưu xuống localStorage
                 const usersWithEncryptedPassword = data.map(user => ({
                     ...user,
-                    password: encrypt(user.password) // Mã hoá password
+                    password: "lamgicopasshehe" // Mã hoá password
                 }));
 
                 // Lưu lại xún local storage
@@ -95,10 +95,10 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                     var userLocal = JSON.parse(savedUser);
                     var userDB = data.find(it => it.userId == userLocal.userId)
                     if (userDB) {
-                        localStorage.setItem('currentUser', JSON.stringify({ ...userDB, password: encrypt(userDB.password) }));
+                        localStorage.setItem('currentUser', JSON.stringify({ ...userDB, password: "lamgicopasshehe"}));
                         setUser(userDB);
                     } else {
-                        setUser({ ...userLocal, password: decrypt(userLocal.password) });
+                        setUser({ ...userLocal, password: "lamgicopasshehe"});
                     }
                 }
             }
