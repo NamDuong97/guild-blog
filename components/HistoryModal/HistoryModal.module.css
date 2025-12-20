@@ -1,4 +1,5 @@
-/* Thêm vào file CSS module của bạn */
+/* HistoryModal.module.css */
+
 .historyModal {
     position: fixed;
     top: 0;
@@ -68,12 +69,17 @@
     color: #ef4444;
 }
 
+.tableContainer {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+    background: rgba(30, 41, 59, 0.5);
+}
+
 .historyTable {
     width: 100%;
     border-collapse: collapse;
-    background: rgba(30, 41, 59, 0.5);
-    border-radius: 12px;
-    overflow: hidden;
+    min-width: 600px;
 }
 
 .historyTable th {
@@ -139,6 +145,170 @@
     opacity: 0.7;
 }
 
+/* Responsive cho tablet - 768px */
+@media screen and (max-width: 768px) {
+    .historyModal {
+        padding: 15px;
+    }
+    
+    .historyContent {
+        padding: 20px;
+        width: 95%;
+        max-height: 85vh;
+        border-radius: 16px;
+    }
+    
+    .historyHeader {
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+    }
+    
+    .historyTitle {
+        font-size: 1.5rem;
+    }
+    
+    .closeButton {
+        font-size: 1.8rem;
+        width: 36px;
+        height: 36px;
+    }
+    
+    .historyTable th,
+    .historyTable td {
+        padding: 12px 10px;
+        font-size: 0.9rem;
+    }
+    
+    .historyTable th {
+        font-size: 0.85rem;
+        padding: 12px 8px;
+    }
+    
+    .emptyHistory {
+        padding: 30px 20px;
+    }
+    
+    .emptyHistoryIcon {
+        font-size: 2.5rem;
+    }
+    
+    .emptyHistoryText {
+        font-size: 1rem;
+    }
+    
+    .emptyHistorySubtext {
+        font-size: 0.85rem;
+    }
+}
+
+/* Responsive cho mobile - 480px */
+@media screen and (max-width: 480px) {
+    .historyModal {
+        padding: 10px;
+    }
+    
+    .historyContent {
+        padding: 16px;
+        width: 100%;
+        max-height: 90vh;
+        border-radius: 12px;
+    }
+    
+    .historyHeader {
+        margin-bottom: 16px;
+        padding-bottom: 10px;
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+    
+    .historyTitle {
+        font-size: 1.3rem;
+        text-align: center;
+        width: 100%;
+    }
+    
+    .closeButton {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        font-size: 1.5rem;
+        width: 32px;
+        height: 32px;
+    }
+    
+    .historyTable {
+        min-width: 500px;
+    }
+    
+    .historyTable th,
+    .historyTable td {
+        padding: 10px 8px;
+        font-size: 0.85rem;
+    }
+    
+    .historyTable th {
+        font-size: 0.8rem;
+        padding: 10px 6px;
+        white-space: nowrap;
+    }
+    
+    /* Responsive table bằng cách ẩn cột ID */
+    .historyTable th:nth-child(3),
+    .historyTable td:nth-child(3) {
+        display: none;
+    }
+    
+    .emptyHistory {
+        padding: 20px 16px;
+    }
+    
+    .emptyHistoryIcon {
+        font-size: 2rem;
+        margin-bottom: 12px;
+    }
+    
+    .emptyHistoryText {
+        font-size: 0.95rem;
+        margin-bottom: 8px;
+    }
+    
+    .emptyHistorySubtext {
+        font-size: 0.8rem;
+    }
+}
+
+/* Responsive cho mobile nhỏ - 360px */
+@media screen and (max-width: 360px) {
+    .historyTable {
+        min-width: 450px;
+    }
+    
+    .historyTable th,
+    .historyTable td {
+        padding: 8px 6px;
+        font-size: 0.8rem;
+    }
+    
+    .historyTitle {
+        font-size: 1.2rem;
+    }
+    
+    /* Ẩn thêm cột ID và STT nếu cần */
+    .historyTable th:nth-child(1),
+    .historyTable td:nth-child(1) {
+        display: none;
+    }
+    
+    .emptyHistoryText {
+        font-size: 0.9rem;
+    }
+    
+    .emptyHistorySubtext {
+        font-size: 0.75rem;
+    }
+}
+
 /* Scrollbar styling */
 .historyContent::-webkit-scrollbar {
     width: 6px;
@@ -152,4 +322,10 @@
 .historyContent::-webkit-scrollbar-thumb {
     background: linear-gradient(135deg, #a855f7, #ec4899);
     border-radius: 3px;
+}
+
+@media screen and (max-width: 768px) {
+    .historyContent::-webkit-scrollbar {
+        width: 4px;
+    }
 }
