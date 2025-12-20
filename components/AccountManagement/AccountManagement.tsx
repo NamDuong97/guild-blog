@@ -6,6 +6,7 @@ import { useUser } from '@/contexts/UserContext';
 import { Member, Sect } from '@/types';
 import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
 import { useRouter } from 'next/navigation';
+import { useAlert } from '@/contexts/AlertContext';
 
 const AccountManagement: React.FC = () => {
     const { user, updateMemberProfile, loadUser, updatePassword } = useUser();
@@ -15,6 +16,8 @@ const AccountManagement: React.FC = () => {
     const [isUpdating, setIsUpdating] = useState(false);
     const [isChangePass, setIsChangePass] = useState(false);
     const router = useRouter();
+    const { showAlert } = useAlert();
+    
 
     useEffect(() => {
         if (user) {
@@ -47,7 +50,6 @@ const AccountManagement: React.FC = () => {
                 });
 
                 const uploadResult = await uploadResponse.json();
-                console.log("dũ liệu sau upload la: ", uploadResult);
                 if (uploadResult.success) {
                     finalAvatarPath = uploadResult.data.displayUrl;
                 } else {
@@ -71,13 +73,13 @@ const AccountManagement: React.FC = () => {
                 setIsEditing(false);
                 // Reload user data để cập nhật state
                 await loadUser();
-                alert('Cập nhật thông tin thành công!');
+                showAlert('Cập nhật thông tin thành công!', 'success');
             } else {
-                alert('Có lỗi xảy ra khi cập nhật!');
+                showAlert('Có lỗi xảy ra khi cập nhật, vui lòng thử lại!', 'error');
             }
         } catch (error) {
             console.error('Lỗi khi cập nhật:', error);
-            alert('Có lỗi xảy ra khi cập nhật!');
+            showAlert('Có lỗi xảy ra khi cập nhật, vui lòng thử lại!', 'error');
         } finally {
             setIsUpdating(false);
         }
@@ -104,7 +106,7 @@ const AccountManagement: React.FC = () => {
             const response = await updatePassword(updateData);
 
             if (response) {
-                alert('Đổi mật khẩu thành công!');
+                showAlert('Đổi mật khẩu thành công!', 'success');
                 // Reload user data để cập nhật state
                 await loadUser();
                 return true;

@@ -100,7 +100,9 @@
     color: #1e40af;
 }
 
-/* Responsive */
+/* ============================================================= */
+/* 🔴 RESPONSIVE - TABLET 768px */
+/* ============================================================= */
 @media (max-width: 768px) {
     .alert {
         top: 10px;
@@ -116,5 +118,65 @@
 
     .message {
         font-size: 13px;
+    }
+}
+
+/* ============================================================= */
+/* 🔴 RESPONSIVE - MOBILE < 480px */
+/* ============================================================= */
+@media (max-width: 480px) {
+    /* ⭐ Alert - Chiếm toàn bộ width với padding nhỏ */
+    .alert {
+        top: 8px;
+        right: 8px;
+        left: 8px;
+        min-width: auto;
+        max-width: none;
+        border-radius: 10px;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+    }
+
+    /* ⭐ Animation - Điều chỉnh cho mobile */
+    .alert {
+        transform: translateY(-100px);
+    }
+
+    .alert.show {
+        transform: translateY(0);
+    }
+
+    .alert.hide {
+        transform: translateY(-100px);
+    }
+
+    /* ⭐ Content - Compact hơn */
+    .alertContent {
+        padding: 12px 14px;
+        gap: 10px;
+    }
+
+    /* ⭐ Icon - Nhỏ hơn */
+    .icon {
+        font-size: 16px;
+    }
+
+    /* ⭐ Message - Font size nhỏ hơn */
+    .message {
+        font-size: 0.8125rem;
+        line-height: 1.45;
+    }
+
+    /* ⭐ Close Button - Nhỏ hơn */
+    .closeButton {
+        font-size: 14px;
+        padding: 3px;
+    }
+
+    /* ⭐ Border - Nhỏ hơn */
+    .alert.success,
+    .alert.error,
+    .alert.warning,
+    .alert.info {
+        border-left-width: 3px;
     }
 }

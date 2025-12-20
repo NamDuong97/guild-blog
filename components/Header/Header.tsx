@@ -6,7 +6,7 @@ import LoginModal from '../LoginModal/LoginModal';
 import { useUser } from '@/contexts/UserContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image'; // Thêm import Image từ next/image
+import Image from 'next/image';
 
 interface PlaylistItem {
     id: number;
@@ -31,6 +31,22 @@ const Header: React.FC = () => {
         { id: 2, name: "Thương Thì Thôi", url: "/music/thuongthithoi.mp3" }
     ];
 
+    // Xử lý khi kết thúc bài hát - Chuyển bài tiếp theo
+    const handleEnded = useCallback(() => {
+        const nextIndex = (currentTrackIndex + 1) % playlist.length;
+        setCurrentTrackIndex(nextIndex);
+    }, [currentTrackIndex, playlist.length]);
+
+    // Effect để play bài mới khi currentTrackIndex thay đổi
+    useEffect(() => {
+        if (audioRef.current && isPlaying) {
+            audioRef.current.load(); // Load bài mới
+            audioRef.current.play().catch(error => {
+                console.error('Audio play failed:', error);
+            });
+        }
+    }, [currentTrackIndex, isPlaying]);
+
     // Music Player functions
     const toggleMusic = useCallback(() => {
         if (audioRef.current) {
@@ -45,27 +61,11 @@ const Header: React.FC = () => {
         }
     }, [isPlaying]);
 
-    // Xử lý khi kết thúc bài hát
-    const handleEnded = useCallback(() => {
-        playNextTrack();
-    }, []);
-
-    // Xử lý bật bài hát tiếp theo
+    // Xử lý bật bài hát tiếp theo (manual)
     const playNextTrack = useCallback(() => {
         const nextIndex = (currentTrackIndex + 1) % playlist.length;
         setCurrentTrackIndex(nextIndex);
         setIsPlaying(true);
-
-        // Đảm bảo audio được load và play
-        const playAudio = () => {
-            if (audioRef.current) {
-                audioRef.current.play().catch(error => {
-                    console.error('Audio play failed:', error);
-                });
-            }
-        };
-
-        setTimeout(playAudio, 100);
     }, [currentTrackIndex, playlist.length]);
 
     useEffect(() => {
@@ -98,7 +98,6 @@ const Header: React.FC = () => {
             }
         };
 
-        // Đặt trong setTimeout để tránh synchronous setState
         const timer = setTimeout(updateLoginState, 0);
 
         return () => {
@@ -125,7 +124,7 @@ const Header: React.FC = () => {
     const handleLogout = useCallback(async () => {
         console.log("Bạn đã logout");
         await logout();
-        router.push('/'); // Quay về trang chủ sau khi logout
+        router.push('/');
     }, [logout, router]);
 
     const onCloseLogin = useCallback(() => {
@@ -205,7 +204,6 @@ const Header: React.FC = () => {
                     <div className={styles.logoContainer}>
                         <div className={styles.logoGlow}></div>
                         <div className={styles.logo}>
-                            {/* Thay thế <img> bằng <Image> từ next/image */}
                             <Image
                                 src="/image/logo.jpg"
                                 alt="logo"
@@ -269,7 +267,7 @@ const Header: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Guild Motto - Sửa lỗi unescaped entities */}
+                    {/* Guild Motto */}
                     <div className={styles.motto}>
                         <div className={styles.mottoText}>
                             &quot;Kéo xe bò đi năn nỉ é&quot;
@@ -289,10 +287,9 @@ const Header: React.FC = () => {
                 <LoginModal isOpen={isLoginModalOpen} onClose={onCloseLogin} />
             )}
 
-            {/* Audio Element */}
+            {/* ⭐ Audio Element - BỎ LOOP */}
             <audio
                 ref={audioRef}
-                loop={false} // Tắt loop để chuyển bài tự động
                 src={playlist[currentTrackIndex].url}
                 onEnded={handleEnded}
             />

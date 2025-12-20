@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styles from './Alert.module.css';
 
 interface AlertProps {
@@ -23,8 +23,8 @@ const Alert: React.FC<AlertProps> = ({
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
     const exitTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-    // Hàm đóng alert
-    const handleClose = useCallback(() => {
+    // ✅ Hàm đóng alert - KHÔNG dùng useCallback
+    const handleClose = () => {
         if (isExiting) return;
 
         setIsExiting(true);
@@ -40,15 +40,17 @@ const Alert: React.FC<AlertProps> = ({
             setIsExiting(false);
             onClose?.();
         }, 300);
-    }, [isExiting, onClose]);
+    };
 
-    // Hiệu ứng mở alert
+    // Effect mở alert và tự động đóng
     useEffect(() => {
-        if (isOpen && !visible) {
-            // Sửa: Tránh setState đồng bộ, dùng setTimeout
+        if (isOpen) {
+            // Reset states
+            setIsExiting(false);
+            
+            // Hiển thị alert với delay nhỏ cho animation
             const openTimer = setTimeout(() => {
                 setVisible(true);
-                setIsExiting(false);
             }, 10);
 
             // Tự động đóng sau duration
@@ -64,21 +66,13 @@ const Alert: React.FC<AlertProps> = ({
                     clearTimeout(timeoutRef.current);
                 }
             };
-        }
-
-        if (!isOpen && visible && !isExiting) {
+        } else if (!isOpen && visible) {
+            // Đóng alert khi isOpen = false
             handleClose();
         }
-
-        return () => {
-            if (timeoutRef.current) {
-                clearTimeout(timeoutRef.current);
-            }
-            if (exitTimeoutRef.current) {
-                clearTimeout(exitTimeoutRef.current);
-            }
-        };
-    }, [isOpen, visible, duration, handleClose, isExiting]);
+        
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isOpen, duration]); // ⭐ KHÔNG thêm handleClose vào dependency
 
     // Cleanup khi unmount
     useEffect(() => {
@@ -92,8 +86,8 @@ const Alert: React.FC<AlertProps> = ({
         };
     }, []);
 
-    // Không render nếu không mở và không visible
-    if (!isOpen && !visible && !isExiting) {
+    // Không render nếu chưa bao giờ mở
+    if (!visible && !isExiting) {
         return null;
     }
 

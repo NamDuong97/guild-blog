@@ -47,7 +47,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                         <User className={styles.headerIcon} />
                     </div>
                     <h2 className={styles.title}>Đăng Nhập</h2>
-                    <p className={styles.subtitle}>Chào mừng bạn trở lại!</p>
+                    <p className={styles.subtitle}>Chào mừng đến với Atiste!</p>
                 </div>
 
                 {/* Form */}
