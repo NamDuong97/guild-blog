@@ -28,7 +28,10 @@ const Header: React.FC = () => {
     const playlist: PlaylistItem[] = [
         { id: 0, name: "Nhạc Thiện Nữ", url: "/music/nhacgamethiennu.mp3" },
         { id: 1, name: "Bá Hổ Thuyết", url: "/music/bahothuyet.mp3" },
-        { id: 2, name: "Thương Thì Thôi", url: "/music/thuongthithoi.mp3" }
+        { id: 2, name: "Thương Thì Thôi", url: "/music/thuongthithoi.mp3"},
+        { id: 3, name: "10 Mất 1 Còn Không", url: "/music/10mat1conkhong.mp3" },
+        { id: 4, name: "Thiệp Hồng Sai Tên", url: "/music/ThiepHongSaiTen.mp3" },
+        { id: 5, name: "Một Bước Yêu Vạn Dặm Đau", url: "/music/motbuocyeuvanmadau.mp3" },
     ];
 
     // Xử lý khi kết thúc bài hát - Chuyển bài tiếp theo
