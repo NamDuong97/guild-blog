@@ -8,7 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 9999;
     padding: 20px;
     animation: fadeIn 0.3s ease;
 }
@@ -150,27 +150,166 @@
     text-align: center;
 }
 
-/* Responsive */
-@media (max-width: 640px) {
-    .ruleModal {
-        max-width: 95%;
-        max-height: 90vh;
+/* ============================================================= */
+/* 🔴 RESPONSIVE - TABLET 768px */
+/* ============================================================= */
+@media (max-width: 768px) {
+    .ruleModalOverlay {
+        padding: 16px;
     }
 
+    /* ⭐ Modal - Giảm size */
+    .ruleModal {
+        max-width: 560px;
+        max-height: 85vh;
+        border-radius: 14px;
+    }
+
+    /* ⭐ Header - Compact hơn */
     .ruleModalHeader {
-        padding: 16px 20px;
+        padding: 18px 20px;
     }
 
     .ruleModalTitle {
-        font-size: 1.3rem;
+        font-size: 1.35rem;
     }
 
+    .closeButton {
+        width: 34px;
+        height: 34px;
+        font-size: 1.35rem;
+    }
+
+    /* ⭐ Content - Giảm padding */
     .ruleModalContent {
         padding: 20px;
+        max-height: calc(85vh - 76px);
     }
 
+    /* ⭐ Section */
+    .rulesSection {
+        margin-bottom: 20px;
+    }
+
+    .sectionTitle {
+        font-size: 1.125rem;
+        margin-bottom: 14px;
+        padding-bottom: 7px;
+    }
+
+    /* ⭐ Rule Item */
     .ruleItem {
-        padding: 10px;
+        padding: 11px;
+        margin-bottom: 11px;
+        border-radius: 7px;
+    }
+
+    .ruleNumber {
+        min-width: 22px;
+        margin-right: 11px;
+        font-size: 0.9375rem;
+    }
+
+    .ruleText {
+        font-size: 0.9375rem;
+        line-height: 1.45;
+    }
+
+    /* ⭐ Note Section */
+    .noteSection {
+        margin-top: 20px;
+        padding: 14px;
+        border-radius: 7px;
+    }
+
+    .noteText {
+        font-size: 0.9375rem;
+    }
+}
+
+/* ============================================================= */
+/* 🔴 RESPONSIVE - MOBILE < 480px - Tối ưu mạnh */
+/* ============================================================= */
+@media (max-width: 480px) {
+    /* ⭐ Overlay - Padding rất nhỏ */
+    .ruleModalOverlay {
+        padding: 8px;
+    }
+
+    /* ⭐ Modal - Chiếm gần hết màn hình */
+    .ruleModal {
+        max-width: 100%;
+        max-height: 94vh;
+        border-radius: 10px;
+    }
+
+    /* ⭐ Header - Rất compact */
+    .ruleModalHeader {
+        padding: 12px 14px;
+    }
+
+    .ruleModalTitle {
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .closeButton {
+        width: 28px;
+        height: 28px;
+        font-size: 1.125rem;
+    }
+
+    /* ⭐ Content - Padding tối thiểu */
+    .ruleModalContent {
+        padding: 14px;
+        max-height: calc(94vh - 60px);
+    }
+
+    /* ⭐ Section - Rất compact */
+    .rulesSection {
+        margin-bottom: 14px;
+    }
+
+    .sectionTitle {
+        font-size: 0.9375rem;
         margin-bottom: 10px;
+        padding-bottom: 5px;
+        border-bottom-width: 1.5px;
+    }
+
+    /* ⭐ Rule Item - Tối ưu cho mobile nhỏ */
+    .ruleItem {
+        padding: 8px 10px;
+        margin-bottom: 8px;
+        border-radius: 6px;
+        border-left-width: 3px;
+    }
+
+    .ruleItem:hover {
+        transform: translateX(2px);
+    }
+
+    .ruleNumber {
+        min-width: 18px;
+        margin-right: 8px;
+        font-size: 0.8125rem;
+    }
+
+    .ruleText {
+        font-size: 0.8125rem;
+        line-height: 1.5;
+    }
+
+    /* ⭐ Note Section - Rất compact */
+    .noteSection {
+        margin-top: 14px;
+        padding: 10px 12px;
+        border-radius: 6px;
+        border-left-width: 3px;
+    }
+
+    .noteText {
+        font-size: 0.8125rem;
+        line-height: 1.4;
     }
 }
