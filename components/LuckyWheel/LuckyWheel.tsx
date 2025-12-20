@@ -273,13 +273,40 @@ const LuckyWheel: React.FC = () => {
         }
     }, [user]);
 
+    const exportQuantityPrizes = (id: number) => {
+        if(id==1){
+            return 15;
+        }else if(id==2){
+            return 2;
+        }else if(id==3){
+            return 200;
+        }
+        else if(id==3){
+            return 3;
+        }else if(id==4){
+            return 1;
+        }
+        else if(id==5){
+            return 1;
+        }
+        else if(id==6){
+            return 1;
+        }
+        else if(id==7){
+            return 15;
+        }
+        else{
+            return 2;
+        }   
+    }
+
     const addHistoryWheel = async (prize: Prize) => {
         const pr: SpinHistory = {
             timestamp: new Date(),
             prizeName: prize?.name || "Unknown Prize",
             prizeId: String(prize?.id || "UNKNOWN"),
             userId: user?.userId || "UNKNOWN",
-            quantity: 1,
+            quantity: exportQuantityPrizes(prize.id),
             status: "received",
             type: prize?.type || "general",
         };
