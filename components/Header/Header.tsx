@@ -147,8 +147,7 @@ const Header: React.FC = () => {
                 {/* Top Bar với Language và Login */}
                 <div className={styles.topBar}>
                     <div className={styles.languageSelector}>
-                        <span>Việt Nam</span>
-                        <span className={styles.dropdownIcon}>▼</span>
+                        <span>Việt Nam Vô Địch</span>
                     </div>
 
                     <div className={styles.topActions}>

@@ -427,7 +427,7 @@
 @media (max-width: 480px) {
     /* ⭐ Modal - Giảm size mạnh */
     .modalContent {
-        max-width: 340px;
+        max-width: 300px;
         width: 94%;
         padding: 1.25rem;
         border-radius: 1.25rem;
@@ -435,21 +435,21 @@
 
     /* ⭐ Close Button - Nhỏ hơn */
     .closeButton {
-        width: 1.75rem;
-        height: 1.75rem;
+        width: 1.7rem;
+        height: 1.7rem;
         top: 0.75rem;
         right: 0.75rem;
-        font-size: 1.25rem;
+        font-size: 1.22rem;
     }
 
     /* ⭐ Header - Giảm đáng kể */
     .header {
-        margin-bottom: 1.25rem;
+        margin-bottom: 1.2rem;
     }
 
     .iconWrapper {
-        width: 3.5rem;
-        height: 3.5rem;
+        width: 3.25rem;
+        height: 3.25rem;
         margin-bottom: 0.75rem;
     }
 
