@@ -238,7 +238,7 @@
 
     /* ⭐ Modal - Chiếm gần hết màn hình */
     .ruleModal {
-        max-width: 100%;
+        max-width: 90%;
         max-height: 94vh;
         border-radius: 10px;
     }
