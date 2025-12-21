@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Users, Trophy, Gamepad2, Crown, Shield, Sparkles, User, Music, Play, Pause, Volume2, VolumeX, Eye, EyeOff, Lock, Calendar } from 'lucide-react';
+import { Users, Crown, Shield, Sparkles, User, Music, Play, Pause, Calendar, SkipForward, SkipBack} from 'lucide-react';
 import styles from './Header.module.css';
 import LoginModal from '../LoginModal/LoginModal';
 import { useUser } from '@/contexts/UserContext';
@@ -67,10 +67,29 @@ const Header: React.FC = () => {
 
     // Xử lý bật bài hát tiếp theo (manual)
     const playNextTrack = useCallback(() => {
+        // Nếu track đang ở cuối cùng, quay về track đầu tiên
+        if(currentTrackIndex==playlist.length - 1){
+            setCurrentTrackIndex(0);
+            setIsPlaying(true);
+            return;
+        }
         const nextIndex = (currentTrackIndex + 1) % playlist.length;
         setCurrentTrackIndex(nextIndex);
         setIsPlaying(true);
     }, [currentTrackIndex, playlist.length]);
+
+    const playPreviousTrack = useCallback(() => {
+        // Nếu track đang ở đầu tiên, quay về track cuối cùng
+        if(currentTrackIndex==0){
+            setCurrentTrackIndex(playlist.length - 1);
+            setIsPlaying(true);
+            return;
+        }
+        const prevIndex = (currentTrackIndex - 1) % playlist.length;
+        setCurrentTrackIndex(prevIndex);
+        setIsPlaying(true);
+    }, [currentTrackIndex, playlist.length]);
+
 
     useEffect(() => {
         const handleUserInteraction = () => {
@@ -109,13 +128,6 @@ const Header: React.FC = () => {
             clearTimeout(timer);
         };
     }, [user]);
-
-    const toggleMute = useCallback(() => {
-        if (audioRef.current) {
-            audioRef.current.muted = !isMuted;
-            setIsMuted(!isMuted);
-        }
-    }, [isMuted]);
 
     // Login functions
     const handleLogin = useCallback(() => {
@@ -156,6 +168,11 @@ const Header: React.FC = () => {
                     <div className={styles.topActions}>
                         {/* Music Player */}
                         <div className={styles.musicPlayer}>
+                             <SkipBack
+                                className={`${styles.musicIcon} ${isPlaying ? styles.pulse : ''}`}
+                                onClick={playPreviousTrack}
+                            />
+
                             <button onClick={toggleMusic} className={styles.playButton}>
                                 {isPlaying ? (
                                     <Pause className={styles.icon} />
@@ -164,15 +181,7 @@ const Header: React.FC = () => {
                                 )}
                             </button>
 
-                            <button onClick={toggleMute} className={styles.volumeButton}>
-                                {isMuted ? (
-                                    <VolumeX className={styles.icon} />
-                                ) : (
-                                    <Volume2 className={styles.icon} />
-                                )}
-                            </button>
-
-                            <Music
+                            <SkipForward
                                 className={`${styles.musicIcon} ${isPlaying ? styles.pulse : ''}`}
                                 onClick={playNextTrack}
                             />
