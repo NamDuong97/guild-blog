@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Users, Crown, Shield, Sparkles, User, Music, Play, Pause, Calendar, SkipForward, SkipBack} from 'lucide-react';
+import { Users, Crown, Shield, Sparkles, User, Music, Play, Pause, Calendar, SkipForward, SkipBack } from 'lucide-react';
 import styles from './Header.module.css';
 import LoginModal from '../LoginModal/LoginModal';
 import { useUser } from '@/contexts/UserContext';
@@ -27,12 +27,12 @@ const Header: React.FC = () => {
 
     const playlist: PlaylistItem[] = [
         { id: 0, name: "Nhạc Thiện Nữ", url: "/music/nhacgamethiennu.mp3" },
-        { id: 1, name: "Một Bước Yêu Vạn Dặm Đau", url: "/music/motbuocyeuvanmadau.mp3"},
-        { id: 2, name: "Hỏi Cưới Em", url: "/music/hoicuoiem.mp3"},
+        { id: 1, name: "Một Bước Yêu Vạn Dặm Đau", url: "/music/motbuocyeuvanmadau.mp3" },
+        { id: 2, name: "Hỏi Cưới Em", url: "/music/hoicuoiem.mp3" },
         { id: 3, name: "Bá Hổ Thuyết", url: "/music/bahothuyet.mp3" },
-        { id: 4, name: "Thương Thì Thôi", url: "/music/thuongthithoi.mp3"},
+        { id: 4, name: "Thương Thì Thôi", url: "/music/thuongthithoi.mp3" },
         { id: 5, name: "10 Mất 1 Còn Không", url: "/music/10mat1conkhong.mp3" },
-        { id: 6, name: "Thiệp Hồng Sai Tên", url: "/music/thiephongsaiten.mp3" }, 
+        { id: 6, name: "Thiệp Hồng Sai Tên", url: "/music/thiephongsaiten.mp3" },
     ];
 
     // Xử lý khi kết thúc bài hát - Chuyển bài tiếp theo
@@ -68,24 +68,28 @@ const Header: React.FC = () => {
     // Xử lý bật bài hát tiếp theo (manual)
     const playNextTrack = useCallback(() => {
         // Nếu track đang ở cuối cùng, quay về track đầu tiên
-        if(currentTrackIndex==playlist.length - 1){
+        console.log("currentTrackIndex: ", currentTrackIndex);
+        if (currentTrackIndex == playlist.length - 1) {
             setCurrentTrackIndex(0);
             setIsPlaying(true);
             return;
         }
         const nextIndex = (currentTrackIndex + 1) % playlist.length;
+        console.log("nextIndex: ", nextIndex);
         setCurrentTrackIndex(nextIndex);
         setIsPlaying(true);
     }, [currentTrackIndex, playlist.length]);
 
     const playPreviousTrack = useCallback(() => {
         // Nếu track đang ở đầu tiên, quay về track cuối cùng
-        if(currentTrackIndex==0){
+        console.log("currentTrackIndex: ", currentTrackIndex);
+        if (currentTrackIndex == 0) {
             setCurrentTrackIndex(playlist.length - 1);
             setIsPlaying(true);
             return;
         }
         const prevIndex = (currentTrackIndex - 1) % playlist.length;
+        console.log("prevIndex: ", prevIndex);
         setCurrentTrackIndex(prevIndex);
         setIsPlaying(true);
     }, [currentTrackIndex, playlist.length]);
@@ -168,7 +172,7 @@ const Header: React.FC = () => {
                     <div className={styles.topActions}>
                         {/* Music Player */}
                         <div className={styles.musicPlayer}>
-                             <SkipBack
+                            <SkipBack
                                 className={`${styles.musicIcon} ${isPlaying ? styles.pulse : ''}`}
                                 onClick={playPreviousTrack}
                             />
